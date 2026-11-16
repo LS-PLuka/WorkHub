@@ -1,0 +1,12 @@
+.env
+
+# Docker volumes and local overrides
+mysql-data/
+compose.override.yaml
+
+# Editor and operating-system files
+.vscode/
+.idea/
+*.swp
+Thumbs.db
+.DS_Store

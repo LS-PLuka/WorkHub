@@ -59,6 +59,11 @@ function rotear_requisicao($uriRequisicao)
         return;
     }
 
+    if ($caminho === '/produtos') { require __DIR__ . '/produto_controller.php'; exibir_produtos(); return; }
+    if ($caminho === '/produtos/cadastrar') { require __DIR__ . '/produto_controller.php'; exibir_cadastro_produto(); return; }
+    if ($caminho === '/produtos/editar') { require __DIR__ . '/produto_controller.php'; exibir_edicao_produto(); return; }
+    if ($caminho === '/produtos/situacao') { require __DIR__ . '/produto_controller.php'; alterar_situacao_produto(); return; }
+
     http_response_code(404);
     echo 'Página não encontrada.';
 }

@@ -1,6 +1,6 @@
-# WorkHub — Etapa 3.1
+# WorkHub — Etapa 4
 
-Base inicial do WorkHub, uma plataforma de gestão empresarial. Esta etapa inclui o ambiente Docker, o schema relacional e o cadastro público transacional de empresas com seu primeiro Proprietário. Não há autenticação, login, dashboard ou CRUDs de negócio.
+Base do WorkHub com ambiente Docker, schema relacional, cadastro transacional de empresas e autenticação empresarial por sessão. Não há CRUDs de negócio ou indicadores no painel.
 
 ## Requisitos
 
@@ -58,6 +58,14 @@ Para executar os testes específicos do cadastro, sem persistir dados fictícios
 
 ```powershell
 docker compose exec app php scripts/testar_cadastro_empresa.php
+```
+
+## Autenticação
+
+A entrada está disponível em [http://localhost:8080/entrar](http://localhost:8080/entrar). Após autenticar, o usuário empresarial ativo é direcionado para `/painel`. A saída usa POST protegido por token CSRF.
+
+```powershell
+docker compose exec app php scripts/testar_autenticacao.php
 ```
 
 ## Parar o ambiente

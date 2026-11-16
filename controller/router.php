@@ -17,6 +17,24 @@ function rotear_requisicao($uriRequisicao)
         return;
     }
 
+    if ($caminho === '/entrar') {
+        require __DIR__ . '/autenticacao_controller.php';
+        exibir_entrada();
+        return;
+    }
+
+    if ($caminho === '/painel') {
+        require __DIR__ . '/autenticacao_controller.php';
+        exibir_painel();
+        return;
+    }
+
+    if ($caminho === '/sair') {
+        require __DIR__ . '/autenticacao_controller.php';
+        sair();
+        return;
+    }
+
     http_response_code(404);
     echo 'Página não encontrada.';
 }

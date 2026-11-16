@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../config/banco_dados.php';
+require_once __DIR__ . '/../config/sessao.php';
 require_once __DIR__ . '/../model/empresa.php';
 
 function escapar_html($valor)
@@ -99,9 +100,7 @@ function validar_cadastro_empresa($formulario, $senha, $confirmacaoSenha)
 
 function exibir_cadastro_empresa()
 {
-    if (session_status() !== PHP_SESSION_ACTIVE) {
-        session_start();
-    }
+    iniciar_sessao_segura();
 
     if (empty($_SESSION['cadastro_empresa_token_csrf'])) {
         $_SESSION['cadastro_empresa_token_csrf'] = bin2hex(random_bytes(32));

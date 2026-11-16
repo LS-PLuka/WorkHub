@@ -18,7 +18,7 @@
                         <p class="text-secondary mb-4">Crie a empresa e o acesso do seu responsável proprietário.</p>
 
                         <?php if ($cadastroConcluido): ?>
-                            <div class="alert alert-success" role="alert">Empresa cadastrada com sucesso. O acesso do Proprietário foi criado; o login estará disponível em uma próxima etapa.</div>
+                            <div class="alert alert-success" role="alert">Empresa cadastrada com sucesso. <a href="/entrar" class="alert-link">Entre com o acesso do Proprietário</a>.</div>
                         <?php endif; ?>
 
                         <?php if ($erros): ?>

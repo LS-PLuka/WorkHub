@@ -15,6 +15,7 @@
             <p class="lead mb-2">Plataforma de Gestão Empresarial</p>
             <p class="text-secondary mb-0">Organize seu negócio. Gerencie sua produção.</p>
             <a class="btn btn-primary mt-4" href="/cadastro-empresa">Cadastrar empresa</a>
+            <a class="btn btn-outline-primary mt-4 ms-2" href="/entrar">Entrar</a>
         </section>
     </main>
 </body>

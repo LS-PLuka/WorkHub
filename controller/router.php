@@ -1,19 +1,19 @@
 <?php
 
-function route_request($requestUri)
+function rotear_requisicao($uriRequisicao)
 {
-    $path = parse_url($requestUri, PHP_URL_PATH);
-    $path = rtrim($path, '/');
+    $caminho = parse_url($uriRequisicao, PHP_URL_PATH);
+    $caminho = rtrim($caminho, '/');
 
-    if ($path === '') {
-        require __DIR__ . '/home_controller.php';
-        show_home();
+    if ($caminho === '') {
+        require __DIR__ . '/inicio_controller.php';
+        exibir_inicio();
         return;
     }
 
-    if ($path === '/cadastro-empresa') {
-        require __DIR__ . '/company_controller.php';
-        company_register_show();
+    if ($caminho === '/cadastro-empresa') {
+        require __DIR__ . '/empresa_controller.php';
+        exibir_cadastro_empresa();
         return;
     }
 

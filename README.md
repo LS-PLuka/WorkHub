@@ -1,4 +1,4 @@
-# WorkHub — Etapa 3
+# WorkHub — Etapa 3.1
 
 Base inicial do WorkHub, uma plataforma de gestão empresarial. Esta etapa inclui o ambiente Docker, o schema relacional e o cadastro público transacional de empresas com seu primeiro Proprietário. Não há autenticação, login, dashboard ou CRUDs de negócio.
 
@@ -39,13 +39,13 @@ O script usa `CREATE TABLE IF NOT EXISTS`; ele não executa `DROP DATABASE`, `DR
 Após os serviços estarem saudáveis, execute:
 
 ```powershell
-docker compose exec app php scripts/check_database.php
+docker compose exec app php scripts/verificar_conexao_banco.php
 ```
 
 Para validar tabelas, colunas e as principais restrições de integridade:
 
 ```powershell
-docker compose exec app php scripts/verify_database.php
+docker compose exec app php scripts/verificar_banco.php
 ```
 
 Os testes usam uma transação com `ROLLBACK`, portanto não mantêm dados fictícios.
@@ -57,7 +57,7 @@ A página pública de cadastro está disponível em [http://localhost:8080/cadas
 Para executar os testes específicos do cadastro, sem persistir dados fictícios:
 
 ```powershell
-docker compose exec app php scripts/test_company_registration.php
+docker compose exec app php scripts/testar_cadastro_empresa.php
 ```
 
 ## Parar o ambiente

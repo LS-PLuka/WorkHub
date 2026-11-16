@@ -63,6 +63,10 @@ function rotear_requisicao($uriRequisicao)
     if ($caminho === '/produtos/cadastrar') { require __DIR__ . '/produto_controller.php'; exibir_cadastro_produto(); return; }
     if ($caminho === '/produtos/editar') { require __DIR__ . '/produto_controller.php'; exibir_edicao_produto(); return; }
     if ($caminho === '/produtos/situacao') { require __DIR__ . '/produto_controller.php'; alterar_situacao_produto(); return; }
+    if ($caminho === '/clientes') { require __DIR__ . '/cliente_controller.php'; exibir_clientes(); return; }
+    if ($caminho === '/clientes/cadastrar') { require __DIR__ . '/cliente_controller.php'; exibir_cadastro_cliente(); return; }
+    if ($caminho === '/clientes/editar') { require __DIR__ . '/cliente_controller.php'; exibir_edicao_cliente(); return; }
+    if ($caminho === '/clientes/situacao') { require __DIR__ . '/cliente_controller.php'; alterar_situacao_cliente(); return; }
 
     http_response_code(404);
     echo 'Página não encontrada.';

@@ -76,6 +76,14 @@ O gerenciamento de usuários é exclusivo do Proprietário e está disponível e
 docker compose exec app php scripts/testar_usuarios.php
 ```
 
+## Clientes
+
+O gerenciamento de clientes está disponível em `/clientes` para usuários autenticados. O histórico de pedidos de cada cliente será implementado após a criação do módulo de pedidos.
+
+```powershell
+docker compose exec app php scripts/testar_clientes.php
+```
+
 ## Parar o ambiente
 
 ```powershell

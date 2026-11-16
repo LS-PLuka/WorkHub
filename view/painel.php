@@ -15,6 +15,7 @@
                 <p class="text-secondary">Você está conectado como <?= escapar_html($contexto['perfil']) ?>.</p>
                 <p>Bem-vindo ao WorkHub.</p>
                 <a class="btn btn-outline-primary mb-3" href="/produtos">Produtos</a>
+                <a class="btn btn-outline-primary mb-3" href="/clientes">Clientes</a>
                 <?php if ($contexto['perfil'] === 'PROPRIETARIO'): ?><a class="btn btn-primary mb-3" href="/usuarios">Gerenciar usuários</a><?php endif; ?>
                 <form method="post" action="/sair">
                     <input type="hidden" name="token_csrf" value="<?= escapar_html($tokenCsrfSaida) ?>">

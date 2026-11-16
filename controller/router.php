@@ -11,6 +11,12 @@ function route_request($requestUri)
         return;
     }
 
+    if ($path === '/cadastro-empresa') {
+        require __DIR__ . '/company_controller.php';
+        company_register_show();
+        return;
+    }
+
     http_response_code(404);
     echo 'Página não encontrada.';
 }

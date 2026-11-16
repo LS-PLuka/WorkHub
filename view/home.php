@@ -14,6 +14,7 @@
             <h1 class="display-3 fw-bold mb-3">WorkHub</h1>
             <p class="lead mb-2">Plataforma de Gestão Empresarial</p>
             <p class="text-secondary mb-0">Organize seu negócio. Gerencie sua produção.</p>
+            <a class="btn btn-primary mt-4" href="/cadastro-empresa">Cadastrar empresa</a>
         </section>
     </main>
 </body>

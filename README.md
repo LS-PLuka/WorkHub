@@ -1,6 +1,6 @@
-# WorkHub — Etapa 2
+# WorkHub — Etapa 3
 
-Base inicial do WorkHub, uma plataforma de gestão empresarial. Esta etapa contém a estrutura MVC simplificada, o ambiente Docker e o schema relacional; não há autenticação, CRUD, interfaces adicionais ou regras operacionais de negócio.
+Base inicial do WorkHub, uma plataforma de gestão empresarial. Esta etapa inclui o ambiente Docker, o schema relacional e o cadastro público transacional de empresas com seu primeiro Proprietário. Não há autenticação, login, dashboard ou CRUDs de negócio.
 
 ## Requisitos
 
@@ -49,6 +49,16 @@ docker compose exec app php scripts/verify_database.php
 ```
 
 Os testes usam uma transação com `ROLLBACK`, portanto não mantêm dados fictícios.
+
+## Cadastro de empresas
+
+A página pública de cadastro está disponível em [http://localhost:8080/cadastro-empresa](http://localhost:8080/cadastro-empresa). Ela cria a empresa ativa e um único usuário ativo com perfil `PROPRIETARIO` em uma transação MySQL.
+
+Para executar os testes específicos do cadastro, sem persistir dados fictícios:
+
+```powershell
+docker compose exec app php scripts/test_company_registration.php
+```
 
 ## Parar o ambiente
 

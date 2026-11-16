@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/banco_dados.php';
+require_once __DIR__ . "/banco_dados.php";
 
 function iniciar_sessao_segura()
 {
@@ -8,13 +8,13 @@ function iniciar_sessao_segura()
         return;
     }
 
-    $usaHttps = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
+    $usaHttps = !empty($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] !== "off";
     session_set_cookie_params([
-        'lifetime' => 0,
-        'path' => '/',
-        'secure' => $usaHttps,
-        'httponly' => true,
-        'samesite' => 'Lax',
+        "lifetime" => 0,
+        "path" => "/",
+        "secure" => $usaHttps,
+        "httponly" => true,
+        "samesite" => "Lax",
     ]);
     session_start();
 }
@@ -23,20 +23,20 @@ function gerar_token_csrf($chave)
 {
     iniciar_sessao_segura();
 
-    if (empty($_SESSION['tokens_csrf'][$chave])) {
-        $_SESSION['tokens_csrf'][$chave] = bin2hex(random_bytes(32));
+    if (empty($_SESSION["tokens_csrf"][$chave])) {
+        $_SESSION["tokens_csrf"][$chave] = bin2hex(random_bytes(32));
     }
 
-    return $_SESSION['tokens_csrf'][$chave];
+    return $_SESSION["tokens_csrf"][$chave];
 }
 
 function validar_token_csrf($chave, $token)
 {
     iniciar_sessao_segura();
 
-    return is_string($token)
-        && !empty($_SESSION['tokens_csrf'][$chave])
-        && hash_equals($_SESSION['tokens_csrf'][$chave], $token);
+    return is_string($token) &&
+        !empty($_SESSION["tokens_csrf"][$chave]) &&
+        hash_equals($_SESSION["tokens_csrf"][$chave], $token);
 }
 
 function encerrar_sessao()
@@ -44,9 +44,17 @@ function encerrar_sessao()
     iniciar_sessao_segura();
     $_SESSION = [];
 
-    if (ini_get('session.use_cookies')) {
+    if (ini_get("session.use_cookies")) {
         $parametros = session_get_cookie_params();
-        setcookie(session_name(), '', time() - 42000, $parametros['path'], $parametros['domain'], $parametros['secure'], $parametros['httponly']);
+        setcookie(
+            session_name(),
+            "",
+            time() - 42000,
+            $parametros["path"],
+            $parametros["domain"],
+            $parametros["secure"],
+            $parametros["httponly"],
+        );
     }
 
     session_destroy();
@@ -56,7 +64,7 @@ function usuario_autenticado()
 {
     iniciar_sessao_segura();
 
-    return !empty($_SESSION['id_usuario']);
+    return !empty($_SESSION["id_usuario"]);
 }
 
 function obter_contexto_autenticado()
@@ -67,7 +75,7 @@ function obter_contexto_autenticado()
         return false;
     }
 
-    if (empty($_SESSION['ultima_atividade']) || time() - $_SESSION['ultima_atividade'] > 1800) {
+    if (empty($_SESSION["ultima_atividade"]) || time() - $_SESSION["ultima_atividade"] > 1800) {
         encerrar_sessao();
         return false;
     }
@@ -77,8 +85,8 @@ function obter_contexto_autenticado()
         return false;
     }
 
-    require_once __DIR__ . '/../model/usuario.php';
-    $contexto = buscar_contexto_usuario_ativo($conexao, (int) $_SESSION['id_usuario']);
+    require_once __DIR__ . "/../model/usuario.php";
+    $contexto = buscar_contexto_usuario_ativo($conexao, (int) $_SESSION["id_usuario"]);
     mysqli_close($conexao);
 
     if ($contexto === false) {
@@ -86,7 +94,7 @@ function obter_contexto_autenticado()
         return false;
     }
 
-    $_SESSION['ultima_atividade'] = time();
+    $_SESSION["ultima_atividade"] = time();
 
     return $contexto;
 }
@@ -96,8 +104,8 @@ function exigir_autenticacao()
     $contexto = obter_contexto_autenticado();
 
     if ($contexto === false) {
-        header('Location: /entrar');
-        exit;
+        header("Location: /entrar");
+        exit();
     }
 
     return $contexto;
@@ -109,7 +117,7 @@ function verificar_permissao($perfisPermitidos, $contexto = null)
         $contexto = obter_contexto_autenticado();
     }
 
-    return $contexto !== false && in_array($contexto['perfil'], $perfisPermitidos, true);
+    return $contexto !== false && in_array($contexto["perfil"], $perfisPermitidos, true);
 }
 
 function exigir_permissao($perfisPermitidos)
@@ -118,10 +126,9 @@ function exigir_permissao($perfisPermitidos)
 
     if (!verificar_permissao($perfisPermitidos, $contexto)) {
         http_response_code(403);
-        echo 'Acesso não autorizado.';
-        exit;
+        echo "Acesso não autorizado.";
+        exit();
     }
 
     return $contexto;
 }
-

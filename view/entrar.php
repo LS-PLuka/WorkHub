@@ -12,11 +12,18 @@
             <div class="card-body p-4">
                 <h1 class="h3 mb-2">Entrar no WorkHub</h1>
                 <p class="text-secondary mb-4">Acesse a gestão da sua empresa.</p>
-                <?php if ($mensagemSaida): ?><div class="alert alert-success">Sessão encerrada com sucesso.</div><?php endif; ?>
-                <?php if ($erros): ?><div class="alert alert-danger"><ul class="mb-0"><?php foreach ($erros as $erro): ?><li><?= escapar_html($erro) ?></li><?php endforeach; ?></ul></div><?php endif; ?>
+                <?php if (
+                    $mensagemSaida
+                ): ?><div class="alert alert-success">Sessão encerrada com sucesso.</div><?php endif; ?>
+                <?php if ($erros): ?><div class="alert alert-danger"><ul class="mb-0"><?php foreach (
+    $erros
+    as $erro
+): ?><li><?= escapar_html($erro) ?></li><?php endforeach; ?></ul></div><?php endif; ?>
                 <form method="post" action="/entrar">
                     <input type="hidden" name="token_csrf" value="<?= escapar_html($tokenCsrf) ?>">
-                    <div class="mb-3"><label class="form-label" for="email_usuario">E-mail</label><input class="form-control" id="email_usuario" name="email_usuario" type="email" maxlength="150" required value="<?= escapar_html($emailUsuario) ?>" autocomplete="email"></div>
+                    <div class="mb-3"><label class="form-label" for="email_usuario">E-mail</label><input class="form-control" id="email_usuario" name="email_usuario" type="email" maxlength="150" required value="<?= escapar_html(
+                        $emailUsuario,
+                    ) ?>" autocomplete="email"></div>
                     <div class="mb-4"><label class="form-label" for="senha">Senha</label><input class="form-control" id="senha" name="senha" type="password" required autocomplete="current-password"></div>
                     <button class="btn btn-primary w-100" type="submit">Entrar</button>
                 </form>

@@ -6,11 +6,11 @@
  */
 function conectar_banco_dados()
 {
-    $servidor = getenv('DB_HOST') ?: 'db';
-    $porta = (int) (getenv('DB_PORT') ?: 3306);
-    $nomeBanco = getenv('DB_NAME') ?: '';
-    $usuarioBanco = getenv('DB_USER') ?: '';
-    $senhaBanco = getenv('DB_PASSWORD') ?: '';
+    $servidor = getenv("DB_HOST") ?: "db";
+    $porta = (int) (getenv("DB_PORT") ?: 3306);
+    $nomeBanco = getenv("DB_NAME") ?: "";
+    $usuarioBanco = getenv("DB_USER") ?: "";
+    $senhaBanco = getenv("DB_PASSWORD") ?: "";
 
     mysqli_report(MYSQLI_REPORT_OFF);
     $conexao = mysqli_connect($servidor, $usuarioBanco, $senhaBanco, $nomeBanco, $porta);
@@ -19,7 +19,7 @@ function conectar_banco_dados()
         return false;
     }
 
-    mysqli_set_charset($conexao, 'utf8mb4');
+    mysqli_set_charset($conexao, "utf8mb4");
 
     return $conexao;
 }

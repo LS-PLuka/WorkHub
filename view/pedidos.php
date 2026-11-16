@@ -1,1 +1,35 @@
-<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title><?= escapar_html($tituloPagina) ?></title><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"></head><body class="bg-light"><main class="container py-5"><div class="d-flex justify-content-between mb-3"><h1 class="h2">Pedidos</h1><a class="btn btn-primary" href="/pedidos/cadastrar">Cadastrar pedido</a></div><?php if($mensagem):?><div class="alert alert-success"><?= escapar_html($mensagem) ?></div><?php endif;?><form class="row g-2 mb-3" method="get"><div class="col-sm-2"><input class="form-control" type="number" min="1" name="id" placeholder="ID" value="<?= $filtros['id']===null?'':(int)$filtros['id'] ?>"></div><div class="col-sm-3"><select class="form-select" name="status"><option value="">Todos os status</option><?php foreach(['RECEBIDO','EM_PRODUCAO','PRONTO','ENTREGUE','CANCELADO'] as $status):?><option value="<?= $status ?>" <?= $filtros['status']===$status?'selected':'' ?>><?= escapar_html($status) ?></option><?php endforeach;?></select></div><div class="col-sm-2"><input class="form-control" type="date" name="data_inicial" value="<?= escapar_html($filtros['data_inicial']) ?>"></div><div class="col-sm-2"><input class="form-control" type="date" name="data_final" value="<?= escapar_html($filtros['data_final']) ?>"></div><div class="col-sm-3"><button class="btn btn-outline-primary">Filtrar</button></div></form><div class="card border-0 shadow-sm"><div class="table-responsive"><table class="table mb-0"><thead><tr><th>ID</th><th>Cliente</th><th>Criação</th><th>Entrega</th><th>Status</th><th>Total</th><th></th></tr></thead><tbody><?php foreach($pedidos as $pedido):?><tr><td><?= (int)$pedido['id'] ?></td><td><?= escapar_html($pedido['cliente']) ?></td><td><?= escapar_html(date('d/m/Y H:i',strtotime($pedido['data_criacao']))) ?></td><td><?= $pedido['data_entrega']?escapar_html(date('d/m/Y',strtotime($pedido['data_entrega']))):'—' ?></td><td><?= escapar_html($pedido['status']) ?></td><td>R$ <?= escapar_html(formatar_valor_pedido($pedido['valor_total'])) ?></td><td><a class="btn btn-sm btn-outline-primary" href="/pedidos/detalhes?id=<?= (int)$pedido['id'] ?>">Detalhes</a></td></tr><?php endforeach;?><?php if(!$pedidos):?><tr><td colspan="7" class="text-center text-secondary">Nenhum pedido encontrado.</td></tr><?php endif;?></tbody></table></div></div><a class="btn btn-link mt-3" href="/painel">Voltar ao painel</a></main></body></html>
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title><?= escapar_html(
+    $tituloPagina,
+) ?></title><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"></head><body class="bg-light"><main class="container py-5"><div class="d-flex justify-content-between mb-3"><h1 class="h2">Pedidos</h1><a class="btn btn-primary" href="/pedidos/cadastrar">Cadastrar pedido</a></div><?php if (
+    $mensagem
+): ?><div class="alert alert-success"><?= escapar_html(
+    $mensagem,
+) ?></div><?php endif; ?><form class="row g-2 mb-3" method="get"><div class="col-sm-2"><input class="form-control" type="number" min="1" name="id" placeholder="ID" value="<?= $filtros[
+    "id"
+] === null
+    ? ""
+    : (int) $filtros[
+        "id"
+    ] ?>"></div><div class="col-sm-3"><select class="form-select" name="status"><option value="">Todos os status</option><?php foreach (
+    ["RECEBIDO", "EM_PRODUCAO", "PRONTO", "ENTREGUE", "CANCELADO"]
+    as $status
+): ?><option value="<?= $status ?>" <?= $filtros["status"] === $status ? "selected" : "" ?>><?= escapar_html(
+    $status,
+) ?></option><?php endforeach; ?></select></div><div class="col-sm-2"><input class="form-control" type="date" name="data_inicial" value="<?= escapar_html(
+    $filtros["data_inicial"],
+) ?>"></div><div class="col-sm-2"><input class="form-control" type="date" name="data_final" value="<?= escapar_html(
+    $filtros["data_final"],
+) ?>"></div><div class="col-sm-3"><button class="btn btn-outline-primary">Filtrar</button></div></form><div class="card border-0 shadow-sm"><div class="table-responsive"><table class="table mb-0"><thead><tr><th>ID</th><th>Cliente</th><th>Criação</th><th>Entrega</th><th>Status</th><th>Total</th><th></th></tr></thead><tbody><?php
+foreach ($pedidos as $pedido): ?><tr><td><?= (int) $pedido["id"] ?></td><td><?= escapar_html(
+    $pedido["cliente"],
+) ?></td><td><?= escapar_html(date("d/m/Y H:i", strtotime($pedido["data_criacao"]))) ?></td><td><?= $pedido[
+    "data_entrega"
+]
+    ? escapar_html(date("d/m/Y", strtotime($pedido["data_entrega"])))
+    : "—" ?></td><td><?= escapar_html($pedido["status"]) ?></td><td>R$ <?= escapar_html(
+    formatar_valor_pedido($pedido["valor_total"]),
+) ?></td><td><a class="btn btn-sm btn-outline-primary" href="/pedidos/detalhes?id=<?= (int) $pedido[
+    "id"
+] ?>">Detalhes</a></td></tr><?php endforeach;
+if (!$pedidos): ?><tr><td colspan="7" class="text-center text-secondary">Nenhum pedido encontrado.</td></tr><?php endif;
+?></tbody></table></div></div><a class="btn btn-link mt-3" href="/painel">Voltar ao painel</a></main></body></html>

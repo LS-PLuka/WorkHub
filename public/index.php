@@ -1,5 +1,5 @@
 <?php
 
-require __DIR__ . '/../controller/router.php';
+require __DIR__ . "/../controller/router.php";
 
-rotear_requisicao($_SERVER['REQUEST_URI']);
+rotear_requisicao($_SERVER["REQUEST_URI"]);

@@ -33,19 +33,35 @@
                         <?php endif; ?>
 
                         <form method="post" action="/cadastro-empresa" novalidate>
-                            <input type="hidden" name="token_csrf" value="<?= escapar_html($_SESSION['cadastro_empresa_token_csrf']) ?>">
+                            <input type="hidden" name="token_csrf" value="<?= escapar_html(
+                                $_SESSION["cadastro_empresa_token_csrf"],
+                            ) ?>">
                             <h2 class="h5 border-bottom pb-2 mb-3">Dados da empresa</h2>
                             <div class="row g-3 mb-4">
-                                <div class="col-md-6"><label class="form-label" for="nome_fantasia">Nome fantasia</label><input class="form-control" id="nome_fantasia" name="nome_fantasia" maxlength="150" required value="<?= escapar_html($formulario['nome_fantasia']) ?>"></div>
-                                <div class="col-md-6"><label class="form-label" for="razao_social">Razão social</label><input class="form-control" id="razao_social" name="razao_social" maxlength="200" required value="<?= escapar_html($formulario['razao_social']) ?>"></div>
-                                <div class="col-md-6"><label class="form-label" for="cnpj">CNPJ</label><input class="form-control" id="cnpj" name="cnpj" inputmode="numeric" maxlength="18" required value="<?= escapar_html($formulario['cnpj']) ?>"></div>
-                                <div class="col-md-6"><label class="form-label" for="telefone">Telefone</label><input class="form-control" id="telefone" name="telefone" maxlength="20" required value="<?= escapar_html($formulario['telefone']) ?>"></div>
-                                <div class="col-12"><label class="form-label" for="email_empresa">E-mail da empresa</label><input class="form-control" id="email_empresa" name="email_empresa" type="email" maxlength="150" required value="<?= escapar_html($formulario['email_empresa']) ?>"></div>
+                                <div class="col-md-6"><label class="form-label" for="nome_fantasia">Nome fantasia</label><input class="form-control" id="nome_fantasia" name="nome_fantasia" maxlength="150" required value="<?= escapar_html(
+                                    $formulario["nome_fantasia"],
+                                ) ?>"></div>
+                                <div class="col-md-6"><label class="form-label" for="razao_social">Razão social</label><input class="form-control" id="razao_social" name="razao_social" maxlength="200" required value="<?= escapar_html(
+                                    $formulario["razao_social"],
+                                ) ?>"></div>
+                                <div class="col-md-6"><label class="form-label" for="cnpj">CNPJ</label><input class="form-control" id="cnpj" name="cnpj" inputmode="numeric" maxlength="18" required value="<?= escapar_html(
+                                    $formulario["cnpj"],
+                                ) ?>"></div>
+                                <div class="col-md-6"><label class="form-label" for="telefone">Telefone</label><input class="form-control" id="telefone" name="telefone" maxlength="20" required value="<?= escapar_html(
+                                    $formulario["telefone"],
+                                ) ?>"></div>
+                                <div class="col-12"><label class="form-label" for="email_empresa">E-mail da empresa</label><input class="form-control" id="email_empresa" name="email_empresa" type="email" maxlength="150" required value="<?= escapar_html(
+                                    $formulario["email_empresa"],
+                                ) ?>"></div>
                             </div>
                             <h2 class="h5 border-bottom pb-2 mb-3">Responsável proprietário</h2>
                             <div class="row g-3">
-                                <div class="col-12"><label class="form-label" for="nome_responsavel">Nome completo</label><input class="form-control" id="nome_responsavel" name="nome_responsavel" maxlength="150" required value="<?= escapar_html($formulario['nome_responsavel']) ?>"></div>
-                                <div class="col-12"><label class="form-label" for="email_responsavel">E-mail</label><input class="form-control" id="email_responsavel" name="email_responsavel" type="email" maxlength="150" required value="<?= escapar_html($formulario['email_responsavel']) ?>"></div>
+                                <div class="col-12"><label class="form-label" for="nome_responsavel">Nome completo</label><input class="form-control" id="nome_responsavel" name="nome_responsavel" maxlength="150" required value="<?= escapar_html(
+                                    $formulario["nome_responsavel"],
+                                ) ?>"></div>
+                                <div class="col-12"><label class="form-label" for="email_responsavel">E-mail</label><input class="form-control" id="email_responsavel" name="email_responsavel" type="email" maxlength="150" required value="<?= escapar_html(
+                                    $formulario["email_responsavel"],
+                                ) ?>"></div>
                                 <div class="col-md-6"><label class="form-label" for="senha">Senha</label><input class="form-control" id="senha" name="senha" type="password" minlength="8" required autocomplete="new-password"></div>
                                 <div class="col-md-6"><label class="form-label" for="confirmacao_senha">Confirmação de senha</label><input class="form-control" id="confirmacao_senha" name="confirmacao_senha" type="password" minlength="8" required autocomplete="new-password"></div>
                             </div>

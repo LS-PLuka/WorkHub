@@ -10,14 +10,18 @@
     <main class="container py-5">
         <section class="card border-0 shadow-sm">
             <div class="card-body p-4 p-md-5">
-                <p class="text-primary text-uppercase fw-semibold mb-2"><?= escapar_html($contexto['nome_empresa']) ?></p>
-                <h1 class="h2">Olá, <?= escapar_html($contexto['nome_usuario']) ?>.</h1>
-                <p class="text-secondary">Você está conectado como <?= escapar_html($contexto['perfil']) ?>.</p>
+                <p class="text-primary text-uppercase fw-semibold mb-2"><?= escapar_html(
+                    $contexto["nome_empresa"],
+                ) ?></p>
+                <h1 class="h2">Olá, <?= escapar_html($contexto["nome_usuario"]) ?>.</h1>
+                <p class="text-secondary">Você está conectado como <?= escapar_html($contexto["perfil"]) ?>.</p>
                 <p>Bem-vindo ao WorkHub.</p>
                 <a class="btn btn-outline-primary mb-3" href="/produtos">Produtos</a>
                 <a class="btn btn-outline-primary mb-3" href="/clientes">Clientes</a>
                 <a class="btn btn-outline-primary mb-3" href="/pedidos">Pedidos</a>
-                <?php if ($contexto['perfil'] === 'PROPRIETARIO'): ?><a class="btn btn-primary mb-3" href="/usuarios">Gerenciar usuários</a><?php endif; ?>
+                <?php if (
+                    $contexto["perfil"] === "PROPRIETARIO"
+                ): ?><a class="btn btn-primary mb-3" href="/usuarios">Gerenciar usuários</a><?php endif; ?>
                 <form method="post" action="/sair">
                     <input type="hidden" name="token_csrf" value="<?= escapar_html($tokenCsrfSaida) ?>">
                     <button class="btn btn-outline-danger" type="submit">Sair</button>

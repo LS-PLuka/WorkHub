@@ -2,7 +2,7 @@
 
 function exibir_inicio()
 {
-    $tituloPagina = 'WorkHub';
+    $tituloPagina = "WorkHub";
 
-    require __DIR__ . '/../view/inicio.php';
+    require __DIR__ . "/../view/inicio.php";
 }

@@ -68,6 +68,14 @@ A entrada está disponível em [http://localhost:8080/entrar](http://localhost:8
 docker compose exec app php scripts/testar_autenticacao.php
 ```
 
+## Usuários
+
+O gerenciamento de usuários é exclusivo do Proprietário e está disponível em `/usuarios` após a autenticação.
+
+```powershell
+docker compose exec app php scripts/testar_usuarios.php
+```
+
 ## Parar o ambiente
 
 ```powershell

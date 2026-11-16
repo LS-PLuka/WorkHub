@@ -35,6 +35,30 @@ function rotear_requisicao($uriRequisicao)
         return;
     }
 
+    if ($caminho === '/usuarios') {
+        require __DIR__ . '/usuario_controller.php';
+        exibir_usuarios();
+        return;
+    }
+
+    if ($caminho === '/usuarios/cadastrar') {
+        require __DIR__ . '/usuario_controller.php';
+        exibir_cadastro_usuario();
+        return;
+    }
+
+    if ($caminho === '/usuarios/editar') {
+        require __DIR__ . '/usuario_controller.php';
+        exibir_edicao_usuario();
+        return;
+    }
+
+    if ($caminho === '/usuarios/situacao') {
+        require __DIR__ . '/usuario_controller.php';
+        alterar_situacao_usuario();
+        return;
+    }
+
     http_response_code(404);
     echo 'Página não encontrada.';
 }

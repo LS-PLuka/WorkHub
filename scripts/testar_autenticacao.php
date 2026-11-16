@@ -23,7 +23,7 @@ if ($conexao === false || mysqli_begin_transaction($conexao) === false) {
 }
 
 $sufixo = bin2hex(random_bytes(6));
-$cnpj = '04252011000110';
+$base = str_pad((string) random_int(0, 999999999999), 12, '0', STR_PAD_LEFT); $pesosUm = [5,4,3,2,9,8,7,6,5,4,3,2]; $pesosDois = [6,5,4,3,2,9,8,7,6,5,4,3,2]; $soma = 0; foreach ($pesosUm as $indice => $peso) { $soma += (int) $base[$indice] * $peso; } $digitoUm = $soma % 11 < 2 ? 0 : 11 - $soma % 11; $soma = 0; foreach ($pesosDois as $indice => $peso) { $soma += (int) ($base . $digitoUm)[$indice] * $peso; } $cnpj = $base . $digitoUm . ($soma % 11 < 2 ? 0 : 11 - $soma % 11);
 mysqli_query($conexao, "INSERT INTO empresas (nome_fantasia, razao_social, cnpj, email, telefone) VALUES ('Teste autenticação {$sufixo}', 'Teste autenticação LTDA', '{$cnpj}', 'empresa.{$sufixo}@workhub.test', '11999999999')");
 $idEmpresa = mysqli_insert_id($conexao);
 $senha = 'senha-segura-123';

@@ -1,11 +1,14 @@
 <?php
 require __DIR__ . '/../controller/produto_controller.php';
 function afirmar_produtos($condicao,$mensagem,$conexao){if(!$condicao){mysqli_rollback($conexao);mysqli_close($conexao);fwrite(STDERR,"FALHOU: {$mensagem}".PHP_EOL);exit(1);}echo "OK: {$mensagem}".PHP_EOL;}
+function cnpj_produto_teste(){ $base=str_pad((string)random_int(0,999999999999),12,'0',STR_PAD_LEFT);$p1=[5,4,3,2,9,8,7,6,5,4,3,2];$p2=[6,5,4,3,2,9,8,7,6,5,4,3,2];$s=0;foreach($p1 as $i=>$p){$s+=(int)$base[$i]*$p;}$d1=$s%11<2?0:11-$s%11;$s=0;foreach($p2 as $i=>$p){$s+=(int)($base.$d1)[$i]*$p;}return $base.$d1.($s%11<2?0:11-$s%11);}
 $conexao=conectar_banco_dados(); if($conexao===false||!mysqli_begin_transaction($conexao)){exit(1);}
-$sufixo=bin2hex(random_bytes(5)); mysqli_query($conexao,"INSERT INTO empresas (nome_fantasia,razao_social,cnpj,email,telefone) VALUES ('Produtos A','Produtos A LTDA','04252011000110','a.$sufixo@workhub.test','11999999999')");$idEmpresaA=mysqli_insert_id($conexao);mysqli_query($conexao,"INSERT INTO empresas (nome_fantasia,razao_social,cnpj,email,telefone) VALUES ('Produtos B','Produtos B LTDA','40688134000161','b.$sufixo@workhub.test','11999999998')");$idEmpresaB=mysqli_insert_id($conexao);
+iniciar_sessao_segura();$_SESSION['tokens_csrf']['cadastro_produto']='token-produto';afirmar_produtos(!validar_token_csrf('cadastro_produto','invalido'),'CSRF inválido é rejeitado na escrita de produtos',$conexao);
+$sufixo=bin2hex(random_bytes(5));$cnpjA=cnpj_produto_teste();$cnpjB=cnpj_produto_teste(); mysqli_query($conexao,"INSERT INTO empresas (nome_fantasia,razao_social,cnpj,email,telefone) VALUES ('Produtos A','Produtos A LTDA','$cnpjA','a.$sufixo@workhub.test','11999999999')");$idEmpresaA=mysqli_insert_id($conexao);mysqli_query($conexao,"INSERT INTO empresas (nome_fantasia,razao_social,cnpj,email,telefone) VALUES ('Produtos B','Produtos B LTDA','$cnpjB','b.$sufixo@workhub.test','11999999998')");$idEmpresaB=mysqli_insert_id($conexao);
 afirmar_produtos(normalizar_preco('12,5')==='12.50'&&normalizar_preco('-1')===false,'preço é validado sem FLOAT',$conexao);
 afirmar_produtos(count(validar_dados_produto(['nome'=>'','descricao'=>'','preco'=>false]))>0,'nome vazio e preço negativo são rejeitados',$conexao);
 afirmar_produtos(cadastrar_produto($conexao,$idEmpresaA,'Produto gerente','Descrição','10.00'),'Proprietário ou Gerente cadastra produto',$conexao);$idProduto=mysqli_insert_id($conexao);
+afirmar_produtos(pode_gerenciar_produtos(['perfil'=>'GERENTE'])&&atualizar_produto_empresa($conexao,$idProduto,$idEmpresaA,'Produto gerenciado','Descrição','10.00'),'Gerente pode editar produto',$conexao);
 afirmar_produtos(buscar_produto_empresa($conexao,$idProduto,$idEmpresaA)!==false,'produto pertence à empresa correta',$conexao);
 afirmar_produtos(atualizar_produto_empresa($conexao,$idProduto,$idEmpresaA,'Produto editado','Nova','15.25'),'Produto é editado',$conexao);
 afirmar_produtos(count(listar_produtos_empresa($conexao,$idEmpresaA,'editado'))===1,'busca por nome funciona',$conexao);

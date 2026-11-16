@@ -1,5 +1,6 @@
 <?php
 require __DIR__ . '/../controller/usuario_controller.php';
+function cnpj_usuario_teste(){ $base=str_pad((string)random_int(0,999999999999),12,'0',STR_PAD_LEFT);$p1=[5,4,3,2,9,8,7,6,5,4,3,2];$p2=[6,5,4,3,2,9,8,7,6,5,4,3,2];$s=0;foreach($p1 as $i=>$p){$s+=(int)$base[$i]*$p;}$d1=$s%11<2?0:11-$s%11;$s=0;foreach($p2 as $i=>$p){$s+=(int)($base.$d1)[$i]*$p;}return $base.$d1.($s%11<2?0:11-$s%11);}
 
 function afirmar_usuarios($condicao, $mensagem, $conexao)
 {
@@ -10,9 +11,9 @@ function afirmar_usuarios($condicao, $mensagem, $conexao)
 $conexao = conectar_banco_dados();
 if ($conexao === false || mysqli_begin_transaction($conexao) === false) { exit(1); }
 $sufixo = bin2hex(random_bytes(5));
-mysqli_query($conexao, "INSERT INTO empresas (nome_fantasia, razao_social, cnpj, email, telefone) VALUES ('Empresa A {$sufixo}', 'Empresa A LTDA', '04252011000110', 'a.{$sufixo}@workhub.test', '11999999999')");
+$cnpjA=cnpj_usuario_teste();$cnpjB=cnpj_usuario_teste();mysqli_query($conexao, "INSERT INTO empresas (nome_fantasia, razao_social, cnpj, email, telefone) VALUES ('Empresa A {$sufixo}', 'Empresa A LTDA', '$cnpjA', 'a.{$sufixo}@workhub.test', '11999999999')");
 $idEmpresaA = mysqli_insert_id($conexao);
-mysqli_query($conexao, "INSERT INTO empresas (nome_fantasia, razao_social, cnpj, email, telefone) VALUES ('Empresa B {$sufixo}', 'Empresa B LTDA', '40688134000161', 'b.{$sufixo}@workhub.test', '11999999998')");
+mysqli_query($conexao, "INSERT INTO empresas (nome_fantasia, razao_social, cnpj, email, telefone) VALUES ('Empresa B {$sufixo}', 'Empresa B LTDA', '$cnpjB', 'b.{$sufixo}@workhub.test', '11999999998')");
 $idEmpresaB = mysqli_insert_id($conexao);
 $hashSenha = password_hash('senha-segura-123', PASSWORD_BCRYPT);
 mysqli_query($conexao, "INSERT INTO usuarios (empresa_id, nome, email, senha, perfil) VALUES ({$idEmpresaA}, 'Proprietário A', 'proprietario.a.{$sufixo}@workhub.test', '{$hashSenha}', 'PROPRIETARIO')");

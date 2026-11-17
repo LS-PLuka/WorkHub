@@ -94,6 +94,11 @@ function rotear_requisicao($uriRequisicao)
         exibir_edicao_cliente();
         return;
     }
+    if ($caminho === "/clientes/detalhes") {
+        require __DIR__ . "/cliente_controller.php";
+        exibir_detalhes_cliente();
+        return;
+    }
     if ($caminho === "/clientes/situacao") {
         require __DIR__ . "/cliente_controller.php";
         alterar_situacao_cliente();
@@ -112,6 +117,26 @@ function rotear_requisicao($uriRequisicao)
     if ($caminho === "/pedidos/detalhes") {
         require __DIR__ . "/pedido_controller.php";
         exibir_detalhes_pedido();
+        return;
+    }
+    if ($caminho === "/pedidos/editar") {
+        require __DIR__ . "/pedido_controller.php";
+        exibir_edicao_pedido();
+        return;
+    }
+    if ($caminho === "/pedidos/status") {
+        require __DIR__ . "/pedido_controller.php";
+        atualizar_status_pedido();
+        return;
+    }
+    if ($caminho === "/pedidos/cancelar") {
+        require __DIR__ . "/pedido_controller.php";
+        cancelar_pedido_requisicao();
+        return;
+    }
+    if ($caminho === "/producao") {
+        require __DIR__ . "/producao_controller.php";
+        exibir_producao();
         return;
     }
 

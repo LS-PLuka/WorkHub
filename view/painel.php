@@ -19,6 +19,7 @@
                 <a class="btn btn-outline-primary mb-3" href="/produtos">Produtos</a>
                 <a class="btn btn-outline-primary mb-3" href="/clientes">Clientes</a>
                 <a class="btn btn-outline-primary mb-3" href="/pedidos">Pedidos</a>
+                <a class="btn btn-outline-primary mb-3" href="/producao">Acompanhamento da produção</a>
                 <?php if (
                     $contexto["perfil"] === "PROPRIETARIO"
                 ): ?><a class="btn btn-primary mb-3" href="/usuarios">Gerenciar usuários</a><?php endif; ?>

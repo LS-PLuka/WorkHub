@@ -21,4 +21,4 @@
     formatar_valor_pedido($item["preco_unitario"]),
 ) ?></td><td>R$ <?= escapar_html(
     formatar_valor_pedido($item["subtotal"]),
-) ?></td></tr><?php endforeach; ?></tbody></table></div></div></section></div></main></body></html>
+) ?></td></tr><?php endforeach; ?></tbody></table></div><?php if ($podeEditar): ?><a class="btn btn-primary" href="/pedidos/editar?id=<?= (int) $pedido["id"] ?>">Editar pedido</a><?php endif; ?><h2 class="h5 mt-4">Histórico de status</h2><table class="table"><thead><tr><th>Anterior</th><th>Novo</th><th>Usuário</th><th>Data</th></tr></thead><tbody><?php foreach ($historico as $alteracao): ?><tr><td><?= escapar_html($alteracao["status_anterior"]) ?></td><td><?= escapar_html($alteracao["status_novo"]) ?></td><td><?= escapar_html($alteracao["usuario"]) ?></td><td><?= escapar_html(date("d/m/Y H:i", strtotime($alteracao["data_alteracao"]))) ?></td></tr><?php endforeach; ?></tbody></table></div></section></div></main></body></html>

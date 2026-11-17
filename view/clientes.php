@@ -27,7 +27,7 @@ foreach ($clientes as $cliente): ?><tr><td><?= escapar_html($cliente["nome"]) ?>
     "ativo"
 ]
     ? "Desativar"
-    : "Ativar" ?></button></form><?php else: ?><span class="text-secondary">Consulta</span><?php endif; ?></td></tr><?php endforeach;
+    : "Ativar" ?></button></form><?php else: ?><a class="btn btn-sm btn-outline-primary" href="/clientes/detalhes?id=<?= (int) $cliente["id"] ?>">Histórico</a><?php endif; ?></td></tr><?php endforeach;
 if (
     !$clientes
 ): ?><tr><td colspan="5" class="text-center text-secondary">Nenhum cliente encontrado.</td></tr><?php endif;

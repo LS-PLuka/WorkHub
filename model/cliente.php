@@ -22,6 +22,7 @@ function listar_clientes_empresa($conexao, $idEmpresa, $pesquisa = "")
     mysqli_stmt_close($c);
     return $dados;
 }
+
 function buscar_cliente_empresa($conexao, $idCliente, $idEmpresa)
 {
     $c = mysqli_prepare(
@@ -44,6 +45,7 @@ function buscar_cliente_empresa($conexao, $idCliente, $idEmpresa)
     mysqli_stmt_close($c);
     return is_array($d) ? $d : false;
 }
+
 function cadastrar_cliente($conexao, $idEmpresa, $nome, $telefone, $email)
 {
     $c = mysqli_prepare($conexao, "INSERT INTO clientes (empresa_id,nome,telefone,email,ativo) VALUES (?,?,?,?,1)");
@@ -55,6 +57,7 @@ function cadastrar_cliente($conexao, $idEmpresa, $nome, $telefone, $email)
     mysqli_stmt_close($c);
     return $s;
 }
+
 function atualizar_cliente_empresa($conexao, $idCliente, $idEmpresa, $nome, $telefone, $email)
 {
     $c = mysqli_prepare($conexao, "UPDATE clientes SET nome=?,telefone=?,email=? WHERE id=? AND empresa_id=?");
@@ -66,6 +69,7 @@ function atualizar_cliente_empresa($conexao, $idCliente, $idEmpresa, $nome, $tel
     mysqli_stmt_close($c);
     return $s;
 }
+
 function alterar_situacao_cliente_empresa($conexao, $idCliente, $idEmpresa, $ativo)
 {
     $c = mysqli_prepare($conexao, "UPDATE clientes SET ativo=? WHERE id=? AND empresa_id=?");

@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . "/../config/sessao.php";
 require_once __DIR__ . "/../model/cliente.php";
+require_once __DIR__ . "/../model/pedido.php";
 require_once __DIR__ . "/empresa_controller.php";
 function validar_dados_cliente($dados)
 {
@@ -23,10 +24,12 @@ function validar_dados_cliente($dados)
     }
     return $erros;
 }
+
 function pode_gerenciar_clientes($contexto)
 {
     return verificar_permissao(["PROPRIETARIO", "GERENTE"], $contexto);
 }
+
 function exibir_clientes()
 {
     $contexto = exigir_autenticacao();
@@ -45,6 +48,7 @@ function exibir_clientes()
             : "");
     require __DIR__ . "/../view/clientes.php";
 }
+
 function exibir_cadastro_cliente()
 {
     $contexto = exigir_permissao(["PROPRIETARIO", "GERENTE"]);
@@ -85,6 +89,7 @@ function exibir_cadastro_cliente()
     $tokenCsrf = gerar_token_csrf("cadastro_cliente");
     require __DIR__ . "/../view/cadastro_cliente.php";
 }
+
 function exibir_edicao_cliente()
 {
     $contexto = exigir_permissao(["PROPRIETARIO", "GERENTE"]);
@@ -135,6 +140,7 @@ function exibir_edicao_cliente()
     $tokenCsrf = gerar_token_csrf("edicao_cliente_" . $cliente["id"]);
     require __DIR__ . "/../view/edicao_cliente.php";
 }
+
 function alterar_situacao_cliente()
 {
     $contexto = exigir_permissao(["PROPRIETARIO", "GERENTE"]);
@@ -164,4 +170,27 @@ function alterar_situacao_cliente()
     mysqli_close($conexao);
     header("Location: /clientes");
     exit();
+}
+
+function exibir_detalhes_cliente()
+{
+    $contexto = exigir_autenticacao();
+    $idCliente = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT, ["options" => ["min_range" => 1]]);
+    $conexao = conectar_banco_dados();
+    $cliente = $idCliente && $conexao !== false
+        ? buscar_cliente_empresa($conexao, $idCliente, (int) $contexto["empresa_id"])
+        : false;
+    $pedidos = $cliente === false || $conexao === false
+        ? []
+        : listar_pedidos_cliente_empresa($conexao, $idCliente, (int) $contexto["empresa_id"]);
+    if ($conexao !== false) {
+        mysqli_close($conexao);
+    }
+    if ($cliente === false) {
+        http_response_code(404);
+        echo "Cliente não encontrado.";
+        return;
+    }
+    $tituloPagina = "Histórico do cliente | WorkHub";
+    require __DIR__ . "/../view/detalhes_cliente.php";
 }

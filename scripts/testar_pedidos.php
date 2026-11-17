@@ -227,6 +227,46 @@ afirmar_pedidos(
     $conexao,
 );
 afirmar_pedidos(!validar_token_csrf("cadastro_pedido", "token-invalido"), "CSRF inválido é rejeitado", $conexao);
+$edicao = atualizar_pedido(
+    $conexao,
+    $idPedido,
+    $empresaA,
+    $clienteA,
+    "2026-12-30",
+    [["produto_id" => $produtoA, "quantidade" => 1], ["produto_id" => $produtoB, "quantidade" => 4]],
+);
+$itensEditados = listar_itens_pedido_empresa($conexao, $idPedido, $empresaA);
+$pedidoEditado = buscar_pedido_por_id($conexao, $idPedido, $empresaA);
+afirmar_pedidos(
+    $edicao["sucesso"] && $pedidoEditado["valor_total"] === "20.25" && $itensEditados[0]["preco_unitario"] === "10.25",
+    "edição recalcula total e preserva preço histórico",
+    $conexao,
+);
+$status = alterar_status_pedido($conexao, $idPedido, $empresaA, $usuarios["FUNCIONARIO"], "PRONTO");
+$historico = listar_historico_pedido_empresa($conexao, $idPedido, $empresaA);
+afirmar_pedidos(
+    $status["sucesso"] && count($historico) === 1 && $historico[0]["status_novo"] === "PRONTO",
+    "avanço com salto registra histórico atômico",
+    $conexao,
+);
+afirmar_pedidos(
+    !alterar_status_pedido($conexao, $idPedido, $empresaA, $usuarios["FUNCIONARIO"], "RECEBIDO")["sucesso"],
+    "retrocesso de status é rejeitado",
+    $conexao,
+);
+$cancelamento = alterar_status_pedido($conexao, $idPedido, $empresaA, $usuarios["GERENTE"], "CANCELADO", true);
+afirmar_pedidos(
+    $cancelamento["sucesso"] && !alterar_status_pedido($conexao, $idPedido, $empresaA, $usuarios["GERENTE"], "ENTREGUE")["sucesso"],
+    "cancelamento bloqueia novas transições",
+    $conexao,
+);
+afirmar_pedidos(
+    indicador_prazo_pedido(["status" => "RECEBIDO", "data_entrega" => date("Y-m-d", strtotime("+2 days"))]) === "proximo" &&
+        indicador_prazo_pedido(["status" => "RECEBIDO", "data_entrega" => date("Y-m-d", strtotime("-1 day"))]) === "atrasado" &&
+        indicador_prazo_pedido(["status" => "ENTREGUE", "data_entrega" => date("Y-m-d", strtotime("-1 day"))]) === "",
+    "alertas de prazo respeitam status e intervalo",
+    $conexao,
+);
 mysqli_rollback($conexao);
 mysqli_close($conexao);
 echo "OK: testes de pedidos concluídos sem manter dados fictícios." . PHP_EOL;

@@ -18,6 +18,7 @@ function normalizar_preco($preco)
     $decimal = isset($partes[1]) ? str_pad($partes[1], 2, "0") : "00";
     return $inteiro . "." . $decimal;
 }
+
 function formatar_preco($preco)
 {
     $partes = explode(".", (string) $preco);
@@ -30,6 +31,7 @@ function formatar_preco($preco)
     array_unshift($grupos, $inteiro);
     return implode(".", $grupos) . "," . str_pad($partes[1] ?? "00", 2, "0");
 }
+
 function validar_dados_produto($dadosProduto)
 {
     $erros = [];
@@ -47,10 +49,12 @@ function validar_dados_produto($dadosProduto)
     }
     return $erros;
 }
+
 function pode_gerenciar_produtos($contexto)
 {
     return verificar_permissao(["PROPRIETARIO", "GERENTE"], $contexto);
 }
+
 function exibir_produtos()
 {
     $contexto = exigir_autenticacao();
@@ -69,6 +73,7 @@ function exibir_produtos()
             : "");
     require __DIR__ . "/../view/produtos.php";
 }
+
 function exibir_cadastro_produto()
 {
     $contexto = exigir_permissao(["PROPRIETARIO", "GERENTE"]);
@@ -109,6 +114,7 @@ function exibir_cadastro_produto()
     $tokenCsrf = gerar_token_csrf("cadastro_produto");
     require __DIR__ . "/../view/cadastro_produto.php";
 }
+
 function exibir_edicao_produto()
 {
     $contexto = exigir_permissao(["PROPRIETARIO", "GERENTE"]);
@@ -162,6 +168,7 @@ function exibir_edicao_produto()
     $tokenCsrf = gerar_token_csrf("edicao_produto_" . $produto["id"]);
     require __DIR__ . "/../view/edicao_produto.php";
 }
+
 function alterar_situacao_produto()
 {
     $contexto = exigir_permissao(["PROPRIETARIO", "GERENTE"]);

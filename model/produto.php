@@ -22,6 +22,7 @@ function listar_produtos_empresa($conexao, $idEmpresa, $pesquisa = "")
     mysqli_stmt_close($comando);
     return $produtos;
 }
+
 function buscar_produto_empresa($conexao, $idProduto, $idEmpresa)
 {
     $comando = mysqli_prepare(
@@ -44,6 +45,7 @@ function buscar_produto_empresa($conexao, $idProduto, $idEmpresa)
     mysqli_stmt_close($comando);
     return is_array($produto) ? $produto : false;
 }
+
 function cadastrar_produto($conexao, $idEmpresa, $nome, $descricao, $preco)
 {
     $comando = mysqli_prepare(
@@ -58,6 +60,7 @@ function cadastrar_produto($conexao, $idEmpresa, $nome, $descricao, $preco)
     mysqli_stmt_close($comando);
     return $sucesso;
 }
+
 function atualizar_produto_empresa($conexao, $idProduto, $idEmpresa, $nome, $descricao, $preco)
 {
     $comando = mysqli_prepare(
@@ -72,6 +75,7 @@ function atualizar_produto_empresa($conexao, $idProduto, $idEmpresa, $nome, $des
     mysqli_stmt_close($comando);
     return $sucesso;
 }
+
 function alterar_situacao_produto_empresa($conexao, $idProduto, $idEmpresa, $ativo)
 {
     $comando = mysqli_prepare($conexao, "UPDATE produtos SET ativo = ? WHERE id = ? AND empresa_id = ?");

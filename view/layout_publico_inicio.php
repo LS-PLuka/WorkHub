@@ -9,7 +9,18 @@
 </head>
 <body class="workhub-public-body">
     <header class="workhub-public-header">
-        <a class="workhub-public-brand" href="/">WorkHub</a>
-        <a class="workhub-public-header__link" href="/entrar">Entrar</a>
+        <a class="workhub-public-brand" href="/" aria-label="WorkHub - Página inicial">
+            <span>WorkHub</span>
+            <small>Gestão empresarial</small>
+        </a>
+        <nav class="workhub-public-nav" aria-label="Navegação pública">
+            <a href="/#funcionalidades">Funcionalidades</a>
+            <a href="/#como-funciona">Como funciona</a>
+            <a href="/#para-quem">Para quem é</a>
+        </nav>
+        <div class="workhub-public-header__actions">
+            <a class="workhub-public-header__link" href="/entrar">Entrar</a>
+            <a class="btn btn-primary btn-sm" href="/cadastro-empresa">Cadastrar empresa</a>
+        </div>
     </header>
     <main class="workhub-public-main">

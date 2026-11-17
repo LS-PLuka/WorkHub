@@ -1,9 +1,19 @@
 <?php require __DIR__ . "/layout_publico_inicio.php"; ?>
-<section class="workhub-registration">
+<section class="workhub-registration-layout">
+    <aside class="workhub-registration-layout__intro">
+        <p class="workhub-eyebrow">Primeiro acesso</p>
+        <h1>Comece a organizar a operação da sua empresa.</h1>
+        <p>Informe os dados da empresa e crie o acesso do responsável proprietário.</p>
+        <ol>
+            <li><strong>Dados da empresa</strong><span>Identificação e contato principal.</span></li>
+            <li><strong>Dados do responsável</strong><span>Acesso inicial à plataforma.</span></li>
+        </ol>
+    </aside>
+    <div class="workhub-registration">
     <header class="workhub-registration__heading">
         <p class="workhub-eyebrow">Comece agora</p>
         <h1>Cadastre sua empresa</h1>
-        <p>Crie a empresa e o acesso do responsável proprietário.</p>
+        <p>Os campos marcados com <span class="workhub-required" aria-hidden="true">*</span> são obrigatórios.</p>
     </header>
     <?php if ($cadastroConcluido): ?>
         <div class="alert alert-success" role="alert">
@@ -24,6 +34,7 @@
         <input type="hidden" name="token_csrf" value="<?= escapar_html($_SESSION["cadastro_empresa_token_csrf"]) ?>">
         <section class="workhub-registration__section">
             <h2>Dados da empresa</h2>
+            <p class="workhub-registration__section-description">Informações usadas para identificar sua empresa no WorkHub.</p>
             <div class="row g-3">
                 <div class="col-md-6">
                     <label class="form-label" for="nome_fantasia">Nome fantasia <span aria-hidden="true">*</span></label>
@@ -54,6 +65,7 @@
         </section>
         <section class="workhub-registration__section">
             <h2>Dados do responsável</h2>
+            <p class="workhub-registration__section-description">Este acesso será criado como Proprietário da empresa.</p>
             <div class="row g-3">
                 <div class="col-12">
                     <label class="form-label" for="nome_responsavel">Nome completo <span aria-hidden="true">*</span></label>
@@ -79,6 +91,11 @@
             <button class="btn btn-primary" type="submit">Cadastrar empresa</button>
             <a class="btn btn-link" href="/">Cancelar</a>
         </div>
+        <p class="workhub-registration__legal-note">
+            Ao continuar, consulte os <a href="/termos-de-uso.php">Termos de Uso</a> e a
+            <a href="/politica-de-privacidade.php">Política de Privacidade</a> do WorkHub.
+        </p>
     </form>
+    </div>
 </section>
 <?php require __DIR__ . "/layout_publico_fim.php"; ?>

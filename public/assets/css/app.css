@@ -473,6 +473,118 @@ body {
     margin: 0;
 }
 
+.workhub-details-grid--three {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.workhub-header-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: flex-end;
+}
+
+.workhub-order-form {
+    margin: 0 auto;
+    max-width: 960px;
+}
+
+.workhub-order-items {
+    display: grid;
+    gap: 12px;
+}
+
+.workhub-order-item {
+    align-items: end;
+    background: #f8fafc;
+    border: 1px solid var(--wh-border);
+    border-radius: var(--wh-radius-sm);
+    display: grid;
+    gap: 12px;
+    grid-template-columns: minmax(0, 1fr) 160px auto;
+    padding: 14px;
+}
+
+.workhub-order-item__product,
+.workhub-order-item__quantity {
+    min-width: 0;
+}
+
+.workhub-order-item__remove {
+    align-self: end;
+    color: var(--wh-danger);
+    font-size: 0.82rem;
+    padding-bottom: 7px;
+}
+
+.workhub-order-item__price {
+    color: var(--wh-text-muted);
+    font-size: 0.78rem;
+}
+
+.workhub-order-summary {
+    background: var(--wh-surface);
+    border: 1px solid var(--wh-border);
+    border-radius: var(--wh-radius);
+    box-shadow: var(--wh-shadow);
+    padding: 20px 24px;
+}
+
+.workhub-order-summary strong,
+.workhub-order-summary span {
+    display: block;
+}
+
+.workhub-order-summary span {
+    color: var(--wh-text-muted);
+    font-size: 0.84rem;
+    margin-top: 3px;
+}
+
+.workhub-order-summary .workhub-form-actions {
+    margin-top: 18px;
+}
+
+.workhub-production-stages {
+    display: grid;
+    gap: 16px;
+}
+
+.workhub-production-stage {
+    padding-bottom: 12px;
+}
+
+.workhub-status--recebido {
+    background: #eef4f7;
+    color: var(--wh-info);
+}
+
+.workhub-status--em_producao {
+    background: #edf5fb;
+    color: #2e6f9a;
+}
+
+.workhub-status--pronto {
+    background: #edf8f3;
+    color: var(--wh-success);
+}
+
+.workhub-status--entregue {
+    background: #f1f5f9;
+    color: var(--wh-text-muted);
+}
+
+.workhub-status--cancelado {
+    background: #fdf0f0;
+    color: var(--wh-danger);
+}
+
+.workhub-status-form {
+    align-items: center;
+    display: inline-flex;
+    gap: 6px;
+}
+
 .workhub-empty-state {
     color: var(--wh-text-muted) !important;
     padding: 28px !important;
@@ -549,6 +661,14 @@ body {
     .workhub-toolbar__field {
         max-width: none;
     }
+
+    .workhub-details-grid--three {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .workhub-order-item {
+        grid-template-columns: minmax(0, 1fr) 130px auto;
+    }
 }
 
 @media (max-width: 430px) {
@@ -576,5 +696,22 @@ body {
 
     .workhub-details-grid {
         grid-template-columns: 1fr;
+    }
+
+    .workhub-header-actions {
+        justify-content: flex-start;
+    }
+
+    .workhub-order-item {
+        grid-template-columns: 1fr;
+    }
+
+    .workhub-order-item__remove {
+        justify-self: start;
+        padding-bottom: 0;
+    }
+
+    .workhub-status-form {
+        flex-wrap: wrap;
     }
 }

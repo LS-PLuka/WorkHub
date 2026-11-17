@@ -1,53 +1,139 @@
-<!doctype html>
-<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title><?= escapar_html(
-    $tituloPagina,
-) ?></title><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"></head>
-<body class="bg-light"><main class="container py-5"><div class="col-lg-9 mx-auto">
-<a href="/pedidos">← Voltar aos pedidos</a><section class="card border-0 shadow-sm mt-3"><div class="card-body p-4"><h1 class="h3">Cadastrar pedido</h1>
-<?php if ($erros): ?><div class="alert alert-danger"><ul class="mb-0"><?php foreach (
-    $erros
-    as $erro
-): ?><li><?= escapar_html($erro) ?></li><?php endforeach; ?></ul></div><?php endif; ?>
-<?php if (
-    !$clientes ||
-    !$produtos
-): ?><div class="alert alert-warning">É necessário ter ao menos um cliente e um produto ativos para cadastrar pedidos.</div><?php endif; ?>
-<form method="post"><input type="hidden" name="token_csrf" value="<?= escapar_html(
-    $tokenCsrf,
-) ?>"><div class="row g-3"><div class="col-md-6"><label class="form-label" for="cliente_id">Cliente</label><select class="form-select" id="cliente_id" name="cliente_id" required><option value="">Selecione</option><?php foreach (
-    $clientes
-    as $cliente
-): ?><option value="<?= (int) $cliente["id"] ?>" <?= (string) $dadosPedido["cliente_id"] === (string) $cliente["id"]
-    ? "selected"
-    : "" ?>><?= escapar_html(
-    $cliente["nome"],
-) ?></option><?php endforeach; ?></select></div><div class="col-md-6"><label class="form-label" for="data_entrega">Data prevista de entrega</label><input class="form-control" type="date" id="data_entrega" name="data_entrega" required value="<?= escapar_html(
-    $dadosPedido["data_entrega"],
-) ?>"></div></div>
-<h2 class="h5 mt-4">Itens</h2><p class="text-secondary small">Preencha uma linha para cada produto. Os valores são calculados com o preço oficial no momento do envio.</p>
 <?php
-$linhas = max(5, count($dadosPedido["produtos"]));
-for (
-    $indice = 0;
-    $indice < $linhas;
-    $indice++
-): ?><div class="row g-2 mb-2"><div class="col-md-8"><label class="visually-hidden">Produto</label><select class="form-select" name="produto_id[]" <?= $indice ===
-0
-    ? "required"
-    : "" ?>><option value="">Selecione um produto</option><?php foreach (
-    $produtos
-    as $produto
-): ?><option value="<?= (int) $produto["id"] ?>" <?= (string) ($dadosPedido["produtos"][$indice] ?? "") ===
-(string) $produto["id"]
-    ? "selected"
-    : "" ?>><?= escapar_html($produto["nome"]) ?> — R$ <?= escapar_html(
-     formatar_valor_pedido($produto["preco"]),
- ) ?></option><?php endforeach; ?></select></div><div class="col-md-4"><label class="visually-hidden">Quantidade</label><input class="form-control" type="number" min="1" max="2147483647" name="quantidade[]" placeholder="Quantidade" value="<?= escapar_html(
-    $dadosPedido["quantidades"][$indice] ?? ($indice === 0 ? "1" : ""),
-) ?>" <?= $indice === 0 ? "required" : "" ?>></div></div><?php endfor;
+
+$paginaAtual = "pedidos";
+require __DIR__ . "/layout_empresa_inicio.php";
+
 ?>
-<p class="small text-secondary">Há cinco linhas disponíveis para itens; linhas vazias são ignoradas. O cadastro funciona sem JavaScript.</p><button class="btn btn-primary" <?= !$clientes ||
-!$produtos
-    ? "disabled"
-    : "" ?>>Cadastrar pedido</button></form>
-</div></section></div></main></body></html>
+<header class="workhub-page-heading">
+    <p class="workhub-eyebrow">Pedidos</p>
+    <h1>Novo pedido</h1>
+    <p>Informe o cliente, a entrega prevista e os produtos solicitados.</p>
+</header>
+
+<?php if ($erros): ?>
+    <div class="alert alert-danger" role="alert"><ul class="mb-0">
+        <?php foreach ($erros as $erro): ?>
+            <li><?= escapar_html($erro) ?></li>
+        <?php endforeach; ?>
+    </ul></div>
+<?php endif; ?>
+
+<?php if (!$clientes || !$produtos): ?>
+    <div class="alert alert-warning" role="alert">
+        É necessário ter ao menos um cliente e um produto ativos para cadastrar pedidos.
+    </div>
+<?php endif; ?>
+
+<form method="post" class="workhub-order-form">
+    <input type="hidden" name="token_csrf" value="<?= escapar_html($tokenCsrf) ?>">
+    <section class="workhub-panel mb-4">
+        <div class="workhub-section-heading">
+            <div><h2>Informações gerais</h2><p>Defina o cliente e a previsão de entrega.</p></div>
+        </div>
+        <div class="row g-3">
+            <div class="col-md-7">
+                <label class="form-label" for="cliente_id">Cliente <span aria-hidden="true">*</span></label>
+                <select class="form-select" id="cliente_id" name="cliente_id" required>
+                    <option value="">Selecione um cliente</option>
+                    <?php foreach ($clientes as $cliente): ?>
+                        <option value="<?= (int) $cliente["id"] ?>" <?= (string) $dadosPedido["cliente_id"] === (string) $cliente["id"] ? "selected" : "" ?>>
+                            <?= escapar_html($cliente["nome"]) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <div class="col-md-5">
+                <label class="form-label" for="data_entrega">Data prevista de entrega <span aria-hidden="true">*</span></label>
+                <input class="form-control" type="date" id="data_entrega" name="data_entrega" required
+                    value="<?= escapar_html($dadosPedido["data_entrega"]) ?>">
+            </div>
+        </div>
+    </section>
+
+    <section class="workhub-panel mb-4">
+        <div class="workhub-section-heading">
+            <div>
+                <h2>Produtos do pedido</h2>
+                <p>Os preços informados nas opções são apenas referência; o cálculo oficial ocorre no envio.</p>
+            </div>
+            <button class="btn btn-outline-primary btn-sm" type="button" id="adicionar-item">Adicionar produto</button>
+        </div>
+        <div class="workhub-order-items" id="itens-pedido">
+            <?php foreach ($dadosPedido["produtos"] as $indice => $idProduto): ?>
+                <div class="workhub-order-item">
+                    <div class="workhub-order-item__product">
+                        <label class="form-label" for="produto_<?= (int) $indice ?>">Produto</label>
+                        <select class="form-select" id="produto_<?= (int) $indice ?>" name="produto_id[]" <?= $indice === 0 ? "required" : "" ?>>
+                            <option value="">Selecione um produto</option>
+                            <?php foreach ($produtos as $produto): ?>
+                                <option value="<?= (int) $produto["id"] ?>" <?= (string) $idProduto === (string) $produto["id"] ? "selected" : "" ?>>
+                                    <?= escapar_html($produto["nome"]) ?> — R$ <?= escapar_html(formatar_valor_pedido($produto["preco"])) ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="workhub-order-item__quantity">
+                        <label class="form-label" for="quantidade_<?= (int) $indice ?>">Quantidade</label>
+                        <input class="form-control" id="quantidade_<?= (int) $indice ?>" type="number" min="1" max="2147483647"
+                            name="quantidade[]" value="<?= escapar_html($dadosPedido["quantidades"][$indice] ?? "") ?>" <?= $indice === 0 ? "required" : "" ?>>
+                    </div>
+                    <button class="btn btn-link workhub-order-item__remove" type="button" aria-label="Remover produto">Remover</button>
+                </div>
+            <?php endforeach; ?>
+        </div>
+        <template id="modelo-item-pedido">
+            <div class="workhub-order-item">
+                <div class="workhub-order-item__product">
+                    <label class="form-label">Produto</label>
+                    <select class="form-select" name="produto_id[]">
+                        <option value="">Selecione um produto</option>
+                        <?php foreach ($produtos as $produto): ?>
+                            <option value="<?= (int) $produto["id"] ?>">
+                                <?= escapar_html($produto["nome"]) ?> — R$ <?= escapar_html(formatar_valor_pedido($produto["preco"])) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="workhub-order-item__quantity">
+                    <label class="form-label">Quantidade</label>
+                    <input class="form-control" type="number" min="1" max="2147483647" name="quantidade[]">
+                </div>
+                <button class="btn btn-link workhub-order-item__remove" type="button">Remover</button>
+            </div>
+        </template>
+        <noscript><p class="workhub-table-note">O primeiro item pode ser cadastrado sem JavaScript.</p></noscript>
+    </section>
+
+    <section class="workhub-order-summary">
+        <div><strong>Resumo do pedido</strong><span>Os valores finais são calculados no servidor.</span></div>
+        <div class="workhub-form-actions">
+            <button class="btn btn-primary" type="submit" <?= !$clientes || !$produtos ? "disabled" : "" ?>>Cadastrar pedido</button>
+            <a class="btn btn-link" href="/pedidos">Cancelar</a>
+        </div>
+    </section>
+</form>
+<script>
+    const itensPedido = document.querySelector("#itens-pedido");
+    const modeloItemPedido = document.querySelector("#modelo-item-pedido");
+    const botaoAdicionarItem = document.querySelector("#adicionar-item");
+
+    if (itensPedido && modeloItemPedido && botaoAdicionarItem) {
+        const atualizarRemocaoItens = () => {
+            itensPedido.querySelectorAll(".workhub-order-item__remove").forEach((botao) => {
+                botao.onclick = () => {
+                    if (itensPedido.children.length > 1) {
+                        botao.closest(".workhub-order-item").remove();
+                    }
+                };
+            });
+        };
+
+        botaoAdicionarItem.addEventListener("click", () => {
+            itensPedido.append(modeloItemPedido.content.cloneNode(true));
+            atualizarRemocaoItens();
+        });
+
+        atualizarRemocaoItens();
+    }
+</script>
+<?php require __DIR__ . "/layout_empresa_fim.php"; ?>

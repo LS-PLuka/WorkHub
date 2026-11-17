@@ -27,6 +27,20 @@ CREATE TABLE IF NOT EXISTS administradores_plataforma (
     CONSTRAINT chk_administradores_plataforma_ativo CHECK (ativo IN (0, 1))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- Não armazena e-mail ou endereço IP: a chave é um HMAC calculado pela aplicação.
+CREATE TABLE IF NOT EXISTS tentativas_login (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    tipo_autenticacao VARCHAR(20) NOT NULL,
+    chave CHAR(64) NOT NULL,
+    falhas TINYINT UNSIGNED NOT NULL DEFAULT 0,
+    bloqueado_ate DATETIME NULL,
+    atualizado_em DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    UNIQUE KEY uq_tentativas_login_tipo_chave (tipo_autenticacao, chave),
+    KEY idx_tentativas_login_bloqueado_ate (bloqueado_ate),
+    CONSTRAINT chk_tentativas_login_tipo CHECK (tipo_autenticacao IN ('empresarial', 'administrativo'))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 CREATE TABLE IF NOT EXISTS usuarios (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
     empresa_id INT UNSIGNED NOT NULL,

@@ -21,7 +21,7 @@ require __DIR__ . "/layout_empresa_inicio.php";
         </div>
     </div>
     <dl class="workhub-details-grid mb-0">
-        <div><dt>Telefone</dt><dd><?= escapar_html($cliente["telefone"]) ?></dd></div>
+        <div><dt>Telefone</dt><dd><?= escapar_html(formatar_telefone($cliente["telefone"])) ?></dd></div>
         <div><dt>E-mail</dt><dd><?= escapar_html($cliente["email"] ?? "Não informado") ?></dd></div>
     </dl>
 </section>

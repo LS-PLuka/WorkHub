@@ -2,6 +2,7 @@
 
 require_once __DIR__ . "/../config/sessao.php";
 require_once __DIR__ . "/../model/administracao.php";
+require_once __DIR__ . "/../model/limite_login.php";
 require_once __DIR__ . "/empresa_controller.php";
 
 function autenticar_administrador($email, $senha, $conexaoExistente = null)
@@ -50,11 +51,25 @@ function exibir_entrada_administracao()
             $erros[] = "Não foi possível validar o envio do formulário. Atualize a página e tente novamente.";
         } elseif (filter_var($email, FILTER_VALIDATE_EMAIL) === false || $senha === "") {
             $erros[] = "E-mail ou senha inválidos.";
-        } elseif (!autenticar_administrador(strtolower($email), $senha)) {
-            $erros[] = "E-mail ou senha inválidos.";
         } else {
-            header("Location: /administracao");
-            exit();
+            $conexao = conectar_banco_dados();
+            $email = strtolower($email);
+
+            if ($conexao === false) {
+                $erros[] = "Não foi possível entrar neste momento. Tente novamente mais tarde.";
+            } elseif (login_esta_bloqueado($conexao, "administrativo", $email)) {
+                mysqli_close($conexao);
+                $erros[] = "E-mail ou senha inválidos. Tente novamente mais tarde.";
+            } elseif (!autenticar_administrador($email, $senha, $conexao)) {
+                registrar_falha_login($conexao, "administrativo", $email);
+                mysqli_close($conexao);
+                $erros[] = "E-mail ou senha inválidos.";
+            } else {
+                limpar_falhas_login($conexao, "administrativo", $email);
+                mysqli_close($conexao);
+                header("Location: /administracao");
+                exit();
+            }
         }
     }
     $tokenCsrf = gerar_token_csrf("entrada_administracao");

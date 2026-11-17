@@ -37,7 +37,7 @@ require __DIR__ . "/layout_empresa_inicio.php";
                 <?php foreach ($clientes as $cliente): ?>
                     <tr>
                         <td><strong><?= escapar_html($cliente["nome"]) ?></strong></td>
-                        <td><?= escapar_html($cliente["telefone"]) ?></td>
+                        <td><?= escapar_html(formatar_telefone($cliente["telefone"])) ?></td>
                         <td><?= escapar_html($cliente["email"] ?? "") ?></td>
                         <td>
                             <span class="workhub-status <?= $cliente["ativo"] ? "workhub-status--success" : "" ?>">

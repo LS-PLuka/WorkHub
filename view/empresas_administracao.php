@@ -63,9 +63,9 @@ require __DIR__ . "/layout_administracao_inicio.php";
                         <td class="fw-semibold">#<?= (int) $empresa["id"] ?></td>
                         <td><strong><?= escapar_html($empresa["nome_fantasia"]) ?></strong></td>
                         <td><?= escapar_html($empresa["razao_social"]) ?></td>
-                        <td><?= escapar_html($empresa["cnpj"]) ?></td>
+                        <td><?= escapar_html(formatar_cnpj($empresa["cnpj"])) ?></td>
                         <td><?= escapar_html($empresa["email"]) ?></td>
-                        <td><?= escapar_html($empresa["telefone"]) ?></td>
+                        <td><?= escapar_html(formatar_telefone($empresa["telefone"])) ?></td>
                         <td><?= escapar_html(date("d/m/Y H:i", strtotime($empresa["data_cadastro"]))) ?></td>
                         <td>
                             <span class="workhub-status <?= (int) $empresa["ativo"] === 1 ? "workhub-status--success" : "" ?>">

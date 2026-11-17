@@ -22,9 +22,9 @@ require __DIR__ . "/layout_administracao_inicio.php";
     </div>
     <dl class="workhub-details-grid workhub-details-grid--three">
         <div><dt>Razão social</dt><dd><?= escapar_html($empresa["razao_social"]) ?></dd></div>
-        <div><dt>CNPJ</dt><dd><?= escapar_html($empresa["cnpj"]) ?></dd></div>
+        <div><dt>CNPJ</dt><dd><?= escapar_html(formatar_cnpj($empresa["cnpj"])) ?></dd></div>
         <div><dt>E-mail</dt><dd><?= escapar_html($empresa["email"]) ?></dd></div>
-        <div><dt>Telefone</dt><dd><?= escapar_html($empresa["telefone"]) ?></dd></div>
+        <div><dt>Telefone</dt><dd><?= escapar_html(formatar_telefone($empresa["telefone"])) ?></dd></div>
         <div><dt>Cadastro</dt><dd><?= escapar_html(date("d/m/Y H:i", strtotime($empresa["data_cadastro"]))) ?></dd></div>
         <div><dt>Situação</dt><dd><?= (int) $empresa["ativo"] === 1 ? "Ativa" : "Desativada" ?></dd></div>
     </dl>

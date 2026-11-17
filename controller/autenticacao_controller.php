@@ -2,6 +2,7 @@
 
 require_once __DIR__ . "/../config/sessao.php";
 require_once __DIR__ . "/../model/usuario.php";
+require_once __DIR__ . "/../model/limite_login.php";
 require_once __DIR__ . "/empresa_controller.php";
 
 function autenticar_usuario($emailUsuario, $senha, $conexaoExistente = null)
@@ -61,11 +62,25 @@ function exibir_entrada()
             $erros[] = "Não foi possível validar o envio do formulário. Atualize a página e tente novamente.";
         } elseif (filter_var($emailUsuario, FILTER_VALIDATE_EMAIL) === false || $senha === "") {
             $erros[] = "Informe e-mail e senha válidos.";
-        } elseif (!autenticar_usuario(strtolower($emailUsuario), $senha)) {
-            $erros[] = "E-mail ou senha inválidos.";
         } else {
-            header("Location: /dashboard");
-            exit();
+            $conexao = conectar_banco_dados();
+            $emailUsuario = strtolower($emailUsuario);
+
+            if ($conexao === false) {
+                $erros[] = "Não foi possível entrar neste momento. Tente novamente mais tarde.";
+            } elseif (login_esta_bloqueado($conexao, "empresarial", $emailUsuario)) {
+                mysqli_close($conexao);
+                $erros[] = "E-mail ou senha inválidos. Tente novamente mais tarde.";
+            } elseif (!autenticar_usuario($emailUsuario, $senha, $conexao)) {
+                registrar_falha_login($conexao, "empresarial", $emailUsuario);
+                mysqli_close($conexao);
+                $erros[] = "E-mail ou senha inválidos.";
+            } else {
+                limpar_falhas_login($conexao, "empresarial", $emailUsuario);
+                mysqli_close($conexao);
+                header("Location: /dashboard");
+                exit();
+            }
         }
     }
 

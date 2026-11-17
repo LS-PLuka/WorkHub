@@ -40,6 +40,11 @@ require __DIR__ . "/../view/layout_publico_inicio.php";
             <li>definir políticas de retenção, descarte, incidentes e revisão de acessos;</li>
             <li>avaliar registros, medidas técnicas e processos necessários antes de declarar conformidade.</li>
         </ul>
+        <p>
+            Antes de uma implantação na AWS, deverão ser verificados HTTPS no proxy reverso, criptografia dos volumes EBS e
+            dos backups, isolamento de rede do banco de dados e o armazenamento seguro dos segredos de ambiente. Esses itens
+            não estão declarados como implantados nesta versão local da aplicação.
+        </p>
         <h2>5. Materiais relacionados</h2>
         <p>
             Consulte os <a href="/termos-de-uso.php">Termos de Uso</a>, a

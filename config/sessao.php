@@ -8,7 +8,11 @@ function iniciar_sessao_segura()
         return;
     }
 
-    $usaHttps = !empty($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] !== "off";
+    $ambiente = strtolower((string) getenv("APP_ENV"));
+    $cookieSeguroConfigurado = strtolower((string) getenv("SESSAO_COOKIE_SECURE"));
+    $usaHttps = in_array($ambiente, ["production", "producao"], true) ||
+        in_array($cookieSeguroConfigurado, ["1", "true"], true) ||
+        (!empty($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] !== "off");
     session_set_cookie_params([
         "lifetime" => 0,
         "path" => "/",

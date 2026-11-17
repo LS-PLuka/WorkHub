@@ -29,5 +29,6 @@
             <span>Documentos em versão preliminar, sujeitos à revisão do responsável pelo projeto.</span>
         </div>
     </footer>
+    <script src="/assets/js/mascaras_formulario.js"></script>
 </body>
 </html>

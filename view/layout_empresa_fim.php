@@ -1,6 +1,7 @@
             </main>
         </div>
     </div>
+    <script src="/assets/js/mascaras_formulario.js"></script>
     <script>
         const botaoMenu = document.querySelector(".workhub-menu-toggle");
         const menuPrincipal = document.querySelector(".workhub-sidebar");

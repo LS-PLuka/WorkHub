@@ -1,15 +1,46 @@
-<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title><?= escapar_html(
-    $tituloPagina,
-) ?></title><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"></head><body class="bg-light"><main class="container py-5"><div class="col-md-7 mx-auto"><a href="/clientes">← Voltar aos clientes</a><section class="card border-0 shadow-sm mt-3"><div class="card-body p-4"><h1 class="h3">Editar cliente</h1><?php if (
-    $erros
-): ?><div class="alert alert-danger"><ul class="mb-0"><?php foreach ($erros as $erro): ?><li><?= escapar_html(
-    $erro,
-) ?></li><?php endforeach; ?></ul></div><?php endif; ?><form method="post"><input type="hidden" name="token_csrf" value="<?= escapar_html(
-    $tokenCsrf,
-) ?>"><div class="mb-3"><label class="form-label">Nome</label><input class="form-control" name="nome" maxlength="150" required value="<?= escapar_html(
-    $cliente["nome"],
-) ?>"></div><div class="mb-3"><label class="form-label">Telefone</label><input class="form-control" name="telefone" maxlength="20" required value="<?= escapar_html(
-    $cliente["telefone"],
-) ?>"></div><div class="mb-3"><label class="form-label">E-mail</label><input class="form-control" name="email" type="email" maxlength="150" value="<?= escapar_html(
-    $cliente["email"] ?? "",
-) ?>"></div><button class="btn btn-primary">Salvar</button></form></div></section></div></main></body></html>
+<?php
+
+$paginaAtual = "clientes";
+require __DIR__ . "/layout_empresa_inicio.php";
+
+?>
+<header class="workhub-page-heading">
+    <p class="workhub-eyebrow">Clientes</p>
+    <h1>Editar cliente</h1>
+    <p>Atualize as informações de contato deste cliente.</p>
+</header>
+
+<section class="workhub-form-panel">
+    <?php if ($erros): ?>
+        <div class="alert alert-danger" role="alert"><ul class="mb-0">
+            <?php foreach ($erros as $erro): ?>
+                <li><?= escapar_html($erro) ?></li>
+            <?php endforeach; ?>
+        </ul></div>
+    <?php endif; ?>
+    <form method="post">
+        <input type="hidden" name="token_csrf" value="<?= escapar_html($tokenCsrf) ?>">
+        <div class="row g-3">
+            <div class="col-12">
+                <label class="form-label" for="nome">Nome <span aria-hidden="true">*</span></label>
+                <input class="form-control" id="nome" name="nome" maxlength="150" required
+                    value="<?= escapar_html($cliente["nome"]) ?>">
+            </div>
+            <div class="col-md-6">
+                <label class="form-label" for="telefone">Telefone <span aria-hidden="true">*</span></label>
+                <input class="form-control" id="telefone" name="telefone" maxlength="20" required
+                    value="<?= escapar_html($cliente["telefone"]) ?>">
+            </div>
+            <div class="col-md-6">
+                <label class="form-label" for="email">E-mail</label>
+                <input class="form-control" id="email" type="email" name="email" maxlength="150"
+                    value="<?= escapar_html($cliente["email"] ?? "") ?>">
+            </div>
+        </div>
+        <div class="workhub-form-actions">
+            <button class="btn btn-primary" type="submit">Salvar alterações</button>
+            <a class="btn btn-link" href="/clientes">Cancelar</a>
+        </div>
+    </form>
+</section>
+<?php require __DIR__ . "/layout_empresa_fim.php"; ?>

@@ -1,90 +1,91 @@
-<!doctype html>
-<html lang="pt-BR">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><?= escapar_html($tituloPagina) ?></title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="bg-light">
-    <main class="container py-5">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <div>
-                <h1 class="h2 mb-1">Usuários</h1>
-                <p class="text-secondary mb-0">Gerencie os usuários da sua empresa.</p>
-            </div>
-            <a class="btn btn-primary" href="/usuarios/cadastrar">Cadastrar usuário</a>
-        </div>
+<?php
 
-        <?php if ($mensagem): ?>
-            <div class="alert alert-success"><?= escapar_html($mensagem) ?></div>
+$paginaAtual = "usuarios";
+require __DIR__ . "/layout_empresa_inicio.php";
+
+?>
+<header class="workhub-page-heading workhub-page-heading--actions">
+    <div>
+        <p class="workhub-eyebrow">Administração</p>
+        <h1>Usuários</h1>
+        <p>Gerencie os acessos e perfis vinculados à sua empresa.</p>
+    </div>
+    <a class="btn btn-primary" href="/usuarios/cadastrar">Novo usuário</a>
+</header>
+
+<?php if ($mensagem): ?>
+    <div class="alert alert-success" role="alert"><?= escapar_html($mensagem) ?></div>
+<?php endif; ?>
+
+<section class="workhub-panel">
+    <form class="workhub-toolbar" method="get" action="/usuarios">
+        <div class="workhub-toolbar__field">
+            <label class="visually-hidden" for="pesquisa">Localizar por nome</label>
+            <input class="form-control" id="pesquisa" name="pesquisa" value="<?= escapar_html($pesquisa) ?>"
+                placeholder="Localizar por nome">
+        </div>
+        <button class="btn btn-outline-primary" type="submit">Buscar</button>
+        <?php if ($pesquisa !== ""): ?>
+            <a class="btn btn-link" href="/usuarios">Limpar</a>
         <?php endif; ?>
+    </form>
 
-        <form class="row g-2 mb-4" method="get" action="/usuarios">
-            <div class="col-sm-8">
-                <input class="form-control" name="pesquisa" value="<?= escapar_html($pesquisa) ?>" placeholder="Localizar por nome">
-            </div>
-            <div class="col-sm-4">
-                <button class="btn btn-outline-primary" type="submit">Buscar</button>
-                <a class="btn btn-link" href="/usuarios">Limpar</a>
-            </div>
-        </form>
-
-        <div class="card border-0 shadow-sm">
-            <div class="table-responsive">
-                <table class="table mb-0 align-middle">
-                    <thead>
-                        <tr>
-                            <th>Nome</th>
-                            <th>E-mail</th>
-                            <th>Perfil</th>
-                            <th>Situação</th>
-                            <th class="text-end">Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($usuarios as $usuario): ?>
-                            <tr>
-                                <td>
-                                    <?= escapar_html($usuario['nome']) ?>
-                                    <?php if ($usuario['perfil'] === 'PROPRIETARIO'): ?>
-                                        <div class="small text-secondary">Responsável pela empresa</div>
-                                    <?php endif; ?>
-                                </td>
-                                <td><?= escapar_html($usuario['email']) ?></td>
-                                <td><?= escapar_html($usuario['perfil']) ?></td>
-                                <td>
-                                    <span class="badge text-bg-<?= $usuario['ativo'] ? 'success' : 'secondary' ?>">
-                                        <?= $usuario['ativo'] ? 'Ativo' : 'Inativo' ?>
-                                    </span>
-                                </td>
-                                <td class="text-end">
-                                    <?php if ($usuario['perfil'] !== 'PROPRIETARIO'): ?>
-                                        <a class="btn btn-sm btn-outline-primary" href="/usuarios/editar?id=<?= (int) $usuario['id'] ?>">Editar</a>
-                                        <form class="d-inline" method="post" action="/usuarios/situacao">
-                                            <input type="hidden" name="token_csrf" value="<?= escapar_html(gerar_token_csrf('situacao_usuario')) ?>">
-                                            <input type="hidden" name="id_usuario" value="<?= (int) $usuario['id'] ?>">
-                                            <input type="hidden" name="acao" value="<?= $usuario['ativo'] ? 'desativar' : 'ativar' ?>">
-                                            <button class="btn btn-sm btn-outline-<?= $usuario['ativo'] ? 'danger' : 'success' ?>" type="submit">
-                                                <?= $usuario['ativo'] ? 'Desativar' : 'Ativar' ?>
-                                            </button>
-                                        </form>
-                                    <?php else: ?>
-                                        <span class="text-secondary">Sem ações</span>
-                                    <?php endif; ?>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                        <?php if (!$usuarios): ?>
-                            <tr>
-                                <td colspan="5" class="text-center text-secondary py-4">Nenhum usuário encontrado.</td>
-                            </tr>
-                        <?php endif; ?>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <a class="btn btn-link mt-3" href="/painel">Voltar ao painel</a>
-    </main>
-</body>
-</html>
+    <div class="table-responsive">
+        <table class="table workhub-table align-middle mb-0">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>E-mail</th>
+                    <th>Perfil</th>
+                    <th>Situação</th>
+                    <th class="text-end">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($usuarios as $usuario): ?>
+                    <tr>
+                        <td>
+                            <strong><?= escapar_html($usuario["nome"]) ?></strong>
+                            <?php if ($usuario["perfil"] === "PROPRIETARIO"): ?>
+                                <span class="workhub-table-note">Responsável pela empresa</span>
+                            <?php endif; ?>
+                        </td>
+                        <td><?= escapar_html($usuario["email"]) ?></td>
+                        <td><span class="workhub-status"><?= escapar_html($usuario["perfil"]) ?></span></td>
+                        <td>
+                            <span class="workhub-status <?= $usuario["ativo"] ? "workhub-status--success" : "" ?>">
+                                <?= $usuario["ativo"] ? "Ativo" : "Inativo" ?>
+                            </span>
+                        </td>
+                        <td class="text-end">
+                            <?php if ($usuario["perfil"] !== "PROPRIETARIO"): ?>
+                                <div class="workhub-table-actions">
+                                    <a class="btn btn-sm btn-outline-primary" href="/usuarios/editar?id=<?= (int) $usuario["id"] ?>">
+                                        Editar
+                                    </a>
+                                    <form method="post" action="/usuarios/situacao">
+                                        <input type="hidden" name="token_csrf" value="<?= escapar_html(
+                                            gerar_token_csrf("situacao_usuario"),
+                                        ) ?>">
+                                        <input type="hidden" name="id_usuario" value="<?= (int) $usuario["id"] ?>">
+                                        <input type="hidden" name="acao" value="<?= $usuario["ativo"] ? "desativar" : "ativar" ?>">
+                                        <button class="btn btn-sm btn-outline-<?= $usuario["ativo"] ? "danger" : "success" ?>"
+                                            type="submit">
+                                            <?= $usuario["ativo"] ? "Desativar" : "Ativar" ?>
+                                        </button>
+                                    </form>
+                                </div>
+                            <?php else: ?>
+                                <span class="workhub-table-note">Sem ações</span>
+                            <?php endif; ?>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+                <?php if (!$usuarios): ?>
+                    <tr><td class="workhub-empty-state" colspan="5">Nenhum usuário encontrado.</td></tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
+    </div>
+</section>
+<?php require __DIR__ . "/layout_empresa_fim.php"; ?>

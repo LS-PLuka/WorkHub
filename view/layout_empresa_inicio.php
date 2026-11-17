@@ -1,3 +1,10 @@
+<?php
+
+if (!isset($tokenCsrfSaida)) {
+    $tokenCsrfSaida = gerar_token_csrf("saida");
+}
+
+?>
 <!doctype html>
 <html lang="pt-BR">
 <head>

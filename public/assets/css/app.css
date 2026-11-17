@@ -188,6 +188,13 @@ body {
     margin-bottom: 28px;
 }
 
+.workhub-page-heading--actions {
+    align-items: flex-end;
+    display: flex;
+    gap: 16px;
+    justify-content: space-between;
+}
+
 .workhub-page-heading h1 {
     font-size: 1.75rem;
     font-weight: 700;
@@ -393,6 +400,79 @@ body {
     color: var(--wh-warning);
 }
 
+.workhub-status--success {
+    background: #edf8f3;
+    color: var(--wh-success);
+}
+
+.workhub-toolbar {
+    align-items: center;
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.workhub-toolbar__field {
+    max-width: 440px;
+    width: 100%;
+}
+
+.workhub-table-actions {
+    align-items: center;
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: flex-end;
+}
+
+.workhub-table-actions form {
+    display: inline-flex;
+}
+
+.workhub-table-note {
+    color: var(--wh-text-muted);
+    display: block;
+    font-size: 0.8rem;
+    margin-top: 3px;
+}
+
+.workhub-form-panel {
+    background: var(--wh-surface);
+    border: 1px solid var(--wh-border);
+    border-radius: var(--wh-radius);
+    box-shadow: var(--wh-shadow);
+    margin: 0 auto;
+    max-width: 720px;
+    padding: 28px;
+}
+
+.workhub-form-actions {
+    align-items: center;
+    border-top: 1px solid var(--wh-border);
+    display: flex;
+    gap: 10px;
+    margin-top: 28px;
+    padding-top: 20px;
+}
+
+.workhub-details-grid {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.workhub-details-grid dt {
+    color: var(--wh-text-muted);
+    font-size: 0.78rem;
+    font-weight: 600;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+}
+
+.workhub-details-grid dd {
+    margin: 0;
+}
+
 .workhub-empty-state {
     color: var(--wh-text-muted) !important;
     padding: 28px !important;
@@ -444,12 +524,30 @@ body {
         padding: 18px;
     }
 
+    .workhub-form-panel {
+        padding: 20px;
+    }
+
     .workhub-metrics {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     .workhub-metric--value {
         grid-column: span 2;
+    }
+
+    .workhub-page-heading--actions {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .workhub-toolbar {
+        align-items: stretch;
+        flex-wrap: wrap;
+    }
+
+    .workhub-toolbar__field {
+        max-width: none;
     }
 }
 
@@ -474,5 +572,9 @@ body {
 
     .workhub-metric--value {
         grid-column: auto;
+    }
+
+    .workhub-details-grid {
+        grid-template-columns: 1fr;
     }
 }

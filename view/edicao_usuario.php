@@ -1,22 +1,48 @@
-<!doctype html>
-<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title><?= escapar_html(
-    $tituloPagina,
-) ?></title><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"></head>
-<body class="bg-light"><main class="container py-5"><div class="row justify-content-center"><div class="col-md-7"><a href="/usuarios">← Voltar aos usuários</a><section class="card border-0 shadow-sm mt-3"><div class="card-body p-4"><h1 class="h3">Editar usuário</h1><?php if (
-    $erros
-): ?><div class="alert alert-danger"><ul class="mb-0"><?php foreach ($erros as $erro): ?><li><?= escapar_html(
-    $erro,
-) ?></li><?php endforeach; ?></ul></div><?php endif; ?><form method="post"><input type="hidden" name="token_csrf" value="<?= escapar_html(
-    $tokenCsrf,
-) ?>"><div class="mb-3"><label class="form-label">Nome completo</label><input class="form-control" name="nome" maxlength="150" required value="<?= escapar_html(
-    $usuario["nome"],
-) ?>"></div><div class="mb-3"><label class="form-label">E-mail</label><input class="form-control" type="email" name="email" maxlength="150" required value="<?= escapar_html(
-    $usuario["email"],
-) ?>"></div><div class="mb-3"><label class="form-label">Perfil</label><select class="form-select" name="perfil"><option value="GERENTE" <?= $usuario[
-    "perfil"
-] === "GERENTE"
-    ? "selected"
-    : "" ?>>Gerente</option><option value="FUNCIONARIO" <?= $usuario["perfil"] === "FUNCIONARIO"
-    ? "selected"
-    : "" ?>>Funcionário</option></select></div><button class="btn btn-primary">Salvar alterações</button></form></div></section></div></div></main></body></html>
+<?php
 
+$paginaAtual = "usuarios";
+require __DIR__ . "/layout_empresa_inicio.php";
+
+?>
+<header class="workhub-page-heading">
+    <p class="workhub-eyebrow">Usuários</p>
+    <h1>Editar usuário</h1>
+    <p>Atualize os dados de acesso e o perfil deste usuário.</p>
+</header>
+
+<section class="workhub-form-panel">
+    <?php if ($erros): ?>
+        <div class="alert alert-danger" role="alert"><ul class="mb-0">
+            <?php foreach ($erros as $erro): ?>
+                <li><?= escapar_html($erro) ?></li>
+            <?php endforeach; ?>
+        </ul></div>
+    <?php endif; ?>
+    <form method="post">
+        <input type="hidden" name="token_csrf" value="<?= escapar_html($tokenCsrf) ?>">
+        <div class="row g-3">
+            <div class="col-12">
+                <label class="form-label" for="nome">Nome completo <span aria-hidden="true">*</span></label>
+                <input class="form-control" id="nome" name="nome" maxlength="150" required
+                    value="<?= escapar_html($usuario["nome"]) ?>">
+            </div>
+            <div class="col-12">
+                <label class="form-label" for="email">E-mail <span aria-hidden="true">*</span></label>
+                <input class="form-control" id="email" type="email" name="email" maxlength="150" required
+                    value="<?= escapar_html($usuario["email"]) ?>">
+            </div>
+            <div class="col-12">
+                <label class="form-label" for="perfil">Perfil <span aria-hidden="true">*</span></label>
+                <select class="form-select" id="perfil" name="perfil">
+                    <option value="GERENTE" <?= $usuario["perfil"] === "GERENTE" ? "selected" : "" ?>>Gerente</option>
+                    <option value="FUNCIONARIO" <?= $usuario["perfil"] === "FUNCIONARIO" ? "selected" : "" ?>>Funcionário</option>
+                </select>
+            </div>
+        </div>
+        <div class="workhub-form-actions">
+            <button class="btn btn-primary" type="submit">Salvar alterações</button>
+            <a class="btn btn-link" href="/usuarios">Cancelar</a>
+        </div>
+    </form>
+</section>
+<?php require __DIR__ . "/layout_empresa_fim.php"; ?>

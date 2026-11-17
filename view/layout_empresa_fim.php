@@ -12,5 +12,20 @@
             });
         }
     </script>
+    <noscript>
+        <style>
+            @media (max-width: 767.98px) {
+                .workhub-sidebar {
+                    position: static;
+                    transform: none;
+                    width: 100%;
+                }
+
+                .workhub-page {
+                    margin-left: 0;
+                }
+            }
+        </style>
+    </noscript>
 </body>
 </html>

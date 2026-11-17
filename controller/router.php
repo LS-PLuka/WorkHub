@@ -23,6 +23,42 @@ function rotear_requisicao($uriRequisicao)
         return;
     }
 
+    if ($caminho === "/administracao/entrar") {
+        require __DIR__ . "/administracao_controller.php";
+        exibir_entrada_administracao();
+        return;
+    }
+
+    if ($caminho === "/administracao") {
+        require __DIR__ . "/administracao_controller.php";
+        exibir_painel_administracao();
+        return;
+    }
+
+    if ($caminho === "/administracao/empresas") {
+        require __DIR__ . "/administracao_controller.php";
+        exibir_empresas_administracao();
+        return;
+    }
+
+    if ($caminho === "/administracao/empresas/detalhes") {
+        require __DIR__ . "/administracao_controller.php";
+        exibir_detalhes_empresa_administracao();
+        return;
+    }
+
+    if ($caminho === "/administracao/empresas/situacao") {
+        require __DIR__ . "/administracao_controller.php";
+        alterar_situacao_empresa_administracao_requisicao();
+        return;
+    }
+
+    if ($caminho === "/administracao/sair") {
+        require __DIR__ . "/administracao_controller.php";
+        sair_administracao();
+        return;
+    }
+
     if ($caminho === "/painel" || $caminho === "/dashboard") {
         require __DIR__ . "/dashboard_controller.php";
         exibir_dashboard();

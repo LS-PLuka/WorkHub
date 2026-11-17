@@ -30,6 +30,7 @@ function autenticar_usuario($emailUsuario, $senha, $conexaoExistente = null)
     iniciar_sessao_segura();
     session_regenerate_id(true);
     $_SESSION = [
+        "tipo_autenticacao" => "empresarial",
         "id_usuario" => (int) $dadosUsuario["id"],
         "ultima_atividade" => time(),
     ];

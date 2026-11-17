@@ -94,6 +94,23 @@ do vencimento possuem entrega entre hoje e os dois dias seguintes, inclusive.
 docker compose exec app php scripts/testar_dashboard.php
 ```
 
+## Administração da plataforma
+
+A área global está em `/administracao` e utiliza autenticação própria em
+`/administracao/entrar`. Ela é isolada das contas empresariais e permite consultar empresas, seus dados
+cadastrais, indicadores de situação e ativar ou desativar empresas sem apagar dados.
+
+Para criar o primeiro administrador, execute exclusivamente no terminal do contêiner e informe os dados quando
+solicitado. A senha não é exibida nem armazenada no código-fonte:
+
+```powershell
+docker compose exec -it app php scripts/criar_administrador.php
+```
+
+```powershell
+docker compose exec app php scripts/testar_administracao.php
+```
+
 ## Clientes
 
 O gerenciamento de clientes está disponível em `/clientes` para usuários autenticados. O histórico de pedidos de cada cliente será implementado após a criação do módulo de pedidos.

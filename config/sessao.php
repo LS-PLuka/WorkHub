@@ -64,7 +64,7 @@ function usuario_autenticado()
 {
     iniciar_sessao_segura();
 
-    return !empty($_SESSION["id_usuario"]);
+    return ($_SESSION["tipo_autenticacao"] ?? "") === "empresarial" && !empty($_SESSION["id_usuario"]);
 }
 
 function obter_contexto_autenticado()
@@ -127,6 +127,64 @@ function exigir_permissao($perfisPermitidos)
     if (!verificar_permissao($perfisPermitidos, $contexto)) {
         http_response_code(403);
         echo "Acesso não autorizado.";
+        exit();
+    }
+
+    return $contexto;
+}
+
+function administrador_autenticado()
+{
+    iniciar_sessao_segura();
+
+    return ($_SESSION["tipo_autenticacao"] ?? "") === "administrativo" &&
+        !empty($_SESSION["id_administrador_plataforma"]);
+}
+
+function obter_contexto_administrativo()
+{
+    iniciar_sessao_segura();
+
+    if (!administrador_autenticado()) {
+        return false;
+    }
+
+    if (
+        empty($_SESSION["ultima_atividade_administrativa"]) ||
+        time() - $_SESSION["ultima_atividade_administrativa"] > 1800
+    ) {
+        encerrar_sessao();
+        return false;
+    }
+
+    $conexao = conectar_banco_dados();
+    if ($conexao === false) {
+        return false;
+    }
+
+    require_once __DIR__ . "/../model/administracao.php";
+    $contexto = buscar_contexto_administrador_ativo(
+        $conexao,
+        (int) $_SESSION["id_administrador_plataforma"],
+    );
+    mysqli_close($conexao);
+
+    if ($contexto === false) {
+        encerrar_sessao();
+        return false;
+    }
+
+    $_SESSION["ultima_atividade_administrativa"] = time();
+
+    return $contexto;
+}
+
+function exigir_autenticacao_administrativa()
+{
+    $contexto = obter_contexto_administrativo();
+
+    if ($contexto === false) {
+        header("Location: /administracao/entrar");
         exit();
     }
 

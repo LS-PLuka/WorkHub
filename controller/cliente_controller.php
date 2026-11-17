@@ -6,15 +6,14 @@ require_once __DIR__ . "/empresa_controller.php";
 function validar_dados_cliente($dados)
 {
     $erros = [];
-    $telefone = preg_replace("/\D/", "", $dados["telefone"]);
     if ($dados["nome"] === "") {
         $erros[] = "Nome é obrigatório.";
     }
     if (strlen($dados["nome"]) > 150) {
         $erros[] = "Nome ultrapassa o tamanho permitido.";
     }
-    if (strlen($dados["telefone"]) > 20 || strlen($telefone) < 10 || strlen($telefone) > 11) {
-        $erros[] = "Telefone inválido.";
+    if (!telefone_celular_eh_valido($dados["telefone"])) {
+        $erros[] = "Informe um celular brasileiro válido no formato (99) 99999-9999.";
     }
     if (
         $dados["email"] !== "" &&
@@ -65,6 +64,7 @@ function exibir_cadastro_cliente()
             $erros[] = "Não foi possível validar o envio do formulário.";
         }
         $erros = array_merge($erros, validar_dados_cliente($cliente));
+        $cliente["telefone"] = normalizar_telefone($cliente["telefone"]);
         if (!$erros) {
             $conexao = conectar_banco_dados();
             $s =
@@ -116,6 +116,7 @@ function exibir_edicao_cliente()
             $erros[] = "Não foi possível validar o envio do formulário.";
         }
         $erros = array_merge($erros, validar_dados_cliente($dados));
+        $dados["telefone"] = normalizar_telefone($dados["telefone"]);
         if (
             !$erros &&
             atualizar_cliente_empresa(

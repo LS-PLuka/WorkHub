@@ -107,8 +107,30 @@ solicitado. A senha não é exibida nem armazenada no código-fonte:
 docker compose exec -it app php scripts/criar_administrador.php
 ```
 
+### Bootstrap local opcional
+
+Para preparar automaticamente apenas o primeiro administrador durante a inicialização local do contêiner, adicione
+as variáveis abaixo ao arquivo `.env` local. O arquivo é ignorado pelo Git e não deve receber credenciais de produção:
+
+```dotenv
+APP_ENV=local
+ADMIN_BOOTSTRAP_HABILITADO=true
+ADMIN_INICIAL_NOME=Administrador local
+ADMIN_INICIAL_EMAIL=<e-mail-local-do-administrador>
+ADMIN_INICIAL_SENHA=<senha-local-com-ao-menos-8-caracteres>
+```
+
+O bootstrap só atua em `local`, `development` ou `desenvolvimento`, e somente quando habilitado explicitamente. Em
+produção, ele é ignorado mesmo se a variável de habilitação estiver definida. A conta é criada apenas quando não há
+nenhum administrador da plataforma; reinicializações não criam duplicatas nem alteram senhas. O script CLI manual
+continua sendo o procedimento indicado para ambientes de produção.
+
 ```powershell
 docker compose exec app php scripts/testar_administracao.php
+```
+
+```powershell
+docker compose exec app php scripts/testar_bootstrap_administrador.php
 ```
 
 ## Clientes

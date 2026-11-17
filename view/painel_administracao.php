@@ -18,13 +18,19 @@ require __DIR__ . "/layout_administracao_inicio.php";
 <?php else: ?>
     <section class="workhub-metrics workhub-metrics--admin" aria-label="Indicadores de empresas">
         <article class="workhub-metric workhub-metric--primary">
-            <p>Total de empresas</p><strong><?= (int) $indicadores["total_empresas"] ?></strong>
+            <p>Total de empresas</p>
+            <strong><?= (int) $indicadores["total_empresas"] ?></strong>
+            <span>Cadastros disponíveis na plataforma</span>
         </article>
         <article class="workhub-metric workhub-metric--success">
-            <p>Empresas ativas</p><strong><?= (int) $indicadores["empresas_ativas"] ?></strong>
+            <p>Empresas ativas</p>
+            <strong><?= (int) $indicadores["empresas_ativas"] ?></strong>
+            <span>Com acesso empresarial liberado</span>
         </article>
         <article class="workhub-metric workhub-metric--neutral">
-            <p>Empresas desativadas</p><strong><?= (int) $indicadores["empresas_desativadas"] ?></strong>
+            <p>Empresas desativadas</p>
+            <strong><?= (int) $indicadores["empresas_desativadas"] ?></strong>
+            <span>Com acesso empresarial bloqueado</span>
         </article>
     </section>
 <?php endif; ?>

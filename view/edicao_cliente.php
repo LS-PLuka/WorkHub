@@ -28,8 +28,8 @@ require __DIR__ . "/layout_empresa_inicio.php";
             </div>
             <div class="col-md-6">
                 <label class="form-label" for="telefone">Telefone <span aria-hidden="true">*</span></label>
-                <input class="form-control" id="telefone" name="telefone" maxlength="20" required
-                    value="<?= escapar_html($cliente["telefone"]) ?>">
+                <input class="form-control" id="telefone" name="telefone" inputmode="numeric" maxlength="15" required
+                    data-mascara="telefone" value="<?= escapar_html(formatar_telefone($cliente["telefone"])) ?>">
             </div>
             <div class="col-md-6">
                 <label class="form-label" for="email">E-mail</label>

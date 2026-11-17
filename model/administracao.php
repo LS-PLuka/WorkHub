@@ -70,6 +70,20 @@ function cadastrar_administrador_plataforma($conexao, $nome, $email, $hashSenha)
     return $sucesso;
 }
 
+function contar_administradores_plataforma($conexao)
+{
+    $resultado = mysqli_query($conexao, "SELECT COUNT(*) AS total FROM administradores_plataforma");
+
+    if ($resultado === false) {
+        return false;
+    }
+
+    $dados = mysqli_fetch_assoc($resultado);
+    mysqli_free_result($resultado);
+
+    return (int) $dados["total"];
+}
+
 function obter_indicadores_administracao($conexao)
 {
     $resultado = mysqli_query(

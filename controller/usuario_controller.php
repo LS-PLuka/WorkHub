@@ -22,8 +22,8 @@ function validar_dados_usuario($dadosUsuario, $senha = null, $confirmacaoSenha =
     }
 
     if ($senha !== null) {
-        if (strlen($senha) < 8) {
-            $erros[] = "A senha deve ter pelo menos 8 caracteres.";
+        if (!senha_tem_tamanho_valido($senha)) {
+            $erros[] = "A senha deve ter entre 8 e 72 caracteres.";
         }
         if (!hash_equals($senha, $confirmacaoSenha)) {
             $erros[] = "A confirmação de senha não confere.";

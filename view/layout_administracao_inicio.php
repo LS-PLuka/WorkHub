@@ -4,6 +4,8 @@ if (!isset($tokenCsrfSaida)) {
     $tokenCsrfSaida = gerar_token_csrf("saida_administracao");
 }
 
+$versaoEstilos = filemtime(__DIR__ . "/../public/assets/css/app.css");
+
 ?>
 <!doctype html>
 <html lang="pt-BR">
@@ -11,15 +13,19 @@ if (!isset($tokenCsrfSaida)) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?= escapar_html($tituloPagina) ?></title>
+    <link rel="icon" type="image/png" href="/assets/images/logo-sem-fundo.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/assets/css/app.css" rel="stylesheet">
+    <link href="/assets/css/app.css?v=<?= (int) $versaoEstilos ?>" rel="stylesheet">
 </head>
-<body class="workhub-body">
+<body class="workhub-body workhub-body--admin">
     <div class="workhub-admin-shell">
-        <aside class="workhub-admin-sidebar" aria-label="Navegação administrativa">
-            <div>
-                <a class="workhub-brand" href="/administracao">WorkHub</a>
-                <p>Administração da plataforma</p>
+        <aside class="workhub-admin-sidebar" id="menu-administracao" aria-label="Navegação administrativa">
+            <div class="workhub-admin-sidebar__brand">
+                <a class="workhub-admin-brand" href="/administracao" aria-label="WorkHub - Administração da Plataforma">
+                    <img src="/assets/images/logo-sem-fundo.png" alt="">
+                    <span>WorkHub</span>
+                </a>
+                <p>Administração da Plataforma</p>
             </div>
             <nav class="workhub-sidebar__nav">
                 <a class="workhub-nav-link <?= $paginaAtualAdministracao === "visao_geral" ? "is-active" : "" ?>" href="/administracao">
@@ -29,7 +35,8 @@ if (!isset($tokenCsrfSaida)) {
                     Empresas
                 </a>
             </nav>
-            <div class="workhub-sidebar__footer">
+            <div class="workhub-sidebar__footer workhub-admin-sidebar__footer">
+                <span class="workhub-admin-sidebar__label">Administrador</span>
                 <p class="workhub-sidebar__company"><?= escapar_html($contextoAdministrador["nome"]) ?></p>
                 <form method="post" action="/administracao/sair">
                     <input type="hidden" name="token_csrf" value="<?= escapar_html($tokenCsrfSaida) ?>">
@@ -38,13 +45,21 @@ if (!isset($tokenCsrfSaida)) {
             </div>
         </aside>
         <div class="workhub-page">
-            <header class="workhub-topbar">
-                <div class="workhub-topbar__context">Administração global</div>
+            <header class="workhub-topbar workhub-admin-topbar">
+                <button class="workhub-menu-toggle" type="button" aria-controls="menu-administracao" aria-expanded="false">
+                    Menu
+                </button>
+                <div class="workhub-topbar__context">
+                    <span>Administração da Plataforma</span>
+                </div>
                 <div class="workhub-user">
                     <span class="workhub-user__initial" aria-hidden="true"><?= escapar_html(
                         strtoupper(substr($contextoAdministrador["nome"], 0, 1)),
                     ) ?></span>
-                    <span><strong><?= escapar_html($contextoAdministrador["nome"]) ?></strong><small>Administrador</small></span>
+                    <span>
+                        <strong><?= escapar_html($contextoAdministrador["nome"]) ?></strong>
+                        <small>Administrador</small>
+                    </span>
                 </div>
             </header>
-            <main class="workhub-content">
+            <main class="workhub-content workhub-admin-content">

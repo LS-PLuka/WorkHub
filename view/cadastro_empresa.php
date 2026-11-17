@@ -30,7 +30,7 @@
             </ul>
         </div>
     <?php endif; ?>
-    <form method="post" action="/cadastro-empresa" novalidate>
+    <form method="post" action="/cadastro-empresa">
         <input type="hidden" name="token_csrf" value="<?= escapar_html($_SESSION["cadastro_empresa_token_csrf"]) ?>">
         <section class="workhub-registration__section">
             <h2>Dados da empresa</h2>
@@ -49,12 +49,12 @@
                 <div class="col-md-6">
                     <label class="form-label" for="cnpj">CNPJ <span aria-hidden="true">*</span></label>
                     <input class="form-control" id="cnpj" name="cnpj" inputmode="numeric" maxlength="18" required
-                        value="<?= escapar_html($formulario["cnpj"]) ?>">
+                        data-mascara="cnpj" value="<?= escapar_html(formatar_cnpj($formulario["cnpj"])) ?>">
                 </div>
                 <div class="col-md-6">
                     <label class="form-label" for="telefone">Telefone <span aria-hidden="true">*</span></label>
-                    <input class="form-control" id="telefone" name="telefone" maxlength="20" required
-                        value="<?= escapar_html($formulario["telefone"]) ?>">
+                    <input class="form-control" id="telefone" name="telefone" inputmode="numeric" maxlength="15" required
+                        data-mascara="telefone" value="<?= escapar_html(formatar_telefone($formulario["telefone"])) ?>">
                 </div>
                 <div class="col-12">
                     <label class="form-label" for="email_empresa">E-mail da empresa <span aria-hidden="true">*</span></label>
@@ -79,11 +79,11 @@
                 </div>
                 <div class="col-md-6">
                     <label class="form-label" for="senha">Senha <span aria-hidden="true">*</span></label>
-                    <input class="form-control" id="senha" name="senha" type="password" minlength="8" required autocomplete="new-password">
+                    <input class="form-control" id="senha" name="senha" type="password" minlength="8" maxlength="72" required autocomplete="new-password">
                 </div>
                 <div class="col-md-6">
                     <label class="form-label" for="confirmacao_senha">Confirmação de senha <span aria-hidden="true">*</span></label>
-                    <input class="form-control" id="confirmacao_senha" name="confirmacao_senha" type="password" minlength="8" required autocomplete="new-password">
+                    <input class="form-control" id="confirmacao_senha" name="confirmacao_senha" type="password" minlength="8" maxlength="72" required autocomplete="new-password">
                 </div>
             </div>
         </section>

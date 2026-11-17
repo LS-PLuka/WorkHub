@@ -10,6 +10,11 @@ services:
       DB_NAME: ${DB_NAME}
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
+      APP_ENV: ${APP_ENV:-production}
+      ADMIN_BOOTSTRAP_HABILITADO: ${ADMIN_BOOTSTRAP_HABILITADO:-false}
+      ADMIN_INICIAL_NOME: ${ADMIN_INICIAL_NOME:-}
+      ADMIN_INICIAL_EMAIL: ${ADMIN_INICIAL_EMAIL:-}
+      ADMIN_INICIAL_SENHA: ${ADMIN_INICIAL_SENHA:-}
     depends_on:
       db:
         condition: service_healthy

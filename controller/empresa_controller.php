@@ -11,7 +11,74 @@ function escapar_html($valor)
 
 function normalizar_cnpj($cnpj)
 {
-    return preg_replace("/\D+/", "", $cnpj);
+    return preg_match('/^\d{14}$/', $cnpj) ? $cnpj : preg_replace('/\D/', '', $cnpj);
+}
+
+function cnpj_tem_formato_aceito($cnpj)
+{
+    return preg_match('/^(\d{14}|\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2})$/', $cnpj) === 1;
+}
+
+function formatar_cnpj($cnpj)
+{
+    $cnpj = preg_replace('/\D/', '', (string) $cnpj);
+
+    if (strlen($cnpj) !== 14) {
+        return $cnpj;
+    }
+
+    return substr($cnpj, 0, 2) . '.' . substr($cnpj, 2, 3) . '.' . substr($cnpj, 5, 3) . '/'
+        . substr($cnpj, 8, 4) . '-' . substr($cnpj, 12, 2);
+}
+
+function telefone_tem_formato_aceito($telefone)
+{
+    return preg_match('/^(\d{11}|\(\d{2}\) \d{5}-\d{4})$/', $telefone) === 1;
+}
+
+function normalizar_telefone($telefone)
+{
+    return preg_replace('/\D/', '', $telefone);
+}
+
+function ddd_brasileiro_eh_valido($ddd)
+{
+    $dddsValidos = [
+        '11', '12', '13', '14', '15', '16', '17', '18', '19', '21', '22', '24', '27', '28',
+        '31', '32', '33', '34', '35', '37', '38', '41', '42', '43', '44', '45', '46', '47', '48', '49',
+        '51', '53', '54', '55', '61', '62', '63', '64', '65', '66', '67', '68', '69', '71', '73', '74',
+        '75', '77', '79', '81', '82', '83', '84', '85', '86', '87', '88', '89', '91', '92', '93', '94',
+        '95', '96', '97', '98', '99',
+    ];
+
+    return in_array($ddd, $dddsValidos, true);
+}
+
+function telefone_celular_eh_valido($telefone)
+{
+    if (!telefone_tem_formato_aceito($telefone)) {
+        return false;
+    }
+
+    $telefoneNormalizado = normalizar_telefone($telefone);
+
+    return ddd_brasileiro_eh_valido(substr($telefoneNormalizado, 0, 2)) && $telefoneNormalizado[2] === '9';
+}
+
+function formatar_telefone($telefone)
+{
+    $telefone = normalizar_telefone((string) $telefone);
+
+    if (strlen($telefone) !== 11) {
+        return $telefone;
+    }
+
+    return '(' . substr($telefone, 0, 2) . ') ' . substr($telefone, 2, 5) . '-' . substr($telefone, 7, 4);
+}
+
+function senha_tem_tamanho_valido($senha)
+{
+    return strlen($senha) >= 8 && strlen($senha) <= 72;
 }
 
 function cnpj_eh_valido($cnpj)
@@ -67,8 +134,14 @@ function validar_cadastro_empresa($formulario, $senha, $confirmacaoSenha)
     }
 
     $cnpjNormalizado = normalizar_cnpj($formulario["cnpj"]);
-    if ($formulario["cnpj"] !== "" && !cnpj_eh_valido($cnpjNormalizado)) {
+    if ($formulario["cnpj"] !== "" && !cnpj_tem_formato_aceito($formulario["cnpj"])) {
+        $erros[] = "Informe o CNPJ com 14 dígitos ou no formato XX.XXX.XXX/XXXX-XX.";
+    } elseif ($formulario["cnpj"] !== "" && !cnpj_eh_valido($cnpjNormalizado)) {
         $erros[] = "Informe um CNPJ válido.";
+    }
+
+    if ($formulario["telefone"] !== "" && !telefone_celular_eh_valido($formulario["telefone"])) {
+        $erros[] = "Informe um celular brasileiro válido no formato (99) 99999-9999.";
     }
 
     foreach (
@@ -95,8 +168,8 @@ function validar_cadastro_empresa($formulario, $senha, $confirmacaoSenha)
         }
     }
 
-    if ($senha !== "" && strlen($senha) < 8) {
-        $erros[] = "A senha deve ter pelo menos 8 caracteres.";
+    if ($senha !== "" && !senha_tem_tamanho_valido($senha)) {
+        $erros[] = "A senha deve ter entre 8 e 72 caracteres.";
     }
     if ($senha !== "" && $confirmacaoSenha !== "" && !hash_equals($senha, $confirmacaoSenha)) {
         $erros[] = "A confirmação de senha não confere.";
@@ -140,6 +213,7 @@ function exibir_cadastro_empresa()
         }
 
         $cnpjNormalizado = normalizar_cnpj($formulario["cnpj"]);
+        $telefoneNormalizado = normalizar_telefone($formulario["telefone"]);
         $erros = array_merge($erros, validar_cadastro_empresa($formulario, $senha, $confirmacaoSenha));
 
         if (!$erros) {
@@ -170,7 +244,7 @@ function exibir_cadastro_empresa()
                                 "razao_social" => $formulario["razao_social"],
                                 "cnpj" => $cnpjNormalizado,
                                 "email" => strtolower($formulario["email_empresa"]),
-                                "telefone" => $formulario["telefone"],
+                                "telefone" => $telefoneNormalizado,
                             ],
                             [
                                 "nome" => $formulario["nome_responsavel"],

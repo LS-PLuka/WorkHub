@@ -13,7 +13,7 @@ require __DIR__ . "/layout_administracao_inicio.php";
     <a class="btn btn-outline-primary" href="/administracao/empresas">Voltar para empresas</a>
 </header>
 
-<section class="workhub-panel">
+<section class="workhub-panel workhub-admin-company-details">
     <div class="workhub-section-heading">
         <div><h2>Dados cadastrais</h2><p>Informações fornecidas no cadastro da empresa.</p></div>
         <span class="workhub-status <?= (int) $empresa["ativo"] === 1 ? "workhub-status--success" : "" ?>">

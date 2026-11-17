@@ -11,14 +11,18 @@ if (!isset($tokenCsrfSaida)) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?= escapar_html($tituloPagina) ?></title>
+    <link rel="icon" type="image/png" href="/assets/images/logo-sem-fundo.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/assets/css/app.css" rel="stylesheet">
+    <link href="/assets/css/app.css?v=<?= (int) filemtime(__DIR__ . "/../public/assets/css/app.css") ?>" rel="stylesheet">
 </head>
 <body class="workhub-body">
     <div class="workhub-app-shell">
         <aside class="workhub-sidebar" id="menu-principal" aria-label="Navegação principal">
             <div class="workhub-sidebar__brand">
-                <a class="workhub-brand" href="/painel" aria-label="WorkHub - Dashboard">WorkHub</a>
+                <a class="workhub-company-brand" href="/painel" aria-label="WorkHub - Dashboard">
+                    <img src="/assets/images/logo-sem-fundo.png" alt="">
+                    <span>WorkHub</span>
+                </a>
                 <p>Gestão empresarial</p>
             </div>
 

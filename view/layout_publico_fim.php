@@ -2,7 +2,9 @@
     <footer class="workhub-public-footer">
         <div class="workhub-public-footer__content">
             <div class="workhub-public-footer__brand">
-                <a href="/">WorkHub</a>
+                <a href="/" aria-label="WorkHub - Página inicial">
+                    <img src="/assets/images/logo-sem-fundo.png" alt="WorkHub">
+                </a>
                 <p>Plataforma de Gestão Empresarial para organizar pedidos, produção e prazos.</p>
             </div>
             <nav class="workhub-public-footer__links" aria-label="Links institucionais">

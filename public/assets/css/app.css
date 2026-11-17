@@ -1603,6 +1603,249 @@ body {
     padding: 14px 0;
 }
 
+/* Marca e administração da plataforma */
+.workhub-public-brand img {
+    display: block;
+    height: auto;
+    width: 126px;
+}
+
+.workhub-public-brand small {
+    margin-left: 2px;
+}
+
+.workhub-public-header--admin {
+    justify-content: space-between;
+}
+
+.workhub-public-main--admin {
+    max-width: 1120px;
+}
+
+.workhub-public-footer__brand img {
+    display: block;
+    height: auto;
+    margin-bottom: 16px;
+    width: 132px;
+}
+
+.workhub-company-brand,
+.workhub-admin-brand {
+    align-items: center;
+    color: #ffffff;
+    display: inline-flex;
+    font-size: 1.35rem;
+    font-weight: 700;
+    gap: 8px;
+    letter-spacing: -0.04em;
+    text-decoration: none;
+}
+
+.workhub-company-brand img,
+.workhub-admin-brand img {
+    height: 34px;
+    object-fit: cover;
+    object-position: left center;
+    width: 34px;
+}
+
+.workhub-admin-sidebar {
+    background: #12374c;
+}
+
+.workhub-admin-sidebar__brand {
+    border-bottom: 1px solid rgba(226, 232, 240, 0.18);
+    margin: 0 8px 20px;
+    padding: 2px 0 20px;
+}
+
+.workhub-admin-sidebar > div:first-child {
+    border-bottom: 0;
+    margin: 0;
+    padding: 0;
+}
+
+.workhub-admin-sidebar__brand p {
+    color: #afc5d0;
+    font-size: 0.74rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    margin: 10px 0 0;
+    text-transform: uppercase;
+}
+
+.workhub-admin-sidebar__label {
+    color: #afc5d0;
+    display: block;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.workhub-admin-sidebar__footer .workhub-sidebar__company {
+    margin-top: 5px;
+}
+
+.workhub-admin-topbar {
+    background: rgba(255, 255, 255, 0.94);
+}
+
+.workhub-admin-content {
+    max-width: 1320px;
+}
+
+.workhub-admin-login {
+    align-items: center;
+    display: grid;
+    gap: clamp(48px, 8vw, 124px);
+    grid-template-columns: minmax(0, 0.92fr) minmax(360px, 0.72fr);
+    min-height: calc(100vh - 238px);
+}
+
+.workhub-admin-login__intro h1 {
+    font-size: clamp(2.1rem, 4vw, 3.65rem);
+    letter-spacing: -0.045em;
+    line-height: 1.08;
+    margin: 0 0 18px;
+    max-width: 600px;
+}
+
+.workhub-admin-login__intro > p:not(.workhub-eyebrow) {
+    color: var(--wh-text-muted);
+    font-size: 1.05rem;
+    line-height: 1.7;
+    margin: 0;
+    max-width: 530px;
+}
+
+.workhub-admin-login__context {
+    border-left: 3px solid var(--wh-primary);
+    display: grid;
+    gap: 3px;
+    margin-top: 38px;
+    padding-left: 14px;
+}
+
+.workhub-admin-login__context strong {
+    font-size: 0.95rem;
+}
+
+.workhub-admin-login__context span {
+    color: var(--wh-text-muted);
+    font-size: 0.85rem;
+}
+
+.workhub-auth-card--admin {
+    margin: 0;
+    max-width: 440px;
+    width: 100%;
+}
+
+.workhub-auth-card--admin h2 {
+    font-size: 1.55rem;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    margin: 0 0 8px;
+}
+
+.workhub-metrics--admin {
+    gap: 16px;
+}
+
+.workhub-metrics--admin .workhub-metric {
+    min-height: 160px;
+    padding: 24px;
+}
+
+.workhub-metrics--admin .workhub-metric p {
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.035em;
+    text-transform: uppercase;
+}
+
+.workhub-metrics--admin .workhub-metric strong {
+    font-size: 2.25rem;
+    line-height: 1;
+    margin-top: 16px;
+}
+
+.workhub-metrics--admin .workhub-metric span {
+    color: var(--wh-text-muted);
+    display: block;
+    font-size: 0.82rem;
+    margin-top: 12px;
+}
+
+.workhub-admin-companies {
+    padding: 0;
+}
+
+.workhub-admin-companies__toolbar {
+    border-bottom: 1px solid var(--wh-border);
+    padding: 24px 28px 20px;
+}
+
+.workhub-admin-companies__toolbar h2 {
+    font-size: 1rem;
+    font-weight: 700;
+    margin: 0 0 4px;
+}
+
+.workhub-admin-companies__toolbar p {
+    color: var(--wh-text-muted);
+    font-size: 0.88rem;
+    margin: 0;
+}
+
+.workhub-admin-filters {
+    background: #fbfcfe;
+    border-bottom: 1px solid var(--wh-border);
+    margin: 0;
+    padding: 20px 28px 24px;
+}
+
+.workhub-admin-companies .table-responsive {
+    padding: 8px 28px 20px;
+}
+
+.workhub-admin-companies .workhub-table th {
+    background: transparent;
+    font-size: 0.71rem;
+    letter-spacing: 0.05em;
+    padding-bottom: 13px;
+    padding-top: 16px;
+    text-transform: uppercase;
+}
+
+.workhub-admin-companies .workhub-table td {
+    padding-bottom: 15px;
+    padding-top: 15px;
+}
+
+.workhub-admin-company-details .workhub-form-actions {
+    border-top: 1px solid var(--wh-border);
+    margin-top: 28px;
+    padding-top: 22px;
+}
+
+.workhub-admin-companies .workhub-empty-state {
+    padding: 52px 20px;
+}
+
+.workhub-body--admin .workhub-nav-link.is-active {
+    background: #156a96;
+}
+
+.workhub-body--admin .workhub-logout:focus-visible,
+.workhub-body--admin .workhub-nav-link:focus-visible,
+.workhub-public-brand:focus-visible,
+.workhub-public-footer a:focus-visible {
+    outline: 3px solid #8bc1dc;
+    outline-offset: 3px;
+}
+
 .workhub-operation-steps strong,
 .workhub-operation-steps span {
     display: block;
@@ -1863,6 +2106,12 @@ body {
 
     .workhub-metrics--admin {
         grid-template-columns: 1fr;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1100px) {
+    .workhub-metrics--admin {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
 
@@ -2179,5 +2428,80 @@ body {
 
     .workhub-auth-layout__intro {
         padding-bottom: 0;
+    }
+}
+
+@media (max-width: 899.98px) {
+    .workhub-admin-login {
+        gap: 32px;
+        grid-template-columns: 1fr;
+        margin: 0 auto;
+        max-width: 560px;
+        min-height: auto;
+    }
+
+    .workhub-admin-login__intro {
+        padding-top: 12px;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .workhub-admin-sidebar {
+        box-shadow: 8px 0 24px rgba(15, 35, 48, 0.2);
+        position: fixed;
+        transform: translateX(-100%);
+        transition: transform 160ms ease-out;
+        width: min(280px, 86vw);
+    }
+
+    .workhub-admin-sidebar.is-open {
+        transform: translateX(0);
+    }
+
+    .workhub-admin-content {
+        padding: 24px 16px;
+    }
+
+    .workhub-admin-companies__toolbar,
+    .workhub-admin-filters {
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+
+    .workhub-admin-companies .table-responsive {
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+
+    .workhub-public-brand img {
+        width: 112px;
+    }
+}
+
+@media (max-width: 430px) {
+    .workhub-public-header--admin {
+        min-height: 68px;
+    }
+
+    .workhub-public-main--admin {
+        padding-top: 30px;
+    }
+
+    .workhub-admin-login__intro > p:not(.workhub-eyebrow),
+    .workhub-admin-login__context {
+        display: none;
+    }
+
+    .workhub-admin-login__intro h1 {
+        font-size: 2rem;
+        margin-bottom: 0;
+    }
+
+    .workhub-auth-card--admin {
+        padding: 24px 20px;
+    }
+
+    .workhub-admin-companies__toolbar p {
+        line-height: 1.5;
     }
 }

@@ -17,8 +17,14 @@ require __DIR__ . "/layout_administracao_inicio.php";
     <div class="alert alert-danger" role="alert"><?= escapar_html($_GET["erro"]) ?></div>
 <?php endif; ?>
 
-<section class="workhub-panel">
-    <form class="row g-3 align-items-end mb-4" method="get" action="/administracao/empresas">
+<section class="workhub-panel workhub-admin-companies">
+    <div class="workhub-admin-companies__toolbar">
+        <div>
+            <h2>Consulta de empresas</h2>
+            <p>Pesquise por nome, razão social ou CNPJ e filtre por situação.</p>
+        </div>
+    </div>
+    <form class="row g-3 align-items-end workhub-admin-filters" method="get" action="/administracao/empresas">
         <div class="col-md-6">
             <label class="form-label" for="pesquisa">Pesquisar</label>
             <input class="form-control" id="pesquisa" name="pesquisa" value="<?= escapar_html($pesquisa) ?>"
@@ -32,12 +38,24 @@ require __DIR__ . "/layout_administracao_inicio.php";
                 <option value="0" <?= $situacao === "0" ? "selected" : "" ?>>Desativadas</option>
             </select>
         </div>
-        <div class="col-md-3"><button class="btn btn-outline-primary w-100" type="submit">Filtrar</button></div>
+        <div class="col-md-3">
+            <button class="btn btn-outline-primary w-100" type="submit">Aplicar filtros</button>
+        </div>
     </form>
     <div class="table-responsive">
         <table class="table workhub-table align-middle mb-0">
             <thead>
-                <tr><th>ID</th><th>Nome fantasia</th><th>Razão social</th><th>CNPJ</th><th>E-mail</th><th>Telefone</th><th>Cadastro</th><th>Situação</th><th class="text-end">Ações</th></tr>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome fantasia</th>
+                    <th>Razão social</th>
+                    <th>CNPJ</th>
+                    <th>E-mail</th>
+                    <th>Telefone</th>
+                    <th>Cadastro</th>
+                    <th>Situação</th>
+                    <th class="text-end">Ações</th>
+                </tr>
             </thead>
             <tbody>
                 <?php foreach ($empresas as $empresa): ?>
@@ -73,7 +91,11 @@ require __DIR__ . "/layout_administracao_inicio.php";
                     </tr>
                 <?php endforeach; ?>
                 <?php if (!$empresas): ?>
-                    <tr><td class="workhub-empty-state" colspan="9">Nenhuma empresa encontrada.</td></tr>
+                    <tr>
+                        <td class="workhub-empty-state" colspan="9">
+                            Nenhuma empresa encontrada para os filtros informados.
+                        </td>
+                    </tr>
                 <?php endif; ?>
             </tbody>
         </table>

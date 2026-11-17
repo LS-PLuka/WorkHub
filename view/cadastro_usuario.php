@@ -40,11 +40,11 @@ require __DIR__ . "/layout_empresa_inicio.php";
             </div>
             <div class="col-md-6">
                 <label class="form-label" for="senha">Senha <span aria-hidden="true">*</span></label>
-                <input class="form-control" id="senha" type="password" name="senha" minlength="8" required>
+                <input class="form-control" id="senha" type="password" name="senha" minlength="8" maxlength="72" required>
             </div>
             <div class="col-md-6">
                 <label class="form-label" for="confirmacao_senha">Confirmação de senha <span aria-hidden="true">*</span></label>
-                <input class="form-control" id="confirmacao_senha" type="password" name="confirmacao_senha" minlength="8" required>
+                <input class="form-control" id="confirmacao_senha" type="password" name="confirmacao_senha" minlength="8" maxlength="72" required>
             </div>
         </div>
         <div class="workhub-form-actions">

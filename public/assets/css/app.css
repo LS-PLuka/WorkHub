@@ -1429,6 +1429,214 @@ body {
     padding: 14px 16px;
 }
 
+/* Refinamento editorial da landing pública */
+.workhub-public-hero {
+    gap: 56px;
+    min-height: 530px;
+    padding-bottom: 58px;
+}
+
+.workhub-product-preview {
+    transform: rotate(0.8deg);
+}
+
+.workhub-public-intro,
+.workhub-capabilities,
+.workhub-operation,
+.workhub-benefits {
+    border-top: 1px solid var(--wh-border);
+    padding: 72px 0;
+}
+
+.workhub-public-intro {
+    display: grid;
+    gap: 84px;
+    grid-template-columns: minmax(0, 1.15fr) minmax(300px, 0.85fr);
+}
+
+.workhub-public-intro h2,
+.workhub-capabilities h2,
+.workhub-operation h2,
+.workhub-benefits h2 {
+    font-size: clamp(1.85rem, 3.2vw, 2.65rem);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1.14;
+    margin: 0;
+    max-width: 710px;
+}
+
+.workhub-public-intro__text {
+    border-left: 2px solid #c9dce6;
+    display: grid;
+    gap: 14px;
+    padding-left: 24px;
+}
+
+.workhub-public-intro__text p,
+.workhub-capabilities__heading > p:last-child,
+.workhub-operation__lead {
+    color: var(--wh-text-muted);
+    line-height: 1.65;
+    margin: 0;
+}
+
+.workhub-capabilities {
+    display: grid;
+    gap: 52px;
+    grid-template-columns: minmax(280px, 0.76fr) minmax(0, 1.24fr);
+}
+
+.workhub-capabilities__heading > p:last-child {
+    margin-top: 16px;
+    max-width: 410px;
+}
+
+.workhub-capability-list,
+.workhub-operation-steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.workhub-capability-list {
+    border-top: 1px solid var(--wh-border);
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.workhub-capability-list li {
+    border-bottom: 1px solid var(--wh-border);
+    display: grid;
+    gap: 14px;
+    grid-template-columns: 28px minmax(0, 1fr);
+    min-height: 128px;
+    padding: 20px 20px 20px 0;
+}
+
+.workhub-capability-list li:nth-child(2n) {
+    border-left: 1px solid var(--wh-border);
+    padding-left: 24px;
+}
+
+.workhub-capability-list span {
+    color: var(--wh-primary);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    padding-top: 3px;
+}
+
+.workhub-capability-list h3 {
+    font-size: 0.98rem;
+    font-weight: 700;
+    margin: 0 0 6px;
+}
+
+.workhub-capability-list p {
+    color: var(--wh-text-muted);
+    font-size: 0.87rem;
+    line-height: 1.55;
+    margin: 0;
+}
+
+.workhub-operation {
+    align-items: center;
+    display: grid;
+    gap: 76px;
+    grid-template-columns: minmax(0, 0.9fr) minmax(360px, 1fr);
+}
+
+.workhub-operation__photos {
+    display: grid;
+    gap: 14px;
+    grid-template-columns: minmax(0, 1.18fr) minmax(110px, 0.82fr);
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+    height: 440px;
+}
+
+.workhub-operation figure {
+    background: #e8edf1;
+    border: 1px solid var(--wh-border);
+    border-radius: var(--wh-radius);
+    margin: 0;
+    overflow: hidden;
+}
+
+.workhub-operation__photo-main {
+    grid-row: span 2;
+}
+
+.workhub-operation__photo-detail {
+    align-self: end;
+    grid-row: 2;
+    height: 270px;
+}
+
+.workhub-operation img {
+    display: block;
+    height: 100%;
+    object-fit: cover;
+    width: 100%;
+}
+
+.workhub-operation__photo-main img {
+    object-position: 55% center;
+}
+
+.workhub-operation__photo-detail img {
+    object-position: 62% center;
+}
+
+.workhub-operation__lead {
+    margin-top: 16px;
+    max-width: 520px;
+}
+
+.workhub-operation-steps {
+    border-top: 1px solid var(--wh-border);
+    margin-top: 30px;
+}
+
+.workhub-operation-steps li {
+    border-bottom: 1px solid var(--wh-border);
+    padding: 14px 0;
+}
+
+.workhub-operation-steps strong,
+.workhub-operation-steps span {
+    display: block;
+}
+
+.workhub-operation-steps strong {
+    font-size: 0.92rem;
+}
+
+.workhub-operation-steps span {
+    color: var(--wh-text-muted);
+    font-size: 0.84rem;
+    margin-top: 3px;
+}
+
+.workhub-benefits {
+    align-items: start;
+    display: grid;
+    gap: 80px;
+    grid-template-columns: minmax(0, 0.88fr) minmax(0, 1.12fr);
+}
+
+.workhub-benefit-list {
+    margin: 0;
+}
+
+.workhub-benefit-list div {
+    padding: 16px 0;
+}
+
+.workhub-public-cta {
+    margin-top: 72px;
+}
+
 .workhub-admin-shell {
     min-height: 100vh;
 }
@@ -1570,6 +1778,27 @@ body {
         margin: 0 auto;
         max-width: 560px;
     }
+
+    .workhub-public-intro,
+    .workhub-capabilities,
+    .workhub-operation,
+    .workhub-benefits {
+        gap: 36px;
+        grid-template-columns: 1fr;
+    }
+
+    .workhub-public-intro__text {
+        max-width: 600px;
+    }
+
+    .workhub-capabilities__heading > p:last-child {
+        max-width: 560px;
+    }
+
+    .workhub-operation__photos {
+        max-width: 600px;
+        width: 100%;
+    }
 }
 
 @media (max-width: 430px) {
@@ -1673,6 +1902,62 @@ body {
 
     .workhub-legal-content {
         padding: 26px;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .workhub-public-hero {
+        min-height: 0;
+        padding-bottom: 46px;
+    }
+
+    .workhub-public-intro,
+    .workhub-capabilities,
+    .workhub-operation,
+    .workhub-benefits {
+        padding: 54px 0;
+    }
+
+    .workhub-capability-list {
+        grid-template-columns: 1fr;
+    }
+
+    .workhub-capability-list li,
+    .workhub-capability-list li:nth-child(2n) {
+        border-left: 0;
+        min-height: 0;
+        padding: 18px 0;
+    }
+
+    .workhub-operation__photos {
+        height: 360px;
+    }
+
+    .workhub-operation__photo-detail {
+        height: 210px;
+    }
+}
+
+@media (max-width: 430px) {
+    .workhub-public-intro__text {
+        padding-left: 16px;
+    }
+
+    .workhub-operation__photos {
+        gap: 10px;
+        grid-template-columns: minmax(0, 1.2fr) minmax(88px, 0.8fr);
+        height: 290px;
+    }
+
+    .workhub-operation__photo-detail {
+        height: 168px;
+    }
+
+    .workhub-public-intro h2,
+    .workhub-capabilities h2,
+    .workhub-operation h2,
+    .workhub-benefits h2 {
+        font-size: 1.8rem;
     }
 }
 

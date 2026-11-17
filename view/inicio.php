@@ -11,7 +11,7 @@
             <a class="btn btn-primary" href="/cadastro-empresa">Cadastrar empresa</a>
             <a class="btn btn-outline-primary" href="/entrar">Entrar na plataforma</a>
         </div>
-        <p class="workhub-public-hero__note">Crie sua empresa e comece a estruturar a operação.</p>
+        <p class="workhub-public-hero__note">Comece cadastrando a empresa e estruturando a operação.</p>
     </div>
     <div class="workhub-product-preview" aria-label="Prévia da interface de dashboard do WorkHub">
         <div class="workhub-product-preview__bar">
@@ -36,7 +36,10 @@
                     <div><span>Prontos</span><strong>05</strong></div>
                 </div>
                 <div class="workhub-product-preview__table">
-                    <div class="workhub-product-preview__table-head"><strong>Pedidos recentes</strong><span>Ver todos</span></div>
+                    <div class="workhub-product-preview__table-head">
+                        <strong>Pedidos recentes</strong>
+                        <span>Ver todos</span>
+                    </div>
                     <div><span>#024</span><span>Em produção</span></div>
                     <div><span>#023</span><span>Pronto</span></div>
                     <div><span>#022</span><span>Recebido</span></div>
@@ -46,78 +49,135 @@
     </div>
 </section>
 
-<section class="workhub-public-section" id="funcionalidades" aria-labelledby="titulo-funcionalidades">
-    <div class="workhub-public-section__heading">
-        <p class="workhub-eyebrow">Recursos para a rotina</p>
-        <h2 id="titulo-funcionalidades">Informações essenciais, organizadas para a operação.</h2>
-        <p>Cadastros, pedidos e produção ficam conectados em uma interface direta para consulta e acompanhamento.</p>
-    </div>
-    <div class="workhub-feature-grid">
-        <article><h3>Usuários e perfis</h3><p>Organize os acessos da empresa de acordo com o perfil de cada pessoa.</p></article>
-        <article><h3>Produtos e clientes</h3><p>Mantenha a base de produtos e clientes disponível para o dia a dia.</p></article>
-        <article><h3>Pedidos</h3><p>Registre pedidos, itens e datas previstas de entrega.</p></article>
-        <article><h3>Produção por etapas</h3><p>Acompanhe o status de cada pedido ao longo da produção.</p></article>
-        <article><h3>Dashboard</h3><p>Consulte indicadores, pedidos recentes e alertas de prazo.</p></article>
-        <article><h3>Prazos de entrega</h3><p>Identifique pedidos próximos do vencimento e os que exigem atenção.</p></article>
-    </div>
-</section>
-
-<section class="workhub-public-section workhub-public-section--split" aria-labelledby="titulo-beneficios">
-    <div class="workhub-public-section__heading">
-        <p class="workhub-eyebrow">Uma visão organizada</p>
-        <h2 id="titulo-beneficios">Mais contexto para acompanhar cada pedido.</h2>
-    </div>
-    <div class="workhub-benefit-list">
-        <div><strong>Informações centralizadas</strong><span>Clientes, produtos, pedidos e produção no mesmo ambiente.</span></div>
-        <div><strong>Pedidos bem estruturados</strong><span>Consulte registros, status e itens de cada solicitação.</span></div>
-        <div><strong>Andamento visível</strong><span>Acompanhe a produção por etapas e a situação dos prazos.</span></div>
-        <div><strong>Acesso por perfil</strong><span>Separe o acesso às funcionalidades conforme a responsabilidade.</span></div>
-    </div>
-</section>
-
-<section class="workhub-public-story" aria-labelledby="titulo-producao-organizada">
-    <figure>
-        <img src="/assets/images/producao-oficina.jpg" alt="Pessoa operando uma máquina em uma oficina de produção" width="795"
-            height="1192" loading="lazy">
-    </figure>
+<section class="workhub-public-intro" id="para-quem" aria-labelledby="titulo-publico">
     <div>
-        <p class="workhub-eyebrow">Produção acompanhada</p>
-        <h2 id="titulo-producao-organizada">Acompanhe cada pedido sem perder o contexto da produção.</h2>
-        <p>O status dos pedidos ajuda a visualizar o que foi recebido, está em produção, ficou pronto ou já foi entregue.</p>
-    </div>
-</section>
-
-<section class="workhub-public-section workhub-public-section--audience" id="para-quem" aria-labelledby="titulo-publico">
-    <div class="workhub-public-section__heading">
         <p class="workhub-eyebrow">Para quem é</p>
-        <h2 id="titulo-publico">Feito para empresas que produzem e trabalham com encomendas.</h2>
+        <h2 id="titulo-publico">Para quem produz, atende encomendas e precisa acompanhar o que está em andamento.</h2>
     </div>
-    <p>O WorkHub apoia pequenas empresas produtoras, fabricantes e negócios que precisam organizar pedidos,
-        acompanhar a produção e manter os dados da operação acessíveis.</p>
+    <div class="workhub-public-intro__text">
+        <p>
+            Pequenas empresas produtoras e fabricantes lidam com informações que mudam ao longo do dia: clientes,
+            itens, etapas de produção e datas de entrega.
+        </p>
+        <p>
+            O WorkHub oferece um ambiente único para registrar essas informações e consultá-las na hora certa.
+        </p>
+    </div>
 </section>
 
-<section class="workhub-public-section" id="como-funciona" aria-labelledby="titulo-como-funciona">
-    <div class="workhub-public-section__heading">
-        <p class="workhub-eyebrow">Como funciona</p>
-        <h2 id="titulo-como-funciona">Estruture a operação em quatro passos.</h2>
-    </div>
-    <ol class="workhub-steps">
-        <li><span>01</span><div><h3>Cadastre a empresa</h3><p>Crie o acesso do responsável pela operação.</p></div></li>
-        <li><span>02</span><div><h3>Organize a base</h3><p>Registre produtos, clientes e usuários.</p></div></li>
-        <li><span>03</span><div><h3>Registre pedidos</h3><p>Inclua os itens e a data prevista de entrega.</p></div></li>
-        <li><span>04</span><div><h3>Acompanhe a produção</h3><p>Atualize as etapas e consulte os indicadores.</p></div></li>
+<section class="workhub-capabilities" id="funcionalidades" aria-labelledby="titulo-funcionalidades">
+    <header class="workhub-capabilities__heading">
+        <p class="workhub-eyebrow">Recursos para a rotina</p>
+        <h2 id="titulo-funcionalidades">Do cadastro ao acompanhamento da entrega.</h2>
+        <p>As funcionalidades refletem o fluxo real de gestão já disponível na plataforma.</p>
+    </header>
+    <ol class="workhub-capability-list">
+        <li>
+            <span>01</span>
+            <div>
+                <h3>Equipe e acessos</h3>
+                <p>Gerencie usuários e perfis de acordo com cada responsabilidade.</p>
+            </div>
+        </li>
+        <li>
+            <span>02</span>
+            <div>
+                <h3>Base da operação</h3>
+                <p>Cadastre produtos e mantenha os clientes organizados para consultas futuras.</p>
+            </div>
+        </li>
+        <li>
+            <span>03</span>
+            <div>
+                <h3>Pedidos registrados</h3>
+                <p>Inclua itens, valores e datas previstas de entrega em cada solicitação.</p>
+            </div>
+        </li>
+        <li>
+            <span>04</span>
+            <div>
+                <h3>Produção por etapas</h3>
+                <p>Acompanhe o status desde o recebimento até a entrega do pedido.</p>
+            </div>
+        </li>
+        <li>
+            <span>05</span>
+            <div>
+                <h3>Visão geral</h3>
+                <p>Consulte indicadores, pedidos recentes e alertas de prazo no dashboard.</p>
+            </div>
+        </li>
+        <li>
+            <span>06</span>
+            <div>
+                <h3>Prazos acompanhados</h3>
+                <p>Identifique pedidos próximos do vencimento ou que exigem atenção.</p>
+            </div>
+        </li>
     </ol>
 </section>
 
-<section class="workhub-public-story workhub-public-story--reverse" aria-labelledby="titulo-pedidos-organizados">
-    <figure>
-        <img src="/assets/images/preparacao-pedidos.jpg" alt="Pessoa organizando caixas e etiquetas para preparar pedidos" width="819"
-            height="1228" loading="lazy">
-    </figure>
-    <div>
-        <p class="workhub-eyebrow">Pedidos bem estruturados</p>
-        <h2 id="titulo-pedidos-organizados">Da organização do cliente à preparação do pedido.</h2>
-        <p>Registre clientes, produtos, itens e a data prevista de entrega para consultar as informações quando precisar.</p>
+<section class="workhub-operation" id="como-funciona" aria-labelledby="titulo-como-funciona">
+    <div class="workhub-operation__photos">
+        <figure class="workhub-operation__photo-main">
+            <img src="/assets/images/producao-oficina.jpg"
+                alt="Pessoa operando uma máquina em uma oficina de produção" width="795" height="1192" loading="lazy">
+        </figure>
+        <figure class="workhub-operation__photo-detail">
+            <img src="/assets/images/preparacao-pedidos.jpg"
+                alt="Pessoa organizando caixas e etiquetas para preparar pedidos" width="819" height="1228"
+                loading="lazy">
+        </figure>
+    </div>
+    <div class="workhub-operation__content">
+        <p class="workhub-eyebrow">Como funciona</p>
+        <h2 id="titulo-como-funciona">Um fluxo direto, da organização à entrega.</h2>
+        <p class="workhub-operation__lead">
+            O WorkHub acompanha a rotina como ela acontece: primeiro a base, depois o pedido e, por fim, a produção.
+        </p>
+        <ol class="workhub-operation-steps">
+            <li>
+                <strong>Cadastre a empresa e o responsável.</strong>
+                <span>Crie o acesso inicial à plataforma.</span>
+            </li>
+            <li>
+                <strong>Organize produtos, clientes e usuários.</strong>
+                <span>Mantenha a base pronta para o dia a dia.</span>
+            </li>
+            <li>
+                <strong>Registre pedidos e datas de entrega.</strong>
+                <span>Centralize os itens e informações da solicitação.</span>
+            </li>
+            <li>
+                <strong>Acompanhe as etapas da produção.</strong>
+                <span>Consulte o status e os alertas de prazo.</span>
+            </li>
+        </ol>
+    </div>
+</section>
+
+<section class="workhub-benefits" aria-labelledby="titulo-beneficios">
+    <header>
+        <p class="workhub-eyebrow">Mais clareza na operação</p>
+        <h2 id="titulo-beneficios">Informações organizadas para apoiar cada decisão da rotina.</h2>
+    </header>
+    <div class="workhub-benefit-list">
+        <div>
+            <strong>Informações centralizadas</strong>
+            <span>Clientes, produtos, pedidos e produção no mesmo ambiente.</span>
+        </div>
+        <div>
+            <strong>Pedidos bem estruturados</strong>
+            <span>Consulte registros, status, itens e prazos em cada solicitação.</span>
+        </div>
+        <div>
+            <strong>Andamento visível</strong>
+            <span>Acompanhe a produção por etapas e a situação das entregas.</span>
+        </div>
+        <div>
+            <strong>Acesso por perfil</strong>
+            <span>Separe o acesso às funcionalidades conforme a responsabilidade.</span>
+        </div>
     </div>
 </section>
 

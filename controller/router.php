@@ -65,6 +65,12 @@ function rotear_requisicao($uriRequisicao)
         return;
     }
 
+    if ($caminho === "/minha-empresa") {
+        require __DIR__ . "/empresa_controller.php";
+        exibir_minha_empresa();
+        return;
+    }
+
     if ($caminho === "/sair") {
         require __DIR__ . "/autenticacao_controller.php";
         sair();

@@ -77,6 +77,16 @@ O gerenciamento de usuários é exclusivo do Proprietário e está disponível e
 docker compose exec app php scripts/testar_usuarios.php
 ```
 
+## Minha Empresa
+
+O Proprietário consulta e atualiza os dados cadastrais de sua própria empresa em
+`/minha-empresa`. O CNPJ e a situação cadastral são apenas informativos; o formulário permite
+alterar razão social, nome fantasia, e-mail de contato e telefone.
+
+```powershell
+docker compose exec app php scripts/testar_minha_empresa.php
+```
+
 ## Dashboard empresarial
 
 O dashboard está disponível em `/dashboard`; `/painel` permanece como rota compatível para a mesma página.

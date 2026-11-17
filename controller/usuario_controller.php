@@ -14,7 +14,7 @@ function validar_dados_usuario($dadosUsuario, $senha = null, $confirmacaoSenha =
     if (strlen($dadosUsuario["nome"]) > 150) {
         $erros[] = "Nome ultrapassa o tamanho permitido.";
     }
-    if (filter_var($dadosUsuario["email"], FILTER_VALIDATE_EMAIL) === false || strlen($dadosUsuario["email"]) > 150) {
+    if (!email_tem_formato_valido($dadosUsuario["email"]) || strlen($dadosUsuario["email"]) > 150) {
         $erros[] = "E-mail é inválido.";
     }
     if (!in_array($dadosUsuario["perfil"], ["GERENTE", "FUNCIONARIO"], true)) {

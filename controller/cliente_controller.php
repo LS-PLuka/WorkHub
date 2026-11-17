@@ -17,7 +17,7 @@ function validar_dados_cliente($dados)
     }
     if (
         $dados["email"] !== "" &&
-        (filter_var($dados["email"], FILTER_VALIDATE_EMAIL) === false || strlen($dados["email"]) > 150)
+        (!email_tem_formato_valido($dados["email"]) || strlen($dados["email"]) > 150)
     ) {
         $erros[] = "E-mail inválido.";
     }

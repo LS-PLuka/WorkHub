@@ -34,6 +34,9 @@ if (!isset($tokenCsrfSaida)) {
                     <a class="workhub-nav-link <?= $paginaAtual === "usuarios" ? "is-active" : "" ?>" href="/usuarios">
                         Usuários
                     </a>
+                    <a class="workhub-nav-link <?= $paginaAtual === "minha_empresa" ? "is-active" : "" ?>" href="/minha-empresa">
+                        Minha empresa
+                    </a>
                 <?php endif; ?>
                 <a class="workhub-nav-link <?= $paginaAtual === "produtos" ? "is-active" : "" ?>" href="/produtos">
                     Produtos

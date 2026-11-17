@@ -32,6 +32,54 @@ function email_usuario_existe($conexao, $email)
     return $existe;
 }
 
+function buscar_empresa_por_id($conexao, $idEmpresa)
+{
+    $comando = mysqli_prepare(
+        $conexao,
+        "SELECT id, nome_fantasia, razao_social, cnpj, email, telefone, ativo
+         FROM empresas
+         WHERE id = ?
+         LIMIT 1",
+    );
+    if ($comando === false) {
+        return false;
+    }
+
+    mysqli_stmt_bind_param($comando, "i", $idEmpresa);
+    if (mysqli_stmt_execute($comando) === false) {
+        mysqli_stmt_close($comando);
+        return false;
+    }
+
+    $resultado = mysqli_stmt_get_result($comando);
+    $empresa = $resultado === false ? false : mysqli_fetch_assoc($resultado);
+    if ($resultado !== false) {
+        mysqli_free_result($resultado);
+    }
+    mysqli_stmt_close($comando);
+
+    return is_array($empresa) ? $empresa : false;
+}
+
+function atualizar_dados_cadastrais_empresa($conexao, $idEmpresa, $nomeFantasia, $razaoSocial, $email, $telefone)
+{
+    $comando = mysqli_prepare(
+        $conexao,
+        "UPDATE empresas
+         SET nome_fantasia = ?, razao_social = ?, email = ?, telefone = ?
+         WHERE id = ?",
+    );
+    if ($comando === false) {
+        return false;
+    }
+
+    mysqli_stmt_bind_param($comando, "ssssi", $nomeFantasia, $razaoSocial, $email, $telefone, $idEmpresa);
+    $sucesso = mysqli_stmt_execute($comando);
+    mysqli_stmt_close($comando);
+
+    return $sucesso;
+}
+
 /** Cria empresa ativa e seu Proprietário ativo na mesma transação. */
 function cadastrar_empresa_com_proprietario($conexao, $empresa, $proprietario, $confirmarTransacao = true)
 {

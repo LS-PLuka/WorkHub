@@ -41,6 +41,11 @@ function normalizar_telefone($telefone)
     return preg_replace('/\D/', '', $telefone);
 }
 
+function email_tem_formato_valido($email)
+{
+    return filter_var($email, FILTER_VALIDATE_EMAIL) !== false;
+}
+
 function ddd_brasileiro_eh_valido($ddd)
 {
     $dddsValidos = [
@@ -78,6 +83,7 @@ function formatar_telefone($telefone)
 
 function senha_tem_tamanho_valido($senha)
 {
+    // password_hash com bcrypt aceita, no máximo, 72 bytes da senha em UTF-8.
     return strlen($senha) >= 8 && strlen($senha) <= 72;
 }
 
@@ -148,7 +154,7 @@ function validar_cadastro_empresa($formulario, $senha, $confirmacaoSenha)
         ["email_empresa" => "E-mail da empresa", "email_responsavel" => "E-mail do responsável"]
         as $campo => $rotulo
     ) {
-        if ($formulario[$campo] !== "" && filter_var($formulario[$campo], FILTER_VALIDATE_EMAIL) === false) {
+        if ($formulario[$campo] !== "" && !email_tem_formato_valido($formulario[$campo])) {
             $erros[] = "{$rotulo} é inválido.";
         }
     }
@@ -176,6 +182,107 @@ function validar_cadastro_empresa($formulario, $senha, $confirmacaoSenha)
     }
 
     return $erros;
+}
+
+function validar_dados_minha_empresa($dadosEmpresa)
+{
+    $erros = [];
+    $camposObrigatorios = [
+        "nome_fantasia" => "Nome fantasia",
+        "razao_social" => "Razão social",
+        "email" => "E-mail de contato",
+        "telefone" => "Telefone",
+    ];
+
+    foreach ($camposObrigatorios as $campo => $rotulo) {
+        if ($dadosEmpresa[$campo] === "") {
+            $erros[] = "{$rotulo} é obrigatório.";
+        }
+    }
+
+    if ($dadosEmpresa["telefone"] !== "" && !telefone_celular_eh_valido($dadosEmpresa["telefone"])) {
+        $erros[] = "Informe um celular brasileiro válido no formato (99) 99999-9999.";
+    }
+
+    if ($dadosEmpresa["email"] !== "" && !email_tem_formato_valido($dadosEmpresa["email"])) {
+        $erros[] = "E-mail de contato é inválido.";
+    }
+
+    $limites = [
+        "nome_fantasia" => 150,
+        "razao_social" => 200,
+        "email" => 150,
+        "telefone" => 20,
+    ];
+    foreach ($limites as $campo => $limite) {
+        if (strlen($dadosEmpresa[$campo]) > $limite) {
+            $erros[] = "Um dos campos informados ultrapassa o tamanho permitido.";
+            break;
+        }
+    }
+
+    return $erros;
+}
+
+function exibir_minha_empresa()
+{
+    $contexto = exigir_permissao(["PROPRIETARIO"]);
+    $conexao = conectar_banco_dados();
+    $empresa = $conexao === false
+        ? false
+        : buscar_empresa_por_id($conexao, (int) $contexto["empresa_id"]);
+
+    if ($empresa === false) {
+        if ($conexao !== false) {
+            mysqli_close($conexao);
+        }
+        http_response_code(404);
+        echo "Empresa não encontrada.";
+        return;
+    }
+
+    $tituloPagina = "Minha empresa | WorkHub";
+    $erros = [];
+    $mensagem = isset($_GET["atualizacao"]) ? "Dados cadastrais atualizados com sucesso." : "";
+
+    if ($_SERVER["REQUEST_METHOD"] === "POST") {
+        $dadosEmpresa = [
+            "nome_fantasia" => trim($_POST["nome_fantasia"] ?? ""),
+            "razao_social" => trim($_POST["razao_social"] ?? ""),
+            "email" => strtolower(trim($_POST["email"] ?? "")),
+            "telefone" => trim($_POST["telefone"] ?? ""),
+        ];
+
+        if (!validar_token_csrf("minha_empresa", $_POST["token_csrf"] ?? "")) {
+            $erros[] = "Não foi possível validar o envio do formulário.";
+        }
+        $erros = array_merge($erros, validar_dados_minha_empresa($dadosEmpresa));
+
+        if (!$erros) {
+            $telefoneNormalizado = normalizar_telefone($dadosEmpresa["telefone"]);
+            if (
+                atualizar_dados_cadastrais_empresa(
+                    $conexao,
+                    (int) $contexto["empresa_id"],
+                    $dadosEmpresa["nome_fantasia"],
+                    $dadosEmpresa["razao_social"],
+                    $dadosEmpresa["email"],
+                    $telefoneNormalizado,
+                )
+            ) {
+                mysqli_close($conexao);
+                header("Location: /minha-empresa?atualizacao=1");
+                exit();
+            }
+            $erros[] = "Não foi possível atualizar os dados cadastrais.";
+        }
+
+        $empresa = array_merge($empresa, $dadosEmpresa);
+    }
+
+    mysqli_close($conexao);
+    $tokenCsrf = gerar_token_csrf("minha_empresa");
+    require __DIR__ . "/../view/minha_empresa.php";
 }
 
 function exibir_cadastro_empresa()

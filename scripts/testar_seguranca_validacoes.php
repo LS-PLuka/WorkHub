@@ -38,6 +38,10 @@ afirmar_seguranca(
 );
 afirmar_seguranca(!senha_tem_tamanho_valido(str_repeat("a", 73)), "senha acima do limite bcrypt é rejeitada");
 afirmar_seguranca(senha_tem_tamanho_valido(str_repeat("a", 72)), "senha no limite bcrypt é aceita");
+afirmar_seguranca(
+    !senha_tem_tamanho_valido(str_repeat("á", 37)),
+    "senha multibyte acima de 72 bytes é rejeitada",
+);
 
 $conexao = conectar_banco_dados();
 afirmar_seguranca($conexao !== false, "conexão com banco disponível para rate limiting");

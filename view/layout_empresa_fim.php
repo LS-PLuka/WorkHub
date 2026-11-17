@@ -24,6 +24,10 @@
                 .workhub-page {
                     margin-left: 0;
                 }
+
+                .workhub-menu-toggle {
+                    display: none;
+                }
             }
         </style>
     </noscript>

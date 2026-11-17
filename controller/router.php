@@ -23,9 +23,9 @@ function rotear_requisicao($uriRequisicao)
         return;
     }
 
-    if ($caminho === "/painel") {
-        require __DIR__ . "/autenticacao_controller.php";
-        exibir_painel();
+    if ($caminho === "/painel" || $caminho === "/dashboard") {
+        require __DIR__ . "/dashboard_controller.php";
+        exibir_dashboard();
         return;
     }
 

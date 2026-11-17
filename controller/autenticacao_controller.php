@@ -42,7 +42,7 @@ function exibir_entrada()
     iniciar_sessao_segura();
 
     if (obter_contexto_autenticado() !== false) {
-        header("Location: /painel");
+        header("Location: /dashboard");
         exit();
     }
 
@@ -63,7 +63,7 @@ function exibir_entrada()
         } elseif (!autenticar_usuario(strtolower($emailUsuario), $senha)) {
             $erros[] = "E-mail ou senha inválidos.";
         } else {
-            header("Location: /painel");
+            header("Location: /dashboard");
             exit();
         }
     }
@@ -74,11 +74,8 @@ function exibir_entrada()
 
 function exibir_painel()
 {
-    $contexto = exigir_autenticacao();
-    $tituloPagina = "Painel | WorkHub";
-    $tokenCsrfSaida = gerar_token_csrf("saida");
-
-    require __DIR__ . "/../view/painel.php";
+    require_once __DIR__ . "/dashboard_controller.php";
+    exibir_dashboard();
 }
 
 function sair()

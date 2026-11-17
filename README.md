@@ -1,6 +1,7 @@
-# WorkHub — Etapa 4
+# WorkHub — Etapa 8A
 
-Base do WorkHub com ambiente Docker, schema relacional, cadastro transacional de empresas e autenticação empresarial por sessão. Não há CRUDs de negócio ou indicadores no painel.
+Base do WorkHub com ambiente Docker, cadastro empresarial, autenticação, usuários, produtos, clientes,
+pedidos, acompanhamento de produção e dashboard empresarial por sessão.
 
 ## Requisitos
 
@@ -74,6 +75,23 @@ O gerenciamento de usuários é exclusivo do Proprietário e está disponível e
 
 ```powershell
 docker compose exec app php scripts/testar_usuarios.php
+```
+
+## Dashboard empresarial
+
+O dashboard está disponível em `/dashboard`; `/painel` permanece como rota compatível para a mesma página.
+Proprietário, Gerente e Funcionário visualizam apenas dados da empresa presente na sessão validada no servidor.
+
+Os indicadores consideram somente pedidos com `ativo = 1`. O total inclui todos os status ativos, inclusive
+`CANCELADO`; os cartões de produção contam apenas seu status. O valor do período soma `pedidos.valor_total`
+pela data de criação, incluindo as datas inicial e final, e exclui pedidos cancelados. Ele representa pedidos
+registrados, não recebimentos. Os valores usam `DECIMAL` no banco e são somente formatados para exibição.
+
+Alertas de prazo excluem pedidos entregues e cancelados: atrasados possuem entrega anterior a hoje, e próximos
+do vencimento possuem entrega entre hoje e os dois dias seguintes, inclusive.
+
+```powershell
+docker compose exec app php scripts/testar_dashboard.php
 ```
 
 ## Clientes

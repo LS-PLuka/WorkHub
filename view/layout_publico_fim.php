@@ -26,7 +26,7 @@
         </div>
         <div class="workhub-public-footer__bottom">
             <span>WorkHub — Plataforma de Gestão Empresarial</span>
-            <span>Documentos em versão preliminar, sujeitos à revisão do responsável pelo projeto.</span>
+            <span>Organize seu negócio. Gerencie sua produção.</span>
         </div>
     </footer>
     <script src="/assets/js/mascaras_formulario.js"></script>

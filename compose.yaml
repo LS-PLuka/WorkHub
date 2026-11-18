@@ -1,9 +1,11 @@
+name: ${COMPOSE_PROJECT_NAME:-workhub}
+
 services:
   app:
     build:
       context: .
     ports:
-      - "${APP_PORT:-8080}:80"
+      - "${APP_BIND_ADDRESS:-0.0.0.0}:${APP_PORT:-8080}:80"
     environment:
       DB_HOST: db
       DB_PORT: 3306
@@ -11,9 +13,9 @@ services:
       DB_USER: ${MYSQL_USER}
       DB_PASSWORD: ${MYSQL_PASSWORD}
       APP_ENV: ${APP_ENV:-local}
-      SESSAO_COOKIE_SECURE: "false"
-      PROXY_REVERSO_CONFIAVEL: "false"
-      APP_CHAVE_RATE_LIMIT: ${APP_CHAVE_RATE_LIMIT:-}
+      SESSAO_COOKIE_SECURE: ${SESSAO_COOKIE_SECURE:-false}
+      PROXY_REVERSO_CONFIAVEL: ${PROXY_REVERSO_CONFIAVEL:-false}
+      APP_CHAVE_RATE_LIMIT: ${APP_CHAVE_RATE_LIMIT}
       ADMIN_BOOTSTRAP_HABILITADO: ${ADMIN_BOOTSTRAP_HABILITADO:-false}
       ADMIN_INICIAL_NOME: ${ADMIN_INICIAL_NOME:-}
       ADMIN_INICIAL_EMAIL: ${ADMIN_INICIAL_EMAIL:-}
@@ -21,8 +23,6 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    volumes:
-      - ./:/var/www/html
     restart: unless-stopped
 
   db:
@@ -43,5 +43,25 @@ services:
       start_period: 10s
     restart: unless-stopped
 
+  caddy:
+    image: caddy:2.8-alpine
+    profiles: ["https"]
+    environment:
+      WORKHUB_DOMINIO: ${WORKHUB_DOMINIO:-workhub.exemplo.com}
+    depends_on:
+      app:
+        condition: service_healthy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    restart: unless-stopped
+
 volumes:
   mysql_data:
+    name: ${MYSQL_VOLUME_NAME:-workhub_mysql_data}
+  caddy_data:
+  caddy_config:

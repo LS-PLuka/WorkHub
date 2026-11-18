@@ -143,7 +143,15 @@ Na primeira inicialização, o administrador local é criado automaticamente. Ac
 
 São credenciais fictícias destinadas ao ambiente acadêmico local. A senha é armazenada com bcrypt, e o bootstrap é idempotente: ele não altera administradores existentes.
 
-As configurações de demonstração e produção continuam separadas em `compose.demo.yaml` e `compose.prod.yaml`, com seus respectivos ambientes e proteções.
+O projeto usa um único `compose.yaml`. Na EC2, copie o mesmo modelo para `.env` e altere somente
+o ambiente, as credenciais, a porta, a chave de rate limiting e o bootstrap. Para a demonstração HTTP,
+use `APP_ENV=demo`, `APP_PORT=80` e `ADMIN_BOOTSTRAP_HABILITADO=false`. Para HTTPS, configure um
+domínio real, use `APP_ENV=production`, `SESSAO_COOKIE_SECURE=true`,
+`PROXY_REVERSO_CONFIAVEL=true`, `APP_BIND_ADDRESS=127.0.0.1` e execute:
+
+~~~bash
+docker compose --profile https up -d --build
+~~~
 
 ## Segurança
 
@@ -180,9 +188,7 @@ WorkHub/
 ├── docker/        # Apache, entrypoint e Caddy
 ├── scripts/       # Bootstrap e verificações
 ├── docs/          # Referências de implantação
-├── compose.yaml   # Ambiente local
-├── compose.demo.yaml
-├── compose.prod.yaml
+├── compose.yaml   # Ambiente local, demonstração e HTTPS opcional
 └── Dockerfile
 ~~~
 

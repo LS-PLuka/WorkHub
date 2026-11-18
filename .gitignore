@@ -1,4 +1,5 @@
 .env
+# Arquivo legado de demonstração; mantenha ignorado caso exista localmente.
 .env.demo
 scripts/popular_dados_demo.php
 

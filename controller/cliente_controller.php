@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . "/../config/sessao.php";
+require_once __DIR__ . "/../config/formatacao.php";
 require_once __DIR__ . "/../model/cliente.php";
 require_once __DIR__ . "/../model/pedido.php";
 require_once __DIR__ . "/empresa_controller.php";

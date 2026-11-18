@@ -1,12 +1,8 @@
 <?php
 require_once __DIR__ . "/../config/sessao.php";
+require_once __DIR__ . "/../config/formatacao.php";
 require_once __DIR__ . "/../model/pedido.php";
 require_once __DIR__ . "/empresa_controller.php";
-
-function formatar_valor_pedido($valor)
-{
-    return number_format((float) $valor, 2, ",", ".");
-}
 
 function data_pedido_valida($data)
 {

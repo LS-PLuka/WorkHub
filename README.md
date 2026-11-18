@@ -1,173 +1,81 @@
-# WorkHub — Etapa 8A
+# WorkHub
 
-Base do WorkHub com ambiente Docker, cadastro empresarial, autenticação, usuários, produtos, clientes,
-pedidos, acompanhamento de produção e dashboard empresarial por sessão.
+Plataforma de Gestão Empresarial em PHP 8.3, Apache, MySQL 8.4 e Docker Compose.
 
-## Requisitos
+## Instalação local
 
-- Docker Desktop com Docker Compose v2
+Pré-requisitos: Git, Docker Desktop com Compose v2 (Windows 11) ou Docker Engine e o plugin
+Compose (Ubuntu 24.04). As portas `8080` e as portas internas do Docker devem estar disponíveis.
 
-## Executar
+1. Clone o repositório e entre no diretório.
+2. Crie o arquivo local de configuração: `Copy-Item .env.example .env` no PowerShell ou
+   `cp .env.example .env` no Linux.
+3. Altere, no mínimo, `MYSQL_PASSWORD`, `MYSQL_ROOT_PASSWORD`, `ADMIN_INICIAL_EMAIL`,
+   `ADMIN_INICIAL_SENHA` e `APP_CHAVE_RATE_LIMIT`. Mantenha `DB_*` consistente com `MYSQL_*`.
+4. Inicie: `docker compose up -d --build`.
+5. Verifique: `docker compose ps` e `docker compose logs --tail=100 app db`.
+6. Acesse [http://localhost:8080](http://localhost:8080) e entre em
+   `/administracao/entrar` com o administrador inicial configurado.
 
-1. Crie o arquivo local de variáveis e altere as senhas de exemplo:
+O bootstrap administrativo é exclusivamente local: requer `APP_ENV=local` (ou
+`development`/`desenvolvimento`) e `ADMIN_BOOTSTRAP_HABILITADO=true`. Ele só cria a conta quando
+não existe outro administrador e nunca redefine uma senha existente. Para criar um administrador
+fora desse cenário, use `docker compose exec -it app php scripts/criar_administrador.php`.
 
-   ```powershell
-   Copy-Item .env.example .env
-   ```
-
-2. Inicie os serviços:
-
-   ```powershell
-   docker compose up -d --build
-   ```
-
-3. Abra [http://localhost:8080](http://localhost:8080).
-
-O MySQL não publica porta para a máquina host. Os dados ficam no volume nomeado `mysql_data` e persistem entre reinicializações dos contêineres.
-
-## Aplicar o schema
-
-Em um volume novo, o MySQL executa automaticamente os scripts de `database/` na primeira inicialização. Para aplicar o schema em um banco já inicializado, sem apagar volume ou banco, execute:
+O MySQL não é publicado no host. O volume nomeado `mysql_data` persiste entre `docker compose down`
+e uma nova inicialização. Os SQLs em `database/` são processados pelo MySQL somente quando o volume
+é novo; para um banco já existente, aplique o schema conscientemente após revisar a alteração:
 
 ```powershell
 Get-Content -Raw database/schema.sql | docker compose exec -T db sh -c 'mysql -u"$MYSQL_USER" -p"$MYSQL_PASSWORD" "$MYSQL_DATABASE"'
 ```
 
-O script usa `CREATE TABLE IF NOT EXISTS`; ele não executa `DROP DATABASE`, `DROP TABLE` ou exclusões de dados.
+Não use `docker compose down -v` a menos que queira apagar deliberadamente os dados locais.
 
-## Verificar banco e integridade
-
-Após os serviços estarem saudáveis, execute:
+## Verificação e testes
 
 ```powershell
 docker compose exec app php scripts/verificar_conexao_banco.php
-```
-
-Para validar tabelas, colunas e as principais restrições de integridade:
-
-```powershell
 docker compose exec app php scripts/verificar_banco.php
-```
-
-Os testes usam uma transação com `ROLLBACK`, portanto não mantêm dados fictícios.
-
-## Cadastro de empresas
-
-A página pública de cadastro está disponível em [http://localhost:8080/cadastro-empresa](http://localhost:8080/cadastro-empresa). Ela cria a empresa ativa e um único usuário ativo com perfil `PROPRIETARIO` em uma transação MySQL.
-
-Para executar os testes específicos do cadastro, sem persistir dados fictícios:
-
-```powershell
 docker compose exec app php scripts/testar_cadastro_empresa.php
-```
-
-## Autenticação
-
-A entrada está disponível em [http://localhost:8080/entrar](http://localhost:8080/entrar). Após autenticar, o usuário empresarial ativo é direcionado para `/painel`. A saída usa POST protegido por token CSRF.
-
-```powershell
 docker compose exec app php scripts/testar_autenticacao.php
-```
-
-## Usuários
-
-O gerenciamento de usuários é exclusivo do Proprietário e está disponível em `/usuarios` após a autenticação.
-
-```powershell
-docker compose exec app php scripts/testar_usuarios.php
-```
-
-## Minha Empresa
-
-O Proprietário consulta e atualiza os dados cadastrais de sua própria empresa em
-`/minha-empresa`. O CNPJ e a situação cadastral são apenas informativos; o formulário permite
-alterar razão social, nome fantasia, e-mail de contato e telefone.
-
-```powershell
-docker compose exec app php scripts/testar_minha_empresa.php
-```
-
-## Dashboard empresarial
-
-O dashboard está disponível em `/dashboard`; `/painel` permanece como rota compatível para a mesma página.
-Proprietário, Gerente e Funcionário visualizam apenas dados da empresa presente na sessão validada no servidor.
-
-Os indicadores consideram somente pedidos com `ativo = 1`. O total inclui todos os status ativos, inclusive
-`CANCELADO`; os cartões de produção contam apenas seu status. O valor do período soma `pedidos.valor_total`
-pela data de criação, incluindo as datas inicial e final, e exclui pedidos cancelados. Ele representa pedidos
-registrados, não recebimentos. Os valores usam `DECIMAL` no banco e são somente formatados para exibição.
-
-Alertas de prazo excluem pedidos entregues e cancelados: atrasados possuem entrega anterior a hoje, e próximos
-do vencimento possuem entrega entre hoje e os dois dias seguintes, inclusive.
-
-```powershell
-docker compose exec app php scripts/testar_dashboard.php
-```
-
-## Administração da plataforma
-
-A área global está em `/administracao` e utiliza autenticação própria em
-`/administracao/entrar`. Ela é isolada das contas empresariais e permite consultar empresas, seus dados
-cadastrais, indicadores de situação e ativar ou desativar empresas sem apagar dados.
-
-Para criar o primeiro administrador, execute exclusivamente no terminal do contêiner e informe os dados quando
-solicitado. A senha não é exibida nem armazenada no código-fonte:
-
-```powershell
-docker compose exec -it app php scripts/criar_administrador.php
-```
-
-### Bootstrap local opcional
-
-Para preparar automaticamente apenas o primeiro administrador durante a inicialização local do contêiner, adicione
-as variáveis abaixo ao arquivo `.env` local. O arquivo é ignorado pelo Git e não deve receber credenciais de produção:
-
-```dotenv
-APP_ENV=local
-ADMIN_BOOTSTRAP_HABILITADO=true
-ADMIN_INICIAL_NOME=Administrador local
-ADMIN_INICIAL_EMAIL=<e-mail-local-do-administrador>
-ADMIN_INICIAL_SENHA=<senha-local-com-ao-menos-8-caracteres>
-```
-
-O bootstrap só atua em `local`, `development` ou `desenvolvimento`, e somente quando habilitado explicitamente. Em
-produção, ele é ignorado mesmo se a variável de habilitação estiver definida. A conta é criada apenas quando não há
-nenhum administrador da plataforma; reinicializações não criam duplicatas nem alteram senhas. O script CLI manual
-continua sendo o procedimento indicado para ambientes de produção.
-
-```powershell
 docker compose exec app php scripts/testar_administracao.php
-```
-
-```powershell
 docker compose exec app php scripts/testar_bootstrap_administrador.php
-```
-
-## Clientes
-
-O gerenciamento de clientes está disponível em `/clientes` para usuários autenticados. O histórico de pedidos de cada cliente será implementado após a criação do módulo de pedidos.
-
-```powershell
+docker compose exec app php scripts/testar_usuarios.php
+docker compose exec app php scripts/testar_minha_empresa.php
 docker compose exec app php scripts/testar_clientes.php
+docker compose exec app php scripts/testar_produtos.php
+docker compose exec app php scripts/testar_pedidos.php
+docker compose exec app php scripts/testar_detalhes_cliente.php
+docker compose exec app php scripts/testar_dashboard.php
+docker compose exec app php scripts/testar_seguranca_validacoes.php
 ```
 
-## Parar o ambiente
+Os scripts de testes transacionais usam `ROLLBACK` e não mantêm dados de teste. Para investigar
+falhas, consulte `docker compose logs app`, `docker compose logs db` e o HTML/headers retornados.
 
-```powershell
-docker compose down
+Problemas comuns: no Windows, confirme que Docker Desktop está iniciado e que a porta 8080 não está
+ocupada; no Linux, confirme acesso do usuário ao Docker (`docker ps`) e não converta scripts `.sh`
+para CRLF. O repositório força LF para scripts e arquivos de contêiner via `.gitattributes`.
+
+## Produção e AWS EC2
+
+`compose.prod.yaml` é uma composição independente para produção: não possui bind mount de código,
+não publica MySQL e põe Apache atrás do Caddy. Requer um domínio público já apontado à instância e
+um `.env` de produção, fora do Git, com senhas e `APP_CHAVE_RATE_LIMIT` fortes, `APP_ENV=production`,
+`SESSAO_COOKIE_SECURE=true`, `ADMIN_BOOTSTRAP_HABILITADO=false`, `PROXY_REVERSO_CONFIAVEL=true` e
+`WORKHUB_DOMINIO` definido. Inicie-a com:
+
+```sh
+docker compose --env-file .env -f compose.prod.yaml up -d --build
 ```
 
-Use `docker compose down -v` somente se quiser apagar deliberadamente os dados persistidos do banco.
+Não execute essa composição até concluir o checklist em
+[docs/deploy_aws_ec2.md](docs/deploy_aws_ec2.md). Ela não configura AWS, DNS ou certificados sem um
+domínio válido.
 
 ## Estrutura
 
-```text
-config/       Configuração de banco de dados
-controller/   Controle de rotas e página inicial
-model/        Funções de acesso a dados (reservado para próximas etapas)
-view/         Páginas visuais
-public/       Único diretório servido pelo Apache
-database/     Schema SQL e scripts de banco
-scripts/      Verificações executadas apenas no terminal
-docker/       Configuração do Apache
-```
+`config/` contém configuração; `controller/`, `model/` e `view/` formam o MVC simplificado;
+`public/` é a raiz Apache; `database/` contém schema; `scripts/` contém verificações de terminal; e
+`docker/` contém Apache, entrada e proxy de produção.

@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . "/../config/sessao.php";
+require_once __DIR__ . "/../config/formatacao.php";
 require_once __DIR__ . "/../model/dashboard.php";
 require_once __DIR__ . "/empresa_controller.php";
 
@@ -40,13 +41,7 @@ function obter_periodo_dashboard($dados)
 
 function formatar_valor_dashboard($valor)
 {
-    $valor = (string) $valor;
-    if (!preg_match('/^(\d+)(?:\.(\d{1,2}))?$/', $valor, $partes)) {
-        return "0,00";
-    }
-    $inteiro = $partes[1];
-    $centavos = str_pad($partes[2] ?? "", 2, "0");
-    return number_format((int) $inteiro, 0, ",", ".") . "," . $centavos;
+    return formatar_valor_pedido($valor);
 }
 
 function exibir_dashboard()

@@ -15,7 +15,10 @@ require __DIR__ . "/layout_administracao_inicio.php";
 
 <section class="workhub-panel workhub-admin-company-details">
     <div class="workhub-section-heading">
-        <div><h2>Dados cadastrais</h2><p>Informações fornecidas no cadastro da empresa.</p></div>
+        <div>
+            <h2>Dados cadastrais</h2>
+            <p>Informações fornecidas no cadastro da empresa.</p>
+        </div>
         <span class="workhub-status <?= (int) $empresa["ativo"] === 1 ? "workhub-status--success" : "" ?>">
             <?= (int) $empresa["ativo"] === 1 ? "Ativa" : "Desativada" ?>
         </span>

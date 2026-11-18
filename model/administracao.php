@@ -202,7 +202,10 @@ function alterar_situacao_empresa_administracao($conexao, $idEmpresa, $ativo)
         return ["sucesso" => false, "erro" => "Empresa não encontrada."];
     }
     if ($ativo === 1 && !empresa_possui_um_proprietario_ativo($conexao, $idEmpresa)) {
-        return ["sucesso" => false, "erro" => "A empresa precisa possuir exatamente um Proprietário ativo para ser reativada."];
+        return [
+            "sucesso" => false,
+            "erro" => "A empresa precisa possuir exatamente um Proprietário ativo para ser reativada.",
+        ];
     }
     $comando = mysqli_prepare($conexao, "UPDATE empresas SET ativo = ? WHERE id = ?");
     if ($comando === false) {

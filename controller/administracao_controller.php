@@ -140,7 +140,12 @@ function alterar_situacao_empresa_administracao_requisicao()
         return;
     }
     $idEmpresa = filter_input(INPUT_POST, "id_empresa", FILTER_VALIDATE_INT, ["options" => ["min_range" => 1]]);
-    $ativo = filter_input(INPUT_POST, "ativo", FILTER_VALIDATE_INT, ["options" => ["min_range" => 0, "max_range" => 1]]);
+    $ativo = filter_input(
+        INPUT_POST,
+        "ativo",
+        FILTER_VALIDATE_INT,
+        ["options" => ["min_range" => 0, "max_range" => 1]],
+    );
     if ($idEmpresa === false || $ativo === false) {
         http_response_code(400);
         echo "Dados inválidos.";

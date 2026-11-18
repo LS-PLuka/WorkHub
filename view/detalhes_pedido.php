@@ -40,11 +40,21 @@ require __DIR__ . "/layout_empresa_inicio.php";
 
 <section class="workhub-panel mb-4">
     <div class="workhub-section-heading">
-        <div><h2>Itens do pedido</h2><p>Preços históricos preservados no momento do pedido.</p></div>
+        <div>
+            <h2>Itens do pedido</h2>
+            <p>Preços históricos preservados no momento do pedido.</p>
+        </div>
     </div>
     <div class="table-responsive">
         <table class="table workhub-table align-middle mb-0">
-            <thead><tr><th>Produto</th><th>Quantidade</th><th>Preço unitário</th><th>Subtotal</th></tr></thead>
+            <thead>
+                <tr>
+                    <th>Produto</th>
+                    <th>Quantidade</th>
+                    <th>Preço unitário</th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
             <tbody>
                 <?php foreach ($itens as $item): ?>
                     <tr>
@@ -61,11 +71,21 @@ require __DIR__ . "/layout_empresa_inicio.php";
 
 <section class="workhub-panel">
     <div class="workhub-section-heading">
-        <div><h2>Histórico de produção</h2><p>Alterações de status registradas para o pedido.</p></div>
+        <div>
+            <h2>Histórico de produção</h2>
+            <p>Alterações de status registradas para o pedido.</p>
+        </div>
     </div>
     <div class="table-responsive">
         <table class="table workhub-table align-middle mb-0">
-            <thead><tr><th>Status anterior</th><th>Novo status</th><th>Usuário</th><th>Data e horário</th></tr></thead>
+            <thead>
+                <tr>
+                    <th>Status anterior</th>
+                    <th>Novo status</th>
+                    <th>Usuário</th>
+                    <th>Data e horário</th>
+                </tr>
+            </thead>
             <tbody>
                 <?php foreach ($historico as $alteracao): ?>
                     <tr>

@@ -24,7 +24,12 @@ require __DIR__ . "/layout_empresa_inicio.php";
 <form method="post" class="workhub-order-form">
     <input type="hidden" name="token_csrf" value="<?= escapar_html($tokenCsrf) ?>">
     <section class="workhub-panel mb-4">
-        <div class="workhub-section-heading"><div><h2>Informações gerais</h2><p>Cliente e previsão de entrega.</p></div></div>
+        <div class="workhub-section-heading">
+            <div>
+                <h2>Informações gerais</h2>
+                <p>Cliente e previsão de entrega.</p>
+            </div>
+        </div>
         <div class="row g-3">
             <div class="col-md-7">
                 <label class="form-label" for="cliente_id">Cliente <span aria-hidden="true">*</span></label>
@@ -46,7 +51,12 @@ require __DIR__ . "/layout_empresa_inicio.php";
     </section>
 
     <section class="workhub-panel mb-4">
-        <div class="workhub-section-heading"><div><h2>Itens</h2><p>Altere produtos e quantidades antes de salvar.</p></div></div>
+        <div class="workhub-section-heading">
+            <div>
+                <h2>Itens</h2>
+                <p>Altere produtos e quantidades antes de salvar.</p>
+            </div>
+        </div>
         <div class="workhub-order-items">
             <?php foreach ($itens as $indice => $item): ?>
                 <div class="workhub-order-item">
@@ -86,7 +96,10 @@ require __DIR__ . "/layout_empresa_inicio.php";
     </section>
 
     <section class="workhub-order-summary">
-        <div><strong>Resumo financeiro</strong><span>O valor final é recalculado no servidor ao salvar.</span></div>
+        <div>
+            <strong>Resumo financeiro</strong>
+            <span>O valor final é recalculado no servidor ao salvar.</span>
+        </div>
         <div class="workhub-form-actions">
             <button class="btn btn-primary" type="submit" name="acao" value="salvar">Salvar alterações</button>
             <a class="btn btn-link" href="/pedidos/detalhes?id=<?= (int) $pedido["id"] ?>">Cancelar</a>

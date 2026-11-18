@@ -22,12 +22,24 @@ function consultar_pedido($conexao, $sql, $tipos, &...$valores)
 
 function listar_clientes_ativos_empresa($conexao, $idEmpresa)
 {
-    return consultar_pedido($conexao, "SELECT id, nome FROM clientes WHERE empresa_id = ? AND ativo = 1 ORDER BY nome", "i", $idEmpresa) ?: [];
+    $sql = "SELECT id, nome
+            FROM clientes
+            WHERE empresa_id = ?
+                AND ativo = 1
+            ORDER BY nome";
+
+    return consultar_pedido($conexao, $sql, "i", $idEmpresa) ?: [];
 }
 
 function listar_produtos_ativos_empresa($conexao, $idEmpresa)
 {
-    return consultar_pedido($conexao, "SELECT id, nome, preco FROM produtos WHERE empresa_id = ? AND ativo = 1 ORDER BY nome", "i", $idEmpresa) ?: [];
+    $sql = "SELECT id, nome, preco
+            FROM produtos
+            WHERE empresa_id = ?
+                AND ativo = 1
+            ORDER BY nome";
+
+    return consultar_pedido($conexao, $sql, "i", $idEmpresa) ?: [];
 }
 
 function valor_decimal_para_centavos($valor)
@@ -47,7 +59,12 @@ function buscar_linha_pedido_transacao($conexao, $idPedido, $idEmpresa)
 {
     $dados = consultar_pedido(
         $conexao,
-        "SELECT id, cliente_id, status, data_entrega, valor_total FROM pedidos WHERE id = ? AND empresa_id = ? AND ativo = 1 FOR UPDATE",
+        "SELECT id, cliente_id, status, data_entrega, valor_total
+         FROM pedidos
+         WHERE id = ?
+             AND empresa_id = ?
+             AND ativo = 1
+         FOR UPDATE",
         "ii",
         $idPedido,
         $idEmpresa,
@@ -57,7 +74,13 @@ function buscar_linha_pedido_transacao($conexao, $idPedido, $idEmpresa)
 
 function buscar_cliente_ativo_transacao($conexao, $idCliente, $idEmpresa)
 {
-    $dados = consultar_pedido($conexao, "SELECT id FROM clientes WHERE id = ? AND empresa_id = ? AND ativo = 1 FOR UPDATE", "ii", $idCliente, $idEmpresa);
+    $sql = "SELECT id
+            FROM clientes
+            WHERE id = ?
+                AND empresa_id = ?
+                AND ativo = 1
+            FOR UPDATE";
+    $dados = consultar_pedido($conexao, $sql, "ii", $idCliente, $idEmpresa);
     return $dados[0] ?? false;
 }
 
@@ -99,7 +122,15 @@ function calcular_item_pedido($produto, $quantidade, $precoHistorico = null)
         "centavos" => $subtotalCentavos];
 }
 
-function cadastrar_pedido($conexao, $idEmpresa, $idUsuario, $idCliente, $dataEntrega, $itens, $gerenciarTransacao = true)
+function cadastrar_pedido(
+    $conexao,
+    $idEmpresa,
+    $idUsuario,
+    $idCliente,
+    $dataEntrega,
+    $itens,
+    $gerenciarTransacao = true,
+)
 {
     if ($gerenciarTransacao && !mysqli_begin_transaction($conexao)) {
         return ["sucesso" => false, "erro" => "Não foi possível iniciar o cadastro do pedido."];
@@ -123,16 +154,47 @@ function cadastrar_pedido($conexao, $idEmpresa, $idUsuario, $idCliente, $dataEnt
             $calculados[] = $calculado;
         }
         $valorTotal = centavos_para_decimal($total);
-        $pedido = mysqli_prepare($conexao, "INSERT INTO pedidos (empresa_id, cliente_id, usuario_id, data_entrega, status, valor_total, ativo) VALUES (?, ?, ?, ?, 'RECEBIDO', ?, 1)");
+        $pedido = mysqli_prepare(
+            $conexao,
+            "INSERT INTO pedidos (
+                empresa_id,
+                cliente_id,
+                usuario_id,
+                data_entrega,
+                status,
+                valor_total,
+                ativo
+            ) VALUES (?, ?, ?, ?, 'RECEBIDO', ?, 1)",
+        );
         mysqli_stmt_bind_param($pedido, "iiiss", $idEmpresa, $idCliente, $idUsuario, $dataEntrega, $valorTotal);
         if ($pedido === false || !mysqli_stmt_execute($pedido)) {
             throw new RuntimeException("Não foi possível registrar o pedido.");
         }
         $idPedido = mysqli_insert_id($conexao);
         mysqli_stmt_close($pedido);
-        $comando = mysqli_prepare($conexao, "INSERT INTO itens_pedido (pedido_id, produto_id, empresa_id, quantidade, preco_unitario, subtotal, ativo) VALUES (?, ?, ?, ?, ?, ?, 1)");
+        $comando = mysqli_prepare(
+            $conexao,
+            "INSERT INTO itens_pedido (
+                pedido_id,
+                produto_id,
+                empresa_id,
+                quantidade,
+                preco_unitario,
+                subtotal,
+                ativo
+            ) VALUES (?, ?, ?, ?, ?, ?, 1)",
+        );
         foreach ($calculados as $item) {
-            mysqli_stmt_bind_param($comando, "iiiiss", $idPedido, $item["produto_id"], $idEmpresa, $item["quantidade"], $item["preco"], $item["subtotal"]);
+            mysqli_stmt_bind_param(
+                $comando,
+                "iiiiss",
+                $idPedido,
+                $item["produto_id"],
+                $idEmpresa,
+                $item["quantidade"],
+                $item["preco"],
+                $item["subtotal"],
+            );
             if ($comando === false || !mysqli_stmt_execute($comando)) {
                 throw new RuntimeException("Não foi possível registrar os itens do pedido.");
             }
@@ -204,7 +266,24 @@ function listar_pedidos_empresa($conexao, $idEmpresa, $filtros)
 
 function buscar_pedido_por_id($conexao, $idPedido, $idEmpresa)
 {
-    $sql = "SELECT pedidos.id, pedidos.cliente_id, pedidos.data_criacao, pedidos.data_entrega, pedidos.status, pedidos.valor_total, clientes.nome AS cliente, clientes.telefone AS telefone_cliente, clientes.email AS email_cliente, usuarios.nome AS usuario FROM pedidos INNER JOIN clientes ON clientes.id = pedidos.cliente_id AND clientes.empresa_id = pedidos.empresa_id INNER JOIN usuarios ON usuarios.id = pedidos.usuario_id AND usuarios.empresa_id = pedidos.empresa_id WHERE pedidos.id = ? AND pedidos.empresa_id = ? AND pedidos.ativo = 1";
+    $sql = "SELECT pedidos.id,
+                   pedidos.cliente_id,
+                   pedidos.data_criacao,
+                   pedidos.data_entrega,
+                   pedidos.status,
+                   pedidos.valor_total,
+                   clientes.nome AS cliente,
+                   clientes.telefone AS telefone_cliente,
+                   clientes.email AS email_cliente,
+                   usuarios.nome AS usuario
+            FROM pedidos
+            INNER JOIN clientes ON clientes.id = pedidos.cliente_id
+                AND clientes.empresa_id = pedidos.empresa_id
+            INNER JOIN usuarios ON usuarios.id = pedidos.usuario_id
+                AND usuarios.empresa_id = pedidos.empresa_id
+            WHERE pedidos.id = ?
+                AND pedidos.empresa_id = ?
+                AND pedidos.ativo = 1";
     $dados = consultar_pedido($conexao, $sql, "ii", $idPedido, $idEmpresa);
     return $dados[0] ?? false;
 }
@@ -236,7 +315,9 @@ function atualizar_pedido($conexao, $idPedido, $idEmpresa, $idCliente, $dataEntr
             }
             $existente = $existentes[(int) $item["produto_id"]] ?? null;
             $produto = buscar_produto_transacao($conexao, $item["produto_id"], $idEmpresa, $existente === null);
-            $calculado = $produto === false ? false : calcular_item_pedido($produto, $item["quantidade"], $existente["preco_unitario"] ?? null);
+            $calculado = $produto === false
+                ? false
+                : calcular_item_pedido($produto, $item["quantidade"], $existente["preco_unitario"] ?? null);
             if ($calculado === false || $total > 999999999999 - $calculado["centavos"]) {
                 throw new RuntimeException("Produto ou valor do pedido inválido.");
             }
@@ -247,21 +328,64 @@ function atualizar_pedido($conexao, $idPedido, $idEmpresa, $idCliente, $dataEntr
         if (!$calculados) {
             throw new RuntimeException("O pedido deve possuir ao menos um item ativo.");
         }
-        $desativar = mysqli_prepare($conexao, "UPDATE itens_pedido SET ativo = 0 WHERE pedido_id = ? AND empresa_id = ? AND ativo = 1");
+        $desativar = mysqli_prepare(
+            $conexao,
+            "UPDATE itens_pedido
+             SET ativo = 0
+             WHERE pedido_id = ?
+                 AND empresa_id = ?
+                 AND ativo = 1",
+        );
         mysqli_stmt_bind_param($desativar, "ii", $idPedido, $idEmpresa);
         if (!mysqli_stmt_execute($desativar)) {
             throw new RuntimeException("Não foi possível atualizar os itens.");
         }
         mysqli_stmt_close($desativar);
-        $reativar = mysqli_prepare($conexao, "UPDATE itens_pedido SET quantidade = ?, preco_unitario = ?, subtotal = ?, ativo = 1 WHERE id = ? AND pedido_id = ? AND empresa_id = ?");
-        $inserir = mysqli_prepare($conexao, "INSERT INTO itens_pedido (pedido_id, produto_id, empresa_id, quantidade, preco_unitario, subtotal, ativo) VALUES (?, ?, ?, ?, ?, ?, 1)");
+        $reativar = mysqli_prepare(
+            $conexao,
+            "UPDATE itens_pedido
+             SET quantidade = ?, preco_unitario = ?, subtotal = ?, ativo = 1
+             WHERE id = ?
+                 AND pedido_id = ?
+                 AND empresa_id = ?",
+        );
+        $inserir = mysqli_prepare(
+            $conexao,
+            "INSERT INTO itens_pedido (
+                pedido_id,
+                produto_id,
+                empresa_id,
+                quantidade,
+                preco_unitario,
+                subtotal,
+                ativo
+            ) VALUES (?, ?, ?, ?, ?, ?, 1)",
+        );
         foreach ($calculados as $item) {
             if ($item["existente"] !== null) {
                 $idItem = (int) $item["existente"]["id"];
-                mysqli_stmt_bind_param($reativar, "issiii", $item["quantidade"], $item["preco"], $item["subtotal"], $idItem, $idPedido, $idEmpresa);
+                mysqli_stmt_bind_param(
+                    $reativar,
+                    "issiii",
+                    $item["quantidade"],
+                    $item["preco"],
+                    $item["subtotal"],
+                    $idItem,
+                    $idPedido,
+                    $idEmpresa,
+                );
                 $sucesso = mysqli_stmt_execute($reativar);
             } else {
-                mysqli_stmt_bind_param($inserir, "iiiiss", $idPedido, $item["produto_id"], $idEmpresa, $item["quantidade"], $item["preco"], $item["subtotal"]);
+                mysqli_stmt_bind_param(
+                    $inserir,
+                    "iiiiss",
+                    $idPedido,
+                    $item["produto_id"],
+                    $idEmpresa,
+                    $item["quantidade"],
+                    $item["preco"],
+                    $item["subtotal"],
+                );
                 $sucesso = mysqli_stmt_execute($inserir);
             }
             if (!$sucesso) {
@@ -271,7 +395,13 @@ function atualizar_pedido($conexao, $idPedido, $idEmpresa, $idCliente, $dataEntr
         mysqli_stmt_close($reativar);
         mysqli_stmt_close($inserir);
         $valorTotal = centavos_para_decimal($total);
-        $comando = mysqli_prepare($conexao, "UPDATE pedidos SET cliente_id = ?, data_entrega = ?, valor_total = ? WHERE id = ? AND empresa_id = ?");
+        $comando = mysqli_prepare(
+            $conexao,
+            "UPDATE pedidos
+             SET cliente_id = ?, data_entrega = ?, valor_total = ?
+             WHERE id = ?
+                 AND empresa_id = ?",
+        );
         mysqli_stmt_bind_param($comando, "issii", $idCliente, $dataEntrega, $valorTotal, $idPedido, $idEmpresa);
         if (!mysqli_stmt_execute($comando) || !mysqli_commit($conexao)) {
             throw new RuntimeException("Não foi possível concluir a edição.");

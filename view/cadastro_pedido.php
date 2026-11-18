@@ -28,7 +28,10 @@ require __DIR__ . "/layout_empresa_inicio.php";
     <input type="hidden" name="token_csrf" value="<?= escapar_html($tokenCsrf) ?>">
     <section class="workhub-panel mb-4">
         <div class="workhub-section-heading">
-            <div><h2>Informações gerais</h2><p>Defina o cliente e a previsão de entrega.</p></div>
+            <div>
+                <h2>Informações gerais</h2>
+                <p>Defina o cliente e a previsão de entrega.</p>
+            </div>
         </div>
         <div class="row g-3">
             <div class="col-md-7">
@@ -105,7 +108,10 @@ require __DIR__ . "/layout_empresa_inicio.php";
     </section>
 
     <section class="workhub-order-summary">
-        <div><strong>Resumo do pedido</strong><span>Os valores finais são calculados no servidor.</span></div>
+        <div>
+            <strong>Resumo do pedido</strong>
+            <span>Os valores finais são calculados no servidor.</span>
+        </div>
         <div class="workhub-form-actions">
             <button class="btn btn-primary" type="submit" <?= !$clientes || !$produtos ? "disabled" : "" ?>>Cadastrar pedido</button>
             <a class="btn btn-link" href="/pedidos">Cancelar</a>

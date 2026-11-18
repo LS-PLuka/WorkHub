@@ -270,7 +270,14 @@ function alterar_status_pedido_requisicao($cancelar = false)
     $conexao = conectar_banco_dados();
     $resultado = $conexao === false
         ? ["sucesso" => false, "erro" => "Não foi possível atualizar o pedido."]
-        : alterar_status_pedido($conexao, $idPedido, (int) $contexto["empresa_id"], (int) $contexto["id_usuario"], $novoStatus, $cancelar);
+        : alterar_status_pedido(
+            $conexao,
+            $idPedido,
+            (int) $contexto["empresa_id"],
+            (int) $contexto["id_usuario"],
+            $novoStatus,
+            $cancelar,
+        );
     if ($conexao !== false) {
         mysqli_close($conexao);
     }

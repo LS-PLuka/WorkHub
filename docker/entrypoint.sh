@@ -12,7 +12,13 @@ done
 tentativa=1
 while ! php -r '
     mysqli_report(MYSQLI_REPORT_OFF);
-    $conexao = @mysqli_connect(getenv("DB_HOST"), getenv("DB_USER"), getenv("DB_PASSWORD"), getenv("DB_NAME"), (int) getenv("DB_PORT"));
+    $conexao = @mysqli_connect(
+        getenv("DB_HOST"),
+        getenv("DB_USER"),
+        getenv("DB_PASSWORD"),
+        getenv("DB_NAME"),
+        (int) getenv("DB_PORT"),
+    );
     exit($conexao === false ? 1 : 0);
 '; do
     if [ "$tentativa" -ge 30 ]; then

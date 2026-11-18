@@ -16,7 +16,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const formatarCnpj = (valor) => {
         const digitos = somenteDigitos(valor).slice(0, 14);
-        const partes = [digitos.slice(0, 2), digitos.slice(2, 5), digitos.slice(5, 8), digitos.slice(8, 12), digitos.slice(12)];
+        const partes = [
+            digitos.slice(0, 2),
+            digitos.slice(2, 5),
+            digitos.slice(5, 8),
+            digitos.slice(8, 12),
+            digitos.slice(12),
+        ];
 
         if (digitos.length <= 2) {
             return partes[0];

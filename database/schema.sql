@@ -160,7 +160,10 @@ CREATE TABLE IF NOT EXISTS historico_status (
     CONSTRAINT fk_historico_usuario_mesma_empresa
         FOREIGN KEY (empresa_id, usuario_id) REFERENCES usuarios (empresa_id, id),
     CONSTRAINT chk_historico_status_anterior
-        CHECK (status_anterior IS NULL OR status_anterior IN ('RECEBIDO', 'EM_PRODUCAO', 'PRONTO', 'ENTREGUE', 'CANCELADO')),
+        CHECK (
+            status_anterior IS NULL
+            OR status_anterior IN ('RECEBIDO', 'EM_PRODUCAO', 'PRONTO', 'ENTREGUE', 'CANCELADO')
+        ),
     CONSTRAINT chk_historico_status_novo
         CHECK (status_novo IN ('RECEBIDO', 'EM_PRODUCAO', 'PRONTO', 'ENTREGUE', 'CANCELADO'))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

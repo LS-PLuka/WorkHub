@@ -1,5 +1,6 @@
 .env
 .env.demo
+scripts/popular_dados_demo.php
 
 # Docker volumes and local overrides
 mysql-data/

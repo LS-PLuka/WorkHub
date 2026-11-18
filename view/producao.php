@@ -33,7 +33,7 @@ $etapas = ["RECEBIDO", "EM_PRODUCAO", "PRONTO", "ENTREGUE", "CANCELADO"];
                             <tr class="<?= $pedido["indicador_prazo"] === "atrasado" ? "workhub-row--late" : "" ?>">
                                 <td class="fw-semibold">#<?= (int) $pedido["id"] ?></td>
                                 <td><?= escapar_html($pedido["cliente"]) ?></td>
-                                <td><?= escapar_html($pedido["data_entrega"] ?? "—") ?></td>
+                                <td><?= escapar_html($pedido["data_entrega"] ?? "-") ?></td>
                                 <td>
                                     <?php if ($pedido["indicador_prazo"] === "atrasado"): ?>
                                         <span class="workhub-status workhub-status--danger">Atrasado</span>

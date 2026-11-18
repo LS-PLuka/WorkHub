@@ -70,7 +70,7 @@ require __DIR__ . "/layout_empresa_inicio.php";
                             <option value="">Selecione um produto</option>
                             <?php foreach ($produtos as $produto): ?>
                                 <option value="<?= (int) $produto["id"] ?>" <?= (string) $idProduto === (string) $produto["id"] ? "selected" : "" ?>>
-                                    <?= escapar_html($produto["nome"]) ?> — R$ <?= escapar_html(formatar_valor_pedido($produto["preco"])) ?>
+                                    <?= escapar_html($produto["nome"]) ?> - R$ <?= escapar_html(formatar_valor_pedido($produto["preco"])) ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>
@@ -92,7 +92,7 @@ require __DIR__ . "/layout_empresa_inicio.php";
                         <option value="">Selecione um produto</option>
                         <?php foreach ($produtos as $produto): ?>
                             <option value="<?= (int) $produto["id"] ?>">
-                                <?= escapar_html($produto["nome"]) ?> — R$ <?= escapar_html(formatar_valor_pedido($produto["preco"])) ?>
+                                <?= escapar_html($produto["nome"]) ?> - R$ <?= escapar_html(formatar_valor_pedido($produto["preco"])) ?>
                             </option>
                         <?php endforeach; ?>
                     </select>

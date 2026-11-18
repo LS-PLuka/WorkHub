@@ -1,4 +1,4 @@
-# Referências visuais — WorkHub
+# Referências visuais - WorkHub
 
 Este documento orienta a futura Etapa 10. As referências são direcionamentos de UX/UI; não devem ser copiadas
 integralmente, nem servir para reutilização de código, marcas, logotipos ou identidades visuais de terceiros.
@@ -31,7 +31,7 @@ logotipos ou identidade visual do Ideal Admissão.
 | [Shopify Admin](https://www.shopify.com/blog/admin-new-look) | Listagens, filtros, operações de cadastro e detalhamento de pedidos. |
 | [Conta Azul](https://ajuda.contaazul.com/hc/pt-br/articles/115007759147-Vis%C3%A3o-geral-o-que-%C3%A9-e-como-funciona) | Dashboards, indicadores e navegação de gestão empresarial. |
 | [Odoo Manufacturing](https://www.odoo.com/app/manufacturing) | Pedidos, produtos, processos produtivos e formulários. |
-| [Bling — Dashboard de Pedidos](https://ajuda.bling.com.br/hc/pt-br/articles/26725573512343-Dashboard-Pedidos-de-Venda) | Tabelas, filtros e gestão comercial. |
+| [Bling - Dashboard de Pedidos](https://ajuda.bling.com.br/hc/pt-br/articles/26725573512343-Dashboard-Pedidos-de-Venda) | Tabelas, filtros e gestão comercial. |
 | [Linear UI refresh](https://linear.app/changelog/2026-03-12-ui-refresh) | Tipografia, hierarquia visual, organização e consistência. |
 
 ## Escopo planejado para a Etapa 10

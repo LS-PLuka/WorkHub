@@ -74,6 +74,12 @@ Não execute essa composição até concluir o checklist em
 [docs/deploy_aws_ec2.md](docs/deploy_aws_ec2.md). Ela não configura AWS, DNS ou certificados sem um
 domínio válido.
 
+Para a demonstração pública temporária por IPv4 e HTTP, use exclusivamente `compose.demo.yaml` e
+`.env.demo`, conforme a seção Etapa 10M em [docs/deploy_aws_ec2.md](docs/deploy_aws_ec2.md). Essa
+composição não inicia Caddy, publica somente TCP 80, mantém MySQL interno ao Docker e usa
+`APP_ENV=demo` com cookies de sessão compatíveis com HTTP. Não reutilize o `.env` local ou o compose
+de produção nesse cenário.
+
 ## Estrutura
 
 `config/` contém configuração; `controller/`, `model/` e `view/` formam o MVC simplificado;

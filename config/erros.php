@@ -5,6 +5,11 @@ function ambiente_de_producao()
     return in_array(strtolower((string) getenv("APP_ENV")), ["production", "producao"], true);
 }
 
+function ambiente_publico()
+{
+    return in_array(strtolower((string) getenv("APP_ENV")), ["production", "producao", "demo"], true);
+}
+
 function exibir_erro_interno()
 {
     if (!headers_sent()) {
@@ -19,7 +24,7 @@ function registrar_e_tratar_erro($tipo, $mensagem, $arquivo, $linha)
 {
     error_log(sprintf("WorkHub [%s] %s em %s:%d", $tipo, $mensagem, $arquivo, $linha));
 
-    if (ambiente_de_producao()) {
+    if (ambiente_publico()) {
         exibir_erro_interno();
     }
 }
@@ -29,7 +34,7 @@ function configurar_tratamento_de_erros()
     error_reporting(E_ALL);
     ini_set("log_errors", "1");
 
-    if (!ambiente_de_producao()) {
+    if (!ambiente_publico()) {
         ini_set("display_errors", "1");
         return;
     }

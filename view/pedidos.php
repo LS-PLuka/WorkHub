@@ -61,7 +61,7 @@ require __DIR__ . "/layout_empresa_inicio.php";
                         <td class="fw-semibold">#<?= (int) $pedido["id"] ?></td>
                         <td><?= escapar_html($pedido["cliente"]) ?></td>
                         <td><?= escapar_html(date("d/m/Y H:i", strtotime($pedido["data_criacao"]))) ?></td>
-                        <td><?= $pedido["data_entrega"] ? escapar_html(date("d/m/Y", strtotime($pedido["data_entrega"]))) : "—" ?></td>
+                        <td><?= $pedido["data_entrega"] ? escapar_html(date("d/m/Y", strtotime($pedido["data_entrega"]))) : "-" ?></td>
                         <td><span class="workhub-status workhub-status--<?= strtolower($pedido["status"]) ?>"><?= escapar_html($pedido["status"]) ?></span></td>
                         <td>R$ <?= escapar_html(formatar_valor_pedido($pedido["valor_total"])) ?></td>
                         <td class="text-end">

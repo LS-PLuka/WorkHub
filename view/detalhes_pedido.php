@@ -32,7 +32,7 @@ require __DIR__ . "/layout_empresa_inicio.php";
         <div><dt>Cliente</dt><dd><?= escapar_html($pedido["cliente"]) ?></dd></div>
         <div><dt>Responsável</dt><dd><?= escapar_html($pedido["usuario"]) ?></dd></div>
         <div><dt>Criação</dt><dd><?= escapar_html(date("d/m/Y H:i", strtotime($pedido["data_criacao"]))) ?></dd></div>
-        <div><dt>Entrega prevista</dt><dd><?= $pedido["data_entrega"] ? escapar_html(date("d/m/Y", strtotime($pedido["data_entrega"]))) : "—" ?></dd></div>
+        <div><dt>Entrega prevista</dt><dd><?= $pedido["data_entrega"] ? escapar_html(date("d/m/Y", strtotime($pedido["data_entrega"]))) : "-" ?></dd></div>
         <div><dt>Status atual</dt><dd><?= escapar_html($pedido["status"]) ?></dd></div>
         <div><dt>Valor total</dt><dd class="fw-semibold">R$ <?= escapar_html(formatar_valor_pedido($pedido["valor_total"])) ?></dd></div>
     </dl>

@@ -25,7 +25,7 @@
             </nav>
         </div>
         <div class="workhub-public-footer__bottom">
-            <span>WorkHub — Plataforma de Gestão Empresarial</span>
+            <span>WorkHub - Plataforma de Gestão Empresarial</span>
             <span>Organize seu negócio. Gerencie sua produção.</span>
         </div>
     </footer>

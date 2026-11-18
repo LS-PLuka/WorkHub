@@ -1,4 +1,5 @@
 .env
+.env.demo
 
 # Docker volumes and local overrides
 mysql-data/

@@ -1,10 +1,4 @@
-<?php
-
-$paginaLanding = true;
-
-require __DIR__ . "/layout_publico_inicio.php";
-
-?>
+<?php require __DIR__ . "/layout_publico_inicio.php"; ?>
 <section class="workhub-public-hero">
     <div class="workhub-public-hero__content">
         <p class="workhub-eyebrow">Plataforma de Gestão Empresarial</p>

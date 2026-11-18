@@ -14,6 +14,7 @@
     --wh-radius-sm: 5px;
     --wh-shadow: 0 1px 2px rgba(36, 50, 71, 0.06);
     --wh-sidebar-width: 248px;
+    --wh-page-gutter: clamp(16px, 4vw, 56px);
 }
 
 body {
@@ -128,7 +129,7 @@ body {
     display: flex;
     height: 64px;
     justify-content: space-between;
-    padding: 0 32px;
+    padding: 0 var(--wh-page-gutter);
 }
 
 .workhub-topbar__context {
@@ -179,9 +180,11 @@ body {
 }
 
 .workhub-content {
-    margin: 0 auto;
-    max-width: 1440px;
-    padding: 32px;
+    box-sizing: border-box;
+    margin: 0;
+    max-width: none;
+    padding: 32px var(--wh-page-gutter);
+    width: 100%;
 }
 
 .workhub-page-heading {
@@ -605,9 +608,11 @@ body {
     border-bottom: 1px solid var(--wh-border);
     display: flex;
     justify-content: space-between;
-    margin: 0 auto;
-    max-width: 1180px;
-    padding: 20px 28px;
+    box-sizing: border-box;
+    margin: 0;
+    max-width: none;
+    padding: 20px var(--wh-page-gutter);
+    width: 100%;
 }
 
 .workhub-public-brand {
@@ -626,9 +631,11 @@ body {
 }
 
 .workhub-public-main {
-    margin: 0 auto;
-    max-width: 1180px;
-    padding: 64px 28px;
+    box-sizing: border-box;
+    margin: 0;
+    max-width: none;
+    padding: 64px var(--wh-page-gutter);
+    width: 100%;
 }
 
 .workhub-public-hero {
@@ -800,7 +807,6 @@ body {
 }
 
 .workhub-public-main {
-    max-width: 1200px;
     padding-bottom: 80px;
     padding-top: 48px;
 }
@@ -1286,7 +1292,7 @@ body {
     background: #12374c;
     color: #dce9ef;
     margin-top: 0;
-    padding: 48px max(28px, calc((100% - 1144px) / 2)) 22px;
+    padding: 48px var(--wh-page-gutter) 22px;
 }
 
 .workhub-public-footer__content {
@@ -1358,41 +1364,8 @@ body {
     padding-top: 18px;
 }
 
-/* Layout fluido exclusivo da landing pública */
-.workhub-public-body--landing {
-    --wh-public-gutter: 16px;
-}
-
-.workhub-public-body--landing .workhub-public-header,
-.workhub-public-body--landing .workhub-public-main {
-    box-sizing: border-box;
-    margin-left: 0;
-    margin-right: 0;
-    max-width: none;
-    padding-left: var(--wh-public-gutter);
-    padding-right: var(--wh-public-gutter);
-    width: 100%;
-}
-
-.workhub-public-body--landing .workhub-public-footer {
-    padding-left: var(--wh-public-gutter);
-    padding-right: var(--wh-public-gutter);
-}
-
-@media (min-width: 431px) and (max-width: 767.98px) {
-    .workhub-public-body--landing {
-        --wh-public-gutter: 20px;
-    }
-}
-
-@media (min-width: 768px) {
-    .workhub-public-body--landing {
-        --wh-public-gutter: clamp(24px, 4vw, 56px);
-    }
-}
-
 @media (min-width: 1366px) {
-    .workhub-public-body--landing .workhub-public-hero {
+    .workhub-public-hero {
         gap: clamp(56px, 5vw, 96px);
         grid-template-columns: minmax(0, 0.95fr) minmax(420px, 1.05fr);
     }
@@ -1644,10 +1617,6 @@ body {
     justify-content: space-between;
 }
 
-.workhub-public-main--admin {
-    max-width: 1120px;
-}
-
 .workhub-public-footer__brand img {
     display: block;
     height: auto;
@@ -1715,10 +1684,6 @@ body {
 
 .workhub-admin-topbar {
     background: rgba(255, 255, 255, 0.94);
-}
-
-.workhub-admin-content {
-    max-width: 1320px;
 }
 
 .workhub-admin-login {

@@ -1358,6 +1358,46 @@ body {
     padding-top: 18px;
 }
 
+/* Layout fluido exclusivo da landing pública */
+.workhub-public-body--landing {
+    --wh-public-gutter: 16px;
+}
+
+.workhub-public-body--landing .workhub-public-header,
+.workhub-public-body--landing .workhub-public-main {
+    box-sizing: border-box;
+    margin-left: 0;
+    margin-right: 0;
+    max-width: none;
+    padding-left: var(--wh-public-gutter);
+    padding-right: var(--wh-public-gutter);
+    width: 100%;
+}
+
+.workhub-public-body--landing .workhub-public-footer {
+    padding-left: var(--wh-public-gutter);
+    padding-right: var(--wh-public-gutter);
+}
+
+@media (min-width: 431px) and (max-width: 767.98px) {
+    .workhub-public-body--landing {
+        --wh-public-gutter: 20px;
+    }
+}
+
+@media (min-width: 768px) {
+    .workhub-public-body--landing {
+        --wh-public-gutter: clamp(24px, 4vw, 56px);
+    }
+}
+
+@media (min-width: 1366px) {
+    .workhub-public-body--landing .workhub-public-hero {
+        gap: clamp(56px, 5vw, 96px);
+        grid-template-columns: minmax(0, 0.95fr) minmax(420px, 1.05fr);
+    }
+}
+
 .workhub-legal-page {
     margin: 28px auto 64px;
     max-width: 820px;

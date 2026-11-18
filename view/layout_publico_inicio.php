@@ -2,6 +2,7 @@
 
 $versaoEstilos = filemtime(__DIR__ . "/../public/assets/css/app.css");
 $modoAdministracao = ($modoCabecalho ?? "") === "administracao";
+$classeLanding = ($paginaLanding ?? false) ? " workhub-public-body--landing" : "";
 
 ?>
 <!doctype html>
@@ -14,7 +15,7 @@ $modoAdministracao = ($modoCabecalho ?? "") === "administracao";
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="/assets/css/app.css?v=<?= (int) $versaoEstilos ?>" rel="stylesheet">
 </head>
-<body class="workhub-public-body<?= $modoAdministracao ? " workhub-public-body--admin" : "" ?>">
+<body class="workhub-public-body<?= $modoAdministracao ? " workhub-public-body--admin" : "" ?><?= $classeLanding ?>">
     <header class="workhub-public-header<?= $modoAdministracao ? " workhub-public-header--admin" : "" ?>">
         <a class="workhub-public-brand" href="/" aria-label="WorkHub - Página inicial">
             <img src="/assets/images/logo-sem-fundo.png" alt="WorkHub">

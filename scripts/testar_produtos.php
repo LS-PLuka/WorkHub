@@ -99,6 +99,11 @@ afirmar_produtos(
     $conexao,
 );
 afirmar_produtos(
+    !atualizar_produto_empresa($conexao, $idProduto, $idEmpresaA, "Produto indevido", "", "15.25"),
+    "produto desativado não pode ser editado por requisição direta",
+    $conexao,
+);
+afirmar_produtos(
     alterar_situacao_produto_empresa($conexao, $idProduto, $idEmpresaA, 1),
     "reativação altera ativo para um",
     $conexao,

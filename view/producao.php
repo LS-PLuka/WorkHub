@@ -48,18 +48,28 @@ $etapas = ["RECEBIDO", "EM_PRODUCAO", "PRONTO", "ENTREGUE", "CANCELADO"];
                                         <a class="btn btn-sm btn-outline-primary" href="/pedidos/detalhes?id=<?= (int) $pedido["id"] ?>">
                                             Detalhes
                                         </a>
-                                        <?php if (!in_array($status, ["ENTREGUE", "CANCELADO"], true)): ?>
+                                        <?php if (
+                                            $pedido["status_permitidos"] ||
+                                            ($podeCancelar && in_array($pedido["status"], ["RECEBIDO", "EM_PRODUCAO", "PRONTO"], true))
+                                        ): ?>
+                                            <?php if ($pedido["status_permitidos"]): ?>
                                             <form method="post" action="/pedidos/status" class="workhub-status-form">
                                                 <input type="hidden" name="token_csrf" value="<?= escapar_html($tokenCsrf) ?>">
                                                 <input type="hidden" name="id_pedido" value="<?= (int) $pedido["id"] ?>">
                                                 <select class="form-select form-select-sm" name="status" aria-label="Novo status do pedido">
-                                                    <option value="EM_PRODUCAO">Em produção</option>
-                                                    <option value="PRONTO">Pronto</option>
-                                                    <option value="ENTREGUE">Entregue</option>
+                                                    <?php foreach ($pedido["status_permitidos"] as $statusPermitido): ?>
+                                                        <option value="<?= escapar_html($statusPermitido) ?>">
+                                                            <?= escapar_html(str_replace("_", " ", $statusPermitido)) ?>
+                                                        </option>
+                                                    <?php endforeach; ?>
                                                 </select>
                                                 <button class="btn btn-sm btn-primary" type="submit">Atualizar</button>
                                             </form>
-                                            <?php if ($podeCancelar): ?>
+                                            <?php endif; ?>
+                                            <?php if (
+                                                $podeCancelar &&
+                                                in_array($pedido["status"], ["RECEBIDO", "EM_PRODUCAO", "PRONTO"], true)
+                                            ): ?>
                                                 <form method="post" action="/pedidos/cancelar">
                                                     <input type="hidden" name="token_csrf" value="<?= escapar_html($tokenCsrf) ?>">
                                                     <input type="hidden" name="id_pedido" value="<?= (int) $pedido["id"] ?>">

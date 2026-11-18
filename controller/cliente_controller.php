@@ -105,6 +105,12 @@ function exibir_edicao_cliente()
         echo "Cliente não encontrado.";
         return;
     }
+    if ((int) $cliente["ativo"] !== 1) {
+        mysqli_close($conexao);
+        http_response_code(403);
+        echo "Clientes desativados devem ser reativados antes da edição.";
+        return;
+    }
     $tituloPagina = "Editar cliente | WorkHub";
     $erros = [];
     if ($_SERVER["REQUEST_METHOD"] === "POST") {

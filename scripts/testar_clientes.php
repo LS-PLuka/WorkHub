@@ -77,6 +77,11 @@ afirmar_clientes(count(listar_clientes_empresa($x, $a, "editado")) === 1, "busca
 afirmar_clientes(alterar_situacao_cliente_empresa($x, $id, $a, 0), "desativação altera ativo para zero", $x);
 $cl = buscar_cliente_empresa($x, $id, $a);
 afirmar_clientes($cl !== false && (int) $cl["ativo"] === 0, "cliente desativado continua armazenado", $x);
+afirmar_clientes(
+    !atualizar_cliente_empresa($x, $id, $a, "Cliente indevido", "11999999999", null),
+    "cliente desativado não pode ser editado por requisição direta",
+    $x,
+);
 afirmar_clientes(alterar_situacao_cliente_empresa($x, $id, $a, 1), "reativação altera ativo para um", $x);
 afirmar_clientes(
     buscar_cliente_empresa($x, $id, $b) === false && !alterar_situacao_cliente_empresa($x, $id, $b, 0),

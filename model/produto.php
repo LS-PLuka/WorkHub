@@ -65,15 +65,21 @@ function atualizar_produto_empresa($conexao, $idProduto, $idEmpresa, $nome, $des
 {
     $comando = mysqli_prepare(
         $conexao,
-        "UPDATE produtos SET nome = ?, descricao = ?, preco = ? WHERE id = ? AND empresa_id = ?",
+        "UPDATE produtos SET nome = ?, descricao = ?, preco = ? WHERE id = ? AND empresa_id = ? AND ativo = 1",
     );
     if ($comando === false) {
         return false;
     }
     mysqli_stmt_bind_param($comando, "sssii", $nome, $descricao, $preco, $idProduto, $idEmpresa);
     $sucesso = mysqli_stmt_execute($comando);
+    $linhasAfetadas = mysqli_stmt_affected_rows($comando);
     mysqli_stmt_close($comando);
-    return $sucesso;
+    if (!$sucesso || $linhasAfetadas > 0) {
+        return $sucesso;
+    }
+
+    $produto = buscar_produto_empresa($conexao, $idProduto, $idEmpresa);
+    return $produto !== false && (int) $produto["ativo"] === 1;
 }
 
 function alterar_situacao_produto_empresa($conexao, $idProduto, $idEmpresa, $ativo)

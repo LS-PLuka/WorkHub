@@ -60,14 +60,20 @@ function cadastrar_cliente($conexao, $idEmpresa, $nome, $telefone, $email)
 
 function atualizar_cliente_empresa($conexao, $idCliente, $idEmpresa, $nome, $telefone, $email)
 {
-    $c = mysqli_prepare($conexao, "UPDATE clientes SET nome=?,telefone=?,email=? WHERE id=? AND empresa_id=?");
+    $c = mysqli_prepare($conexao, "UPDATE clientes SET nome=?,telefone=?,email=? WHERE id=? AND empresa_id=? AND ativo=1");
     if (!$c) {
         return false;
     }
     mysqli_stmt_bind_param($c, "sssii", $nome, $telefone, $email, $idCliente, $idEmpresa);
     $s = mysqli_stmt_execute($c);
+    $linhasAfetadas = mysqli_stmt_affected_rows($c);
     mysqli_stmt_close($c);
-    return $s;
+    if (!$s || $linhasAfetadas > 0) {
+        return $s;
+    }
+
+    $cliente = buscar_cliente_empresa($conexao, $idCliente, $idEmpresa);
+    return $cliente !== false && (int) $cliente["ativo"] === 1;
 }
 
 function alterar_situacao_cliente_empresa($conexao, $idCliente, $idEmpresa, $ativo)

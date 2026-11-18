@@ -420,6 +420,16 @@ function status_pedido_pode_avancar($atual, $novo)
     return isset($ordem[$atual], $ordem[$novo]) && $ordem[$novo] > $ordem[$atual];
 }
 
+function listar_status_pedido_permitidos($statusAtual)
+{
+    $statusDisponiveis = ["EM_PRODUCAO", "PRONTO", "ENTREGUE"];
+
+    return array_values(array_filter(
+        $statusDisponiveis,
+        static fn ($status) => status_pedido_pode_avancar($statusAtual, $status),
+    ));
+}
+
 function alterar_status_pedido($conexao, $idPedido, $idEmpresa, $idUsuario, $novoStatus, $cancelar = false)
 {
     if (!mysqli_begin_transaction($conexao)) {

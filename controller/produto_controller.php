@@ -132,6 +132,12 @@ function exibir_edicao_produto()
         echo "Produto não encontrado.";
         return;
     }
+    if ((int) $produto["ativo"] !== 1) {
+        mysqli_close($conexao);
+        http_response_code(403);
+        echo "Produtos desativados devem ser reativados antes da edição.";
+        return;
+    }
     $tituloPagina = "Editar produto | WorkHub";
     $erros = [];
     if ($_SERVER["REQUEST_METHOD"] === "POST") {

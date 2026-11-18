@@ -50,9 +50,11 @@ require __DIR__ . "/layout_empresa_inicio.php";
                                     Histórico
                                 </a>
                                 <?php if ($podeGerenciar): ?>
-                                    <a class="btn btn-sm btn-outline-primary" href="/clientes/editar?id=<?= (int) $cliente["id"] ?>">
-                                        Editar
-                                    </a>
+                                    <?php if ((int) $cliente["ativo"] === 1): ?>
+                                        <a class="btn btn-sm btn-outline-primary" href="/clientes/editar?id=<?= (int) $cliente["id"] ?>">
+                                            Editar
+                                        </a>
+                                    <?php endif; ?>
                                     <form method="post" action="/clientes/situacao">
                                         <input type="hidden" name="token_csrf" value="<?= escapar_html(
                                             gerar_token_csrf("situacao_cliente"),

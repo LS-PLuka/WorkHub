@@ -14,6 +14,7 @@ function exibir_producao()
     }
     foreach ($pedidos as &$pedido) {
         $pedido["indicador_prazo"] = indicador_prazo_pedido($pedido);
+        $pedido["status_permitidos"] = listar_status_pedido_permitidos($pedido["status"]);
     }
     unset($pedido);
     $tituloPagina = "Acompanhamento da produção | WorkHub";

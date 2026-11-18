@@ -47,9 +47,11 @@ require __DIR__ . "/layout_empresa_inicio.php";
                         <td class="text-end">
                             <?php if ($podeGerenciar): ?>
                                 <div class="workhub-table-actions">
-                                    <a class="btn btn-sm btn-outline-primary" href="/produtos/editar?id=<?= (int) $produto["id"] ?>">
-                                        Editar
-                                    </a>
+                                    <?php if ((int) $produto["ativo"] === 1): ?>
+                                        <a class="btn btn-sm btn-outline-primary" href="/produtos/editar?id=<?= (int) $produto["id"] ?>">
+                                            Editar
+                                        </a>
+                                    <?php endif; ?>
                                     <form method="post" action="/produtos/situacao">
                                         <input type="hidden" name="token_csrf" value="<?= escapar_html(
                                             gerar_token_csrf("situacao_produto"),

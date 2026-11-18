@@ -245,13 +245,23 @@ afirmar_pedidos(
 $status = alterar_status_pedido($conexao, $idPedido, $empresaA, $usuarios["FUNCIONARIO"], "PRONTO");
 $historico = listar_historico_pedido_empresa($conexao, $idPedido, $empresaA);
 afirmar_pedidos(
-    $status["sucesso"] && count($historico) === 1 && $historico[0]["status_novo"] === "PRONTO",
-    "avanço com salto registra histórico atômico",
+    listar_status_pedido_permitidos("RECEBIDO") === ["EM_PRODUCAO", "PRONTO", "ENTREGUE"] &&
+        listar_status_pedido_permitidos("PRONTO") === ["ENTREGUE"] &&
+        listar_status_pedido_permitidos("ENTREGUE") === [] &&
+        $status["sucesso"] && count($historico) === 1 && $historico[0]["status_novo"] === "PRONTO",
+    "transições permitidas e histórico atômico são consistentes",
     $conexao,
 );
 afirmar_pedidos(
     !alterar_status_pedido($conexao, $idPedido, $empresaA, $usuarios["FUNCIONARIO"], "RECEBIDO")["sucesso"],
     "retrocesso de status é rejeitado",
+    $conexao,
+);
+$repeticao = alterar_status_pedido($conexao, $idPedido, $empresaA, $usuarios["FUNCIONARIO"], "PRONTO");
+$historicoAposRepeticao = listar_historico_pedido_empresa($conexao, $idPedido, $empresaA);
+afirmar_pedidos(
+    !$repeticao["sucesso"] && count($historicoAposRepeticao) === 1,
+    "requisição repetida é rejeitada sem criar histórico adicional",
     $conexao,
 );
 $cancelamento = alterar_status_pedido($conexao, $idPedido, $empresaA, $usuarios["GERENTE"], "CANCELADO", true);

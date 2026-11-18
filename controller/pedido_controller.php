@@ -262,7 +262,10 @@ function alterar_status_pedido_requisicao($cancelar = false)
     }
     $idPedido = filter_input(INPUT_POST, "id_pedido", FILTER_VALIDATE_INT, ["options" => ["min_range" => 1]]);
     $novoStatus = $cancelar ? "CANCELADO" : ($_POST["status"] ?? "");
-    if ($idPedido === false || !in_array($novoStatus, ["EM_PRODUCAO", "PRONTO", "ENTREGUE", "CANCELADO"], true)) {
+    if (
+        $idPedido === false ||
+        (!$cancelar && !in_array($novoStatus, ["EM_PRODUCAO", "PRONTO", "ENTREGUE"], true))
+    ) {
         http_response_code(400);
         echo "Dados inválidos.";
         return;

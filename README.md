@@ -6,7 +6,7 @@
 ![Bootstrap](https://img.shields.io/badge/Bootstrap-5-7952B3?style=flat-square&logo=bootstrap&logoColor=white)
 ![Docker Compose](https://img.shields.io/badge/Docker_Compose-v2-2496ED?style=flat-square&logo=docker&logoColor=white)
 
-O WorkHub é uma plataforma web multiempresa para organizar empresas, produtos, clientes, pedidos e produção. É um projeto acadêmico relacionado à ODS 9 — Indústria, Inovação e Infraestrutura.
+O WorkHub é uma plataforma web multiempresa para organizar empresas, produtos, clientes, pedidos e produção. É um projeto acadêmico relacionado à ODS 9 - Indústria, Inovação e Infraestrutura.
 
 <p align="center">
   <img src="public/assets/images/banner.png" alt="WorkHub - Plataforma de Gestão Empresarial Multiempresa" width="100%">

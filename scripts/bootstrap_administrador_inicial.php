@@ -8,7 +8,7 @@ function bootstrap_administrador_habilitado()
     $ambiente = strtolower(trim((string) getenv("APP_ENV")));
     $habilitado = strtolower(trim((string) getenv("ADMIN_BOOTSTRAP_HABILITADO")));
 
-    return in_array($ambiente, ["local", "development", "desenvolvimento"], true) &&
+    return in_array($ambiente, ["local", "development", "desenvolvimento", "demo"], true) &&
         in_array($habilitado, ["1", "true"], true);
 }
 
